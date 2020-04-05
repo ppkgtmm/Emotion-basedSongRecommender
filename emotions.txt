@@ -1,4 +1,9 @@
 Happy : [
+Happy
+enjoy
+smile
+like
+light
 blissful
 joyous
 delighted
@@ -10,6 +15,7 @@ ecstatic
 satisfied
 cheerful
 sunny
+smile
 elated
 jubilant
 jovial
@@ -45,6 +51,7 @@ helpful
 resourceful
 at ease
 comfortable
+comfort
 pleased
 encouraged
 surprised
@@ -53,6 +60,7 @@ serene
 bright
 blessed
 Vibrant
+colorful
 Bountiful
 Glowing ]
 
@@ -82,6 +90,7 @@ Disadvantages
 Disastrous
 Disgusted
 Dreadful
+destruction
 Eliminate
 Harmful
 Harsh
@@ -131,23 +140,29 @@ unjustified
 violated ]
 
 Inspired : [
+activated
 motivated
 eager
 keen
 earnest
+energized
+excited
 inspired
 enthusiastic
 bold
 brave
 daring
 hopeful
+hope
 upbeat
 assured
 clear
+change
 balanced
 fine
 okay
 grateful
+galvanized
 carefree
 adequate
 fulfilled
@@ -175,13 +190,22 @@ honored
 privileged
 adaptable
 Empowered
+influenced
 Focused
+wish
+trust
+better
+good
+goodbye
+right
+safe
 Capable ]
 
 Relaxed : [
 calm
 at ease
 comfortable
+comfort
 content
 quiet
 certain
@@ -234,6 +258,13 @@ Stoic
 Aligned ]
 
 Sad : [
+alone
+lie
+deadly
+broken
+condemn
+Jealous
+despair
 Contemplative
 Disappointed
 Disconnected
@@ -253,6 +284,7 @@ Dispirited
 Down
 Downtrodden
 Drained
+dark
 Forlorn
 Gloomy
 Grieving
@@ -260,16 +292,27 @@ Heavy-hearted
 Melancholy
 Mournful
 Sad
+pensive
 Sorrowful
+bitter
 Weepy
+dismal
+pain
+hurt
 World-weary ]
 
 Jealous : [
+anxious
+apprehensive
+attentive
+intolerant
+envious
 Disbelieving
 Distrustful
 Insecure
 Protective
 Suspicious
+skeptical
 Vulnerable
 Covetous
 Demanding
@@ -282,7 +325,76 @@ Gluttonous
 Grasping
 Greedy
 Green with Envy
+Fallen
+fall
+disrespect
 Persistently Jealous
 Possessive
 Resentful ]
 
+Love : [
+adulation
+allegiance
+amity
+amour
+ardor
+amorousness
+attachment
+affection
+appreciation
+beat
+devotion
+emotion
+fondness
+friendship
+fidelity
+case
+comfort
+fervor
+flame
+enjoyment
+enchantment
+crush
+sentiment
+hankering
+worship
+zeal
+idolatry
+delight
+Darling
+relish
+cherishing
+devotedness
+infatuation
+inclination
+involvement
+regard
+lust
+rapture
+passion
+partiality
+cure
+respect
+touch
+piety
+perfect
+taste
+like
+honey
+tenderness
+sweet
+smile
+want
+with me
+with you
+yearning
+together
+my girl
+kiss
+share
+beatiful
+light up
+on my mind
+pretty
+lovely
+Love ]
