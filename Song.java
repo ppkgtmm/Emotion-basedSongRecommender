@@ -6,7 +6,7 @@ public class Song
     private Integer id;
     private static Integer counter = 0;
     private String title;
-    private ArrayList<String> lyrics;
+    private ArrayList<String> lyrics = new ArrayList<String>();
     private HashMap<String,Double> emotionScore;
     private static Double cutOffScore = 0.3;
 
