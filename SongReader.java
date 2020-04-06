@@ -1,84 +1,80 @@
-import java.io.*;
+package Emotion
+
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-/** Count multiple songs of the same type */
 
 public class SongReader extends TextFileReader
 {
-    private boolean isEnd = false;
     private boolean isLyric = false;
-    private String[] currentSong = null;
-    private ArrayList<String> currentLyrics = new ArrayList<String>();
+    private String currentSong = null;
+    private ArrayList<String> currentLyrics = null;
 
-    public Song readerEmotion()
+    public boolean findAndSetTitle(String line)
     {
-        Song newSong = null;
-        if (!isEnd)
+        boolean found = false;
+        String titlePattern = "Song : ";
+        int startIndex = line.indexOf(titlePattern);
+        if(startIndex!=-1)
         {
-            String line = null;
-            do
+            String title = line.substring(startIndex + titlePattern.length());
+            if (!title.isEmpty())
             {
-                line = getNextLine();
-                String arrayLine[] = line.split(" ");
-                if (arrayLine[0].equalsIgnoreCase("Song"))
-                {
-                    Pattern pSong = Pattern.compile("Song :");
-                    currentSong = pSong.split(line);
-                    System.out.println("SONG -"+ currentSong[1]);
-                    isLyric=false;
-                }
-                else if(arrayLine[0].equalsIgnoreCase("Lyrics"))
-                {
-                    System.out.println("Find lyric");
-                    isLyric = true;
-                }
-                else if(line.equalsIgnoreCase("=ENDSONG="))
-                {
-                    // System.out.println("===== "+currentSong[1]);
-                    // System.out.println("----- "+ currentLyrics);
-                    newSong = new Song(currentSong[1],currentLyrics);
-                    return newSong;
-                }
-                else if(line.equalsIgnoreCase("=END="))
-                {
-                    isEnd = true;
-                    isLyric = false;
-                    System.out.println("End");
-                    return null;
-                }
-                else if(isLyric)
-                {
-                    currentLyrics.add(line);
-                    //System.out.println("ADDed " + line);
-                }
-                else
-                {
-                    System.out.println("ERROR - Unknow pattern in songsFile");
-                    return null;
-                }
-            }while (!isEnd);
+                currentSong = title;
+                found = true;
+            }
         }
-        return null;
+        return found;
     }
 
-    // private boolean parseSong(String line)
-    // {
-    //     Pattern patternSong = Pattern.compile("Song :");
-    //     return true;
-    // }
+    public Song readSong()
+    {
+        Song newSong = null;
+        String line = null;
+        String lyricsPattern = "Lyrics :";
+        do {
+            line = getNextLine();
+            if (line!=null)
+            {
+                boolean foundTitle = findAndSetTitle(line);
+                if(foundTitle)
+                {
+                    currentLyrics = new ArrayList<>();
+                    while((line = getNextLine())!=null)
+                    {
+                        if(!line.contains(lyricsPattern))
+                        {
+                            if(line.compareToIgnoreCase("=ENDSONG=")==0)
+                            {
+                                newSong = new Song(currentSong,currentLyrics);
+                                break;
+                            }
+                            currentLyrics.add(line);
+                        }
+                    }
+                }
+            }
+
+        }while(line!=null && newSong == null);
+        return newSong;
+    }
+
+
 
     public static void main(String[] args)
     {
         SongReader reader = new SongReader();
         if (!reader.open("songsShort.txt"))
 	    {
-            System.out.println("Error opening tile file");
-            System.exit(0);
+            System.out.println("Error opening song file");
+            System.exit(1);
         }
         Song nextSong = null;
-        while ((nextSong = reader.readerEmotion()) != null)
+        while ((nextSong = reader.readSong()) != null)
 	    {
-            System.out.println("Successfuly added " + nextSong.getTitle());
+            System.out.println("Successfully added " + nextSong.getTitle());
+            for (String lyric:nextSong.getLyrics())
+            {
+                System.out.println(lyric);
+            }
 	    }
     }
 }
