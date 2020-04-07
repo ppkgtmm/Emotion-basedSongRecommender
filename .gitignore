@@ -1,4 +1,6 @@
 # Default ignored files
 /projectOOd.iml
-/out/
-/.idea/
+/out/production/
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/modules.xml
