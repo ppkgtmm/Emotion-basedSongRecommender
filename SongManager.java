@@ -10,7 +10,7 @@ public class SongManager
 
     private SongManager()
     {
-
+        songs = new SongCollection();
     }
     public static SongManager getInstance()
     {
@@ -40,7 +40,6 @@ public class SongManager
     {
         boolean result = false;
         reader = new SongReader();
-        songs = new SongCollection();
         if (!reader.open(fileName))
         {
             System.out.println("Error opening song file "+fileName);
