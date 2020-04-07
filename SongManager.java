@@ -1,5 +1,5 @@
-package Emotion
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongManager
@@ -59,10 +59,28 @@ public class SongManager
         }
         return  result;
     }
+    public boolean writeRemovedSongs()
+    {
+        boolean succeed = false;
+        try
+        {
+            FileWriter writer = new FileWriter("removed.txt");
+            //write
+            writer.close();
+            succeed = true;
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        return succeed;
 
+    }
     public static void main(String[] args) {
         SongManager manager = SongManager.getInstance();
         songManager.readSongs("songs.txt");
+        songManager.writeRemovedSongs();
+
     }
 
 }

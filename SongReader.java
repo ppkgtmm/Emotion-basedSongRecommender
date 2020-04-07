@@ -1,5 +1,3 @@
-package Emotion
-
 import java.util.ArrayList;
 
 public class SongReader extends TextFileReader

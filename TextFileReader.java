@@ -1,4 +1,4 @@
-package Emotion/*  TextFileReader.java
+/*  TextFileReader.java
  *
  *   Reads a text file line by line
  *

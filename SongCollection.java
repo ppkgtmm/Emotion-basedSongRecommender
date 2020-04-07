@@ -1,4 +1,3 @@
-package Emotion
 
 import java.util.ArrayList;
 
