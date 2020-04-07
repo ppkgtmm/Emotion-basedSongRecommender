@@ -1,4 +1,4 @@
 # Default ignored files
-.idea
-out
 /projectOOd.iml
+/out/
+/.idea/
