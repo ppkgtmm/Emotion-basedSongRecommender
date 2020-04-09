@@ -1,0 +1,14 @@
+Happy : [
+ ]
+Angry : [
+ ]
+Inspired : [
+ ]
+Relaxed : [
+ ]
+Sad : [
+ ]
+Jealous : [
+ ]
+Love : [
+ ]

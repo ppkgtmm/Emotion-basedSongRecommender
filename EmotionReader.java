@@ -49,6 +49,7 @@ public class EmotionReader extends TextFileReader
                         }
                         else
                         {
+                            if( lastWordMatch.group(1) != null )
                             //System.out.println("line5: " + line);
                             currentWords.add(line);
                         }
