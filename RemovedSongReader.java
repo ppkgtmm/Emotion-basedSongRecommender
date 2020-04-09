@@ -42,18 +42,15 @@ public class RemovedSongReader extends TextFileReader
                         Matcher lastSongMatch = lastSongPattern.matcher(line);
                         if(lastSongMatch.find())
                         {
-                            //System.out.println("line4: " + lastWordMatch.group(1));
+                            //System.out.println("line4: " + lastSongMatch.group(1));
                             currentSongs.add(lastSongMatch.group(1));
                             newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
                             break;
                         }
                         else
                         {
-                            if( lastSongMatch.group(1) != null )
-                            {
-                                //System.out.println("line5: " + line);
-                                currentSongs.add(line);
-                            }
+                            //System.out.println("line5: " + line);
+                            currentSongs.add(line);
                         }
                     }
                 }
