@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class EmotionReader extends TextFileReader
+public class RemovedSongReader extends TextFileReader
 {
     private String currentEmotion = null;
-    private ArrayList<String> currentWords = null;
+    private ArrayList<String> currentSongs = null;
 
     public boolean findAndSetEmotion(String line)
     {
@@ -21,9 +21,9 @@ public class EmotionReader extends TextFileReader
         return found;
     }
 
-    public Emotions readEmotions()
+    public SongEmotions readRemovedSong()
     {
-        Emotions newEmotion = null;
+        SongEmotions newSongEmotion = null;
         String line = null;
         do {
             line = getNextLine();
@@ -33,47 +33,49 @@ public class EmotionReader extends TextFileReader
                 //System.out.println("line1: " + line);
                 if(foundEmotion)
                 {
-                    currentWords = new ArrayList<>();
+                    currentSongs = new ArrayList<>();
                     //System.out.println("line2: " + line);
                     while((line = getNextLine())!=null)
                     {
                         //System.out.println("line3: " + line);
-                        Pattern lastWordPattern = Pattern.compile("(.*?) \\]");
-                        Matcher lastWordMatch = lastWordPattern.matcher(line);
-                        if(lastWordMatch.find())
+                        Pattern lastSongPattern = Pattern.compile("(.*?) \\]");
+                        Matcher lastSongMatch = lastSongPattern.matcher(line);
+                        if(lastSongMatch.find())
                         {
                             //System.out.println("line4: " + lastWordMatch.group(1));
-                            currentWords.add(lastWordMatch.group(1));
-                            newEmotion = new Emotions(currentEmotion,currentWords);
+                            currentSongs.add(lastSongMatch.group(1));
+                            newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
                             break;
                         }
                         else
                         {
-                            //if( lastWordMatch.group(1) != null )
-                            //System.out.println("line5: " + line);
-                                currentWords.add(line);
+                            if( lastSongMatch.group(1) != null )
+                            {
+                                //System.out.println("line5: " + line);
+                                currentSongs.add(line);
+                            }
                         }
                     }
                 }
             }
-        }while( line!=null && newEmotion == null);
-        return newEmotion;
+        }while( line!=null && newSongEmotion == null);
+        return newSongEmotion;
     }
 
     public static void main(String[] args)
     {
-        EmotionReader reader;
-        String fileName = "emotions.txt";
-        reader = new EmotionReader();
+        RemovedSongReader reader;
+        String fileName = "removed.txt";
+        reader = new RemovedSongReader();
         if (!reader.open(fileName))
         {
             System.out.println("Error opening song file " + fileName);
             System.exit(1);
         }
-        Emotions nextEmotion = null;
-        while ((nextEmotion = reader.readEmotions()) != null)
+        SongEmotions nextSongEmotion = null;
+        while ((nextSongEmotion = reader.readRemovedSong()) != null)
         {
-            System.out.println("nextEmotion: " + nextEmotion);
+            System.out.println("nextSongEmotion: " + nextSongEmotion);
         }
     }
 }

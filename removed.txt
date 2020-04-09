@@ -1,14 +1,17 @@
 Happy : [
- ]
+Bruises
+Happy
+Falling ]
 Angry : [
- ]
+Go For G!
+]
 Inspired : [
- ]
+]
 Relaxed : [
- ]
+]
 Sad : [
- ]
+]
 Jealous : [
- ]
+]
 Love : [
- ]
+Love ]
