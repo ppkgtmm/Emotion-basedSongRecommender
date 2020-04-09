@@ -8,6 +8,7 @@ public class SongCollection
     {
         songs = new ArrayList<>();
     }
+    
     public ArrayList<Song> getAllSongs() {
         return songs;
     }

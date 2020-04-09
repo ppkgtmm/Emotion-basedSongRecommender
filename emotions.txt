@@ -1,6 +1,6 @@
 Happy : [
-Happy
 dance
+Happy
 enjoy
 smile
 like
@@ -62,9 +62,8 @@ bright
 blessed
 Vibrant
 colorful
-Bountiful
+Beautiful
 Glowing ]
-
 Angry : [
 Crazy
 Mad
@@ -139,7 +138,6 @@ dejected
 vilified
 unjustified
 violated ]
-
 Inspired : [
 activated
 motivated
@@ -201,7 +199,6 @@ goodbye
 right
 safe
 Capable ]
-
 Relaxed : [
 calm
 at ease
@@ -257,7 +254,6 @@ placid
 Clear
 Stoic
 Aligned ]
-
 Sad : [
 alone
 lie
@@ -301,7 +297,6 @@ dismal
 pain
 hurt
 World-weary ]
-
 Jealous : [
 anxious
 apprehensive
@@ -332,7 +327,6 @@ disrespect
 Persistently Jealous
 Possessive
 Resentful ]
-
 Love : [
 adulation
 allegiance

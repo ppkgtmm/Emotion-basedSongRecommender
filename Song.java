@@ -16,7 +16,6 @@ public class Song
         id = counter;
         this.title = title;
         this.lyrics = lyrics;
-
     }
 
     public String getTitle()
@@ -56,6 +55,7 @@ public class Song
         }
         return -1.0;
     }
+
     public Integer countWordsInLyrics(){
         Integer count = 0;
         for(String line:lyrics)
@@ -64,6 +64,7 @@ public class Song
         }
         return count;
     }
+
     public Double countScore(ArrayList<String> words)
     {
         Double score = 0.0;

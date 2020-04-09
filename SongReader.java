@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class SongReader extends TextFileReader
 {
-    private boolean isLyric = false;
     private String currentSong = null;
     private ArrayList<String> currentLyrics = null;
 
