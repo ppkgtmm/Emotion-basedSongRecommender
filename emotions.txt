@@ -63,7 +63,7 @@ blessed
 Vibrant
 colorful
 Beautiful
-Glowing ]
+Glowing]
 Angry : [
 Crazy
 Mad

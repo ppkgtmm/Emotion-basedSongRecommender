@@ -10,15 +10,33 @@ public class EmotionReader extends TextFileReader
     public boolean findAndSetEmotion(String line)
     {
         boolean found = false;
-        Pattern emotionPattern = Pattern.compile("(.*?) : \\[");
-        Matcher emotionMatch = emotionPattern.matcher(line);
-        if (emotionMatch.find())
+        if(line.charAt(line.length()-1) == '[')
         {
-            currentEmotion = emotionMatch.group(1);
-            found = true;
-            //System.out.println("findAndSetEmotion " + currentEmotion);
+            int colonIndex = line.indexOf(":");
+            if(colonIndex!=-1)
+            {
+                currentEmotion = line.substring(0,colonIndex).trim();
+                System.out.println("emotion:"+currentEmotion);
+                found = true;
+            }
         }
         return found;
+    }
+    public boolean isLastWordOfEmotion(String line)
+    {
+        boolean isLast = false;
+        int braceIndex = line.lastIndexOf("]");
+        if(braceIndex!= -1 && braceIndex==line.length()-1)
+        {
+            String lastWord = line.substring(0,braceIndex).trim();
+            if(!lastWord.isEmpty())
+            {
+                currentWords.add(lastWord);
+                System.out.println("last word:"+lastWord);
+            }
+            isLast = true;
+        }
+        return isLast;
     }
 
     public Emotions readEmotions()
@@ -29,31 +47,30 @@ public class EmotionReader extends TextFileReader
             line = getNextLine();
             if (line!=null)
             {
+                line = line.trim();
                 boolean foundEmotion = findAndSetEmotion(line);
-                //System.out.println("line1: " + line);
                 if(foundEmotion)
                 {
                     currentWords = new ArrayList<>();
-                    //System.out.println("line2: " + line);
                     while((line = getNextLine())!=null)
                     {
-                        //System.out.println("line3: " + line);
-                        Pattern lastWordPattern = Pattern.compile("(.*?) \\]");
-                        Matcher lastWordMatch = lastWordPattern.matcher(line);
-                        if(lastWordMatch.find())
+                        line = line.trim();
+                        boolean lastWordMatch = isLastWordOfEmotion(line);
+                        if(lastWordMatch)
                         {
-                            //System.out.println("line4: " + lastWordMatch.group(1));
-                            currentWords.add(lastWordMatch.group(1));
-                            newEmotion = new Emotions(currentEmotion,currentWords);
+                            // call emotion manager
                             break;
                         }
                         else
                         {
-                            //if( lastWordMatch.group(1) != null )
-                            //System.out.println("line5: " + line);
+                                System.out.println("Middle word: "+line);
                                 currentWords.add(line);
                         }
                     }
+                }
+                else
+                {
+                    System.out.println("Bad line "+line+" ==> skipping");
                 }
             }
         }while( line!=null && newEmotion == null);

@@ -31,6 +31,7 @@ public class SongReader extends TextFileReader
             line = getNextLine();
             if (line!=null)
             {
+                line = line.trim();
                 boolean foundTitle = findAndSetTitle(line);
                 if(foundTitle)
                 {
@@ -47,6 +48,10 @@ public class SongReader extends TextFileReader
                             currentLyrics.add(line);
                         }
                     }
+                }
+                else
+                {
+                    System.out.println("Bad line "+line+" ==> skipping");
                 }
             }
 

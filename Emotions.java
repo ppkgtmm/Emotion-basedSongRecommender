@@ -3,51 +3,26 @@ import java.util.HashMap;
 
 public class Emotions
 {
-    private HashMap<String,ArrayList<String>> emotions = new HashMap<String,ArrayList<String>>();
-    private Integer id;
-    private String emotion;
-    private ArrayList<String> words;
-    private static Integer counter = 0;
+    private HashMap<String,ArrayList<String>> emotions;
 
-    // public Emotions(String emotion,ArrayList<String> words)
-    // {
-    //     counter += 1;
-    //     id = counter;
-    //     this.emotion = emotion;
-    //     this.words = words;
-    // }
-
-    public Emotions(String emotion,ArrayList<String> words)
+    public Emotions()
     {
-        counter += 1;
-        id = counter;
-        emotions.put(emotion,words);
+        emotions = new HashMap<>();
     }
-
-    // public boolean addEmotion(String emotion,ArrayList<String> words)
-    // {
-    //     ArrayList<String> checkAdd = emotions.put(emotion,words);
-    //     if( checkAdd == null )
-    //     {
-    //         return false;
-    //     }
-    //     else
-    //         return true;
-    // }
 
     public ArrayList<String> getEmotions()
     {
-        ArrayList<String> testArraylist= null;
-        return testArraylist;
+        return new ArrayList<>(emotions.keySet());
     }
+
+     public void addEmotion(String emotion,ArrayList<String> words)
+     {
+         emotions.put(emotion,words);
+     }
+
 
     public ArrayList<String> getEmotionWords(String emotion)
     {
-        if( emotions.containsKey(emotion) )
-        {
-            return emotions.get(emotion);
-        }
-        else
-            return null;
+        return emotions.getOrDefault(emotion, null);
     }
 }

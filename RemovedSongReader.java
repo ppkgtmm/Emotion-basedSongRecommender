@@ -10,15 +10,34 @@ public class RemovedSongReader extends TextFileReader
     public boolean findAndSetEmotion(String line)
     {
         boolean found = false;
-        Pattern emotionPattern = Pattern.compile("(.*?) : \\[");
-        Matcher emotionMatch = emotionPattern.matcher(line);
-        if (emotionMatch.find())
+            if(line.charAt(line.length()-1) == '[')
+            {
+                int colonIndex = line.indexOf(":");
+                if(colonIndex!=-1)
+                {
+                    currentEmotion = line.substring(0,colonIndex).trim();
+                    System.out.println("emotion:"+currentEmotion);
+                    found = true;
+                }
+            }
+    return found;
+    }
+
+    public boolean isLastSongOfEmotion(String line)
+    {
+        boolean isLast = false;
+        int braceIndex = line.lastIndexOf("]");
+        if(braceIndex!= -1 && braceIndex==line.length()-1)
         {
-            currentEmotion = emotionMatch.group(1);
-            found = true;
-            //System.out.println("findAndSetEmotion " + currentEmotion);
+            String lastSong = line.substring(0,braceIndex).trim();
+            if(!lastSong.isEmpty())
+            {
+                currentSongs.add(lastSong);
+                System.out.println("last song:"+lastSong);
+            }
+            isLast = true;
         }
-        return found;
+        return isLast;
     }
 
     public SongEmotions readRemovedSong()
@@ -29,30 +48,33 @@ public class RemovedSongReader extends TextFileReader
             line = getNextLine();
             if (line!=null)
             {
+                line = line.trim();
                 boolean foundEmotion = findAndSetEmotion(line);
-                //System.out.println("line1: " + line);
                 if(foundEmotion)
                 {
                     currentSongs = new ArrayList<>();
-                    //System.out.println("line2: " + line);
-                    while((line = getNextLine())!=null)
-                    {
-                        //System.out.println("line3: " + line);
-                        Pattern lastSongPattern = Pattern.compile("(.*?) \\]");
-                        Matcher lastSongMatch = lastSongPattern.matcher(line);
-                        if(lastSongMatch.find())
+                    do {
+                        line = getNextLine();
+                        if(line!=null)
                         {
-                            //System.out.println("line4: " + lastSongMatch.group(1));
-                            currentSongs.add(lastSongMatch.group(1));
-                            newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
-                            break;
+                            line = line.trim();
+                            boolean lastSong = isLastSongOfEmotion(line);
+                            if(lastSong)
+                            {
+                                newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
+                                break;
+                            }
+                            else
+                            {
+                                System.out.println("middle song: "+line);
+                                currentSongs.add(line);
+                            }
                         }
-                        else
-                        {
-                            //System.out.println("line5: " + line);
-                            currentSongs.add(line);
-                        }
-                    }
+                    }while(line!=null);
+                }
+                else
+                {
+                    System.out.println("Bad line "+line+" ==> skipping");
                 }
             }
         }while( line!=null && newSongEmotion == null);
@@ -72,7 +94,7 @@ public class RemovedSongReader extends TextFileReader
         SongEmotions nextSongEmotion = null;
         while ((nextSongEmotion = reader.readRemovedSong()) != null)
         {
-            System.out.println("nextSongEmotion: " + nextSongEmotion);
+//            System.out.println("obj created");
         }
     }
 }
