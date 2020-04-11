@@ -65,15 +65,19 @@ public class Song
         return count;
     }
 
-    public Double countScore(ArrayList<String> words)
+    public void countScore(String emotion,ArrayList<String> words)
     {
         Double score = 0.0;
         for(String word:words)
         {
             score += analyzeLyrics(word);
         }
-        return score/countWordsInLyrics();
-
+        Integer wordCount = countWordsInLyrics();
+        if(wordCount>0)
+        {
+            score = score/wordCount;
+        }
+        emotionScore.put(emotion,score);
     }
     public static void main(String[] args) {
 

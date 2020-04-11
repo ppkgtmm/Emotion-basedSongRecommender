@@ -8,6 +8,7 @@ public class EmotionManager
     private static EmotionManager emotionManager= null;
     private EmotionReader reader;
 
+    //count and set score of new emotion
     // public static SongManager getInstance()
     // {
     //     if(SongManager.songManager == null)
