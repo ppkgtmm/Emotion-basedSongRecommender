@@ -48,7 +48,7 @@ public class SongManager
         Song nextSong = null;
         while ((nextSong = reader.readSong()) != null)
         {
-            System.out.println("Successfully added " + nextSong.getTitle());
+            System.out.println("=====> Successfully added " + nextSong.getTitle());
             for (String lyric:nextSong.getLyrics())
             {
                 System.out.println(lyric);
@@ -77,7 +77,9 @@ public class SongManager
     }
     public static void main(String[] args) {
         SongManager manager = SongManager.getInstance();
-        songManager.readSongs("songs.txt");
+        boolean result = songManager.readSongs("songsShort.txt");
+        if(result)
+            System.out.println("OKKKKKK");
         songManager.writeRemovedSongs();
 
     }

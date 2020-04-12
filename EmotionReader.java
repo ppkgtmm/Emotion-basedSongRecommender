@@ -61,6 +61,10 @@ public class EmotionReader extends TextFileReader
                             // call emotion manager
                             break;
                         }
+                        else if(line.length()== 0)
+                        {
+                            System.out.println("Middle word NULL ");
+                        }
                         else
                         {
                                 System.out.println("Middle word: "+line);
@@ -73,6 +77,9 @@ public class EmotionReader extends TextFileReader
                     System.out.println("Bad line "+line+" ==> skipping");
                 }
             }
+            else
+                System.out.println("Nulll " + line);
+        //}while( line!=null && newEmotion == null);
         }while( line!=null && newEmotion == null);
         return newEmotion;
     }

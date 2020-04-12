@@ -44,6 +44,7 @@ public class RemovedSongReader extends TextFileReader
     {
         SongEmotions newSongEmotion = null;
         String line = null;
+        int spacrbarCounter = 0;
         do {
             line = getNextLine();
             if (line!=null)
@@ -64,9 +65,13 @@ public class RemovedSongReader extends TextFileReader
                                 newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
                                 break;
                             }
+                            else if( line.length() == 0 )
+                            {
+                                System.out.println("Middle word NULL ");
+                            }
                             else
                             {
-                                System.out.println("middle song: "+line);
+                                System.out.println("middle song: "+ line);
                                 currentSongs.add(line);
                             }
                         }
