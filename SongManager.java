@@ -58,29 +58,12 @@ public class SongManager
         }
         return  result;
     }
-    public boolean writeRemovedSongs()
-    {
-        boolean succeed = false;
-        try
-        {
-            FileWriter writer = new FileWriter("removed.txt");
-            //write
-            writer.close();
-            succeed = true;
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        return succeed;
 
-    }
     public static void main(String[] args) {
         SongManager manager = SongManager.getInstance();
         boolean result = songManager.readSongs("songsShort.txt");
         if(result)
             System.out.println("OKKKKKK");
-        songManager.writeRemovedSongs();
 
     }
 

@@ -1,7 +1,5 @@
-
 Happy : [
 dance
-
 Happy
 enjoy
 smile
@@ -66,7 +64,6 @@ Vibrant
 colorful
 Beautiful
 Glowing
-
 ]
 Angry : [
 Crazy
@@ -141,7 +138,8 @@ pessimistic
 dejected
 vilified
 unjustified
-violated ]
+violated
+]
 Inspired : [
 activated
 motivated
@@ -202,135 +200,8 @@ good
 goodbye
 right
 safe
-Capable ]
-Relaxed : [
-calm
-at ease
-comfortable
-comfort
-content
-quiet
-certain
-relaxed
-serene
-bright
-blessed
-balanced
-grateful
-carefree
-fulfilled
-genuine
-authentic
-forgiving
-sincere
-uplifted
-unburdened
-confident
-self-sufficient
-glowing
-radiant
-beaming
-reflective
-smiling
-grounded
-unhurried
-open-minded
-efficient
-non-controlling
-unassuming
-trusting
-supported
-fluid
-light
-spontaneous
-aware
-healthy
-meditative
-still
-rested
-waiting
-laughing
-graceful
-natural
-steady
-centered
-placid
-Clear
-Stoic
-Aligned ]
-Sad : [
-alone
-lie
-deadly
-broken
-condemn
-Jealous
-despair
-Contemplative
-Disappointed
-Disconnected
-Distracted
-Grounded
-Listless
-Low
-Regretful
-Steady
-Wistful
-Heartbroken
-Anguished
-Depressed
-Dejected
-Discouraged
-Dispirited
-Down
-Downtrodden
-Drained
-dark
-Forlorn
-Gloomy
-Grieving
-Heavy-hearted
-Melancholy
-Mournful
-Sad
-pensive
-Sorrowful
-bitter
-Weepy
-dismal
-pain
-hurt
-World-weary ]
-Jealous : [
-anxious
-apprehensive
-attentive
-intolerant
-envious
-Disbelieving
-Distrustful
-Insecure
-Protective
-Suspicious
-skeptical
-Vulnerable
-Covetous
-Demanding
-Desirous
-Envious
-Jealous
-Threatened
-Avaricious
-Gluttonous
-Grasping
-Greedy
-Green with Envy
-Fallen
-fall
-disrespect
-Persistently Jealous
-Possessive
-Resentful ]
+Capable
+]
 Love : [
 adulation
 allegiance
@@ -391,9 +262,141 @@ together
 my girl
 kiss
 share
-beatiful
+beautiful
 light up
 on my mind
 pretty
 lovely
-Love ]
+Love
+]
+Relaxed : [
+calm
+at ease
+comfortable
+comfort
+content
+quiet
+certain
+relaxed
+serene
+bright
+blessed
+balanced
+grateful
+carefree
+fulfilled
+genuine
+authentic
+forgiving
+sincere
+uplifted
+unburdened
+confident
+self-sufficient
+glowing
+radiant
+beaming
+reflective
+smiling
+grounded
+unhurried
+open-minded
+efficient
+non-controlling
+unassuming
+trusting
+supported
+fluid
+light
+spontaneous
+aware
+healthy
+meditative
+still
+rested
+waiting
+laughing
+graceful
+natural
+steady
+centered
+placid
+Clear
+Stoic
+Aligned
+]
+Sad : [
+alone
+lie
+deadly
+broken
+condemn
+Jealous
+despair
+Contemplative
+Disappointed
+Disconnected
+Distracted
+Grounded
+Listless
+Low
+Regretful
+Steady
+Wistful
+Heartbroken
+Anguished
+Depressed
+Dejected
+Discouraged
+Dispirited
+Down
+Downtrodden
+Drained
+dark
+Forlorn
+Gloomy
+Grieving
+Heavy-hearted
+Melancholy
+Mournful
+Sad
+pensive
+Sorrowful
+bitter
+Weepy
+dismal
+pain
+hurt
+World-weary
+]
+Jealous : [
+anxious
+apprehensive
+attentive
+intolerant
+envious
+Disbelieving
+Distrustful
+Insecure
+Protective
+Suspicious
+skeptical
+Vulnerable
+Covetous
+Demanding
+Desirous
+Envious
+Jealous
+Threatened
+Avaricious
+Gluttonous
+Grasping
+Greedy
+Green with Envy
+Fallen
+fall
+disrespect
+Persistently Jealous
+Possessive
+Resentful
+]

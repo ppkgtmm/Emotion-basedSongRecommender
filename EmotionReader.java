@@ -16,7 +16,7 @@ public class EmotionReader extends TextFileReader
             if(colonIndex!=-1)
             {
                 currentEmotion = line.substring(0,colonIndex).trim();
-                System.out.println("emotion:"+currentEmotion);
+//                System.out.println("emotion:"+currentEmotion);
                 found = true;
             }
         }
@@ -32,7 +32,7 @@ public class EmotionReader extends TextFileReader
             if(!lastWord.isEmpty())
             {
                 currentWords.add(lastWord);
-                System.out.println("last word:"+lastWord);
+//                System.out.println("last word:"+lastWord);
             }
             isLast = true;
         }
@@ -40,9 +40,9 @@ public class EmotionReader extends TextFileReader
     }
 
 
-    public Emotions readEmotions()
+    public Emotion readEmotions()
     {
-        Emotions newEmotion = null;
+        Emotion newEmotion = null;
         String line = null;
         do {
             line = getNextLine();
@@ -63,12 +63,12 @@ public class EmotionReader extends TextFileReader
                                 boolean lastWordMatch = isLastWordOfEmotion(line);
                                 if (lastWordMatch)
                                 {
-                                    // call emotion manager
+                                    newEmotion = new Emotion(currentEmotion,currentWords);
                                     break;
                                 }
                                 else
                                 {
-                                    System.out.println("Middle word: " + line);
+//                                    System.out.println("Middle word: " + line);
                                     currentWords.add(line);
                                 }
                             }
@@ -94,10 +94,10 @@ public class EmotionReader extends TextFileReader
             System.out.println("Error opening song file " + fileName);
             System.exit(1);
         }
-        Emotions nextEmotion = null;
+        Emotion nextEmotion = null;
         while ((nextEmotion = reader.readEmotions()) != null)
         {
-            System.out.println("nextEmotion: " + nextEmotion);
+            System.out.println("nextEmotion: " + nextEmotion.getEmotion());
         }
     }
 }

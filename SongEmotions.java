@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -31,7 +33,6 @@ public class SongEmotions
         if (!removedSongReader.open(fileName))
         {
             System.out.println("Error opening removed songs file " + fileName);
-//            System.exit(1);
         }
         else
         {
@@ -114,5 +115,42 @@ public class SongEmotions
                 }
             }
         }
+    }
+    public boolean writeRemovedSongs()
+    {
+        boolean succeed = false;
+        try
+        {
+            FileWriter writer = new FileWriter("removed.txt");
+            ArrayList<String> emotions = new ArrayList<>(songsRemoved.keySet());
+            for (String emotion:emotions)
+            {
+                ArrayList<String> songs = songsRemoved.get(emotion);
+                writer.write(emotion+" : [\n");
+                for(String song : songs)
+                {
+                    writer.write(song+"\n");
+                }
+                writer.write("]\n");
+            }
+            writer.close();
+            succeed = true;
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        return succeed;
+
+    }
+    public static void main(String[] args) {
+        SongEmotions songEmotions = SongEmotions.getInstance();
+        boolean bOk = songEmotions.initialize("removed.txt");
+        if(bOk)
+        {
+            songEmotions.writeRemovedSongs();
+        }
+
+
     }
 }

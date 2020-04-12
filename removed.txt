@@ -1,13 +1,11 @@
-
-Happy :[
+Happy : [
 Bruises
-
 Happy
-Falling]
+Falling
+]
 Angry : [
 Go For G!
 ]
 Love : [
 Love
-
 ]
