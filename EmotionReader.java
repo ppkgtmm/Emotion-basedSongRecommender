@@ -7,7 +7,7 @@ public class EmotionReader extends TextFileReader
     private String currentEmotion = null;
     private ArrayList<String> currentWords = null;
 
-    public boolean findAndSetEmotion(String line)
+    private boolean findAndSetEmotion(String line)
     {
         boolean found = false;
         if(line.charAt(line.length()-1) == '[')
@@ -22,7 +22,7 @@ public class EmotionReader extends TextFileReader
         }
         return found;
     }
-    public boolean isLastWordOfEmotion(String line)
+    private boolean isLastWordOfEmotion(String line)
     {
         boolean isLast = false;
         int braceIndex = line.lastIndexOf("]");
@@ -39,6 +39,7 @@ public class EmotionReader extends TextFileReader
         return isLast;
     }
 
+
     public Emotions readEmotions()
     {
         Emotions newEmotion = null;
@@ -48,38 +49,37 @@ public class EmotionReader extends TextFileReader
             if (line!=null)
             {
                 line = line.trim();
-                boolean foundEmotion = findAndSetEmotion(line);
-                if(foundEmotion)
+                if (!isEmptyLine(line))
                 {
-                    currentWords = new ArrayList<>();
-                    while((line = getNextLine())!=null)
+                    boolean foundEmotion = findAndSetEmotion(line);
+                    if (foundEmotion)
                     {
-                        line = line.trim();
-                        boolean lastWordMatch = isLastWordOfEmotion(line);
-                        if(lastWordMatch)
+                        currentWords = new ArrayList<>();
+                        while ((line = getNextLine()) != null)
                         {
-                            // call emotion manager
-                            break;
-                        }
-                        else if(line.length()== 0)
-                        {
-                            System.out.println("Middle word NULL ");
-                        }
-                        else
-                        {
-                                System.out.println("Middle word: "+line);
-                                currentWords.add(line);
+                            line = line.trim();
+                            if (!isEmptyLine(line))
+                            {
+                                boolean lastWordMatch = isLastWordOfEmotion(line);
+                                if (lastWordMatch)
+                                {
+                                    // call emotion manager
+                                    break;
+                                }
+                                else
+                                {
+                                    System.out.println("Middle word: " + line);
+                                    currentWords.add(line);
+                                }
+                            }
                         }
                     }
-                }
-                else
-                {
-                    System.out.println("Bad line "+line+" ==> skipping");
+                    else
+                    {
+                        System.out.println("Bad line "+line+" ==> skipping");
+                    }
                 }
             }
-            else
-                System.out.println("Nulll " + line);
-        //}while( line!=null && newEmotion == null);
         }while( line!=null && newEmotion == null);
         return newEmotion;
     }

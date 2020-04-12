@@ -1,5 +1,7 @@
+
 Happy : [
 dance
+
 Happy
 enjoy
 smile
@@ -63,7 +65,9 @@ blessed
 Vibrant
 colorful
 Beautiful
-Glowing]
+Glowing
+
+]
 Angry : [
 Crazy
 Mad

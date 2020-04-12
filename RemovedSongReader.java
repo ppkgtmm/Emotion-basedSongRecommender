@@ -50,37 +50,39 @@ public class RemovedSongReader extends TextFileReader
             if (line!=null)
             {
                 line = line.trim();
-                boolean foundEmotion = findAndSetEmotion(line);
-                if(foundEmotion)
-                {
-                    currentSongs = new ArrayList<>();
-                    do {
-                        line = getNextLine();
-                        if(line!=null)
-                        {
-                            line = line.trim();
-                            boolean lastSong = isLastSongOfEmotion(line);
-                            if(lastSong)
-                            {
-                                removedSongs = new RemovedSongs(currentEmotion,currentSongs);
-                                break;
-                            }
-                            else if( line.length() == 0 )
-                            {
-                                System.out.println("Middle word NULL ");
-                            }
-                            else
-                            {
-                                System.out.println("middle song: "+ line);
-                                currentSongs.add(line);
-                            }
-                        }
-                    }while(line!=null);
-                }
-                else
-                {
-                    System.out.println("Bad line "+line+" ==> skipping");
-                }
+           if(!isEmptyLine(line))
+           {
+               boolean foundEmotion = findAndSetEmotion(line);
+               if(foundEmotion)
+               {
+                   currentSongs = new ArrayList<>();
+                   do {
+                       line = getNextLine();
+                       if(line!=null)
+                       {
+                           line = line.trim();
+                           if(!isEmptyLine(line))
+                           {
+                               boolean lastSong = isLastSongOfEmotion(line);
+                               if(lastSong)
+                               {
+                                   removedSongs = new RemovedSongs(currentEmotion,currentSongs);
+                                   break;
+                               }
+                               else
+                               {
+                                   System.out.println("middle song: "+ line);
+                                   currentSongs.add(line);
+                               }
+                           }
+                       }
+                   }while(line!=null);
+               }
+               else
+               {
+                   System.out.println("Bad line "+line+" ==> skipping");
+               }
+           }
             }
         }while( line!=null && removedSongs == null);
         return removedSongs;

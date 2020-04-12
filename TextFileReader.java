@@ -73,6 +73,15 @@ public class TextFileReader
         }
         return lineRead;
     }
+    public boolean isEmptyLine(String line)
+    {
+        boolean isEmpty = line.length()==0;
+        if(isEmpty)
+        {
+            System.out.println("Empty line ==> skipping");
+        }
+        return isEmpty;
+    }
 
     /**
      * Explicitly close the reader to free resources
