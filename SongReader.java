@@ -32,26 +32,33 @@ public class SongReader extends TextFileReader
             if (line!=null)
             {
                 line = line.trim();
-                boolean foundTitle = findAndSetTitle(line);
-                if(foundTitle)
+                if(!isEmptyLine(line))
                 {
-                    currentLyrics = new ArrayList<>();
-                    while((line = getNextLine())!=null)
+                    boolean foundTitle = findAndSetTitle(line);
+                    if(foundTitle)
                     {
-                        if(!line.contains(lyricsPattern))
+                        currentLyrics = new ArrayList<>();
+                        while((line = getNextLine())!=null)
                         {
-                            if(line.compareToIgnoreCase("=ENDSONG=")==0)
+                            line = line.trim();
+                            if(!isEmptyLine(line))
                             {
-                                newSong = new Song(currentSong,currentLyrics);
-                                break;
+                                if(!line.contains(lyricsPattern))
+                                {
+                                    if(line.compareToIgnoreCase("=ENDSONG=")==0)
+                                    {
+                                        newSong = new Song(currentSong,currentLyrics);
+                                        break;
+                                    }
+                                    currentLyrics.add(line);
+                                }
                             }
-                            currentLyrics.add(line);
                         }
                     }
-                }
-                else
-                {
-                    System.out.println("Bad line "+line+" ==> skipping");
+                    else
+                    {
+                        System.out.println("Bad line "+line+" ==> skipping");
+                    }
                 }
             }
 
