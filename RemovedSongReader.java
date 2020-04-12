@@ -40,9 +40,9 @@ public class RemovedSongReader extends TextFileReader
         return isLast;
     }
 
-    public SongEmotions readRemovedSong()
+    public RemovedSongs readRemovedSong()
     {
-        SongEmotions newSongEmotion = null;
+        RemovedSongs removedSongs = null;
         String line = null;
         int spacrbarCounter = 0;
         do {
@@ -62,7 +62,7 @@ public class RemovedSongReader extends TextFileReader
                             boolean lastSong = isLastSongOfEmotion(line);
                             if(lastSong)
                             {
-                                newSongEmotion = new SongEmotions(currentEmotion,currentSongs);
+                                removedSongs = new RemovedSongs(currentEmotion,currentSongs);
                                 break;
                             }
                             else if( line.length() == 0 )
@@ -82,8 +82,8 @@ public class RemovedSongReader extends TextFileReader
                     System.out.println("Bad line "+line+" ==> skipping");
                 }
             }
-        }while( line!=null && newSongEmotion == null);
-        return newSongEmotion;
+        }while( line!=null && removedSongs == null);
+        return removedSongs;
     }
 
     public static void main(String[] args)
@@ -96,10 +96,10 @@ public class RemovedSongReader extends TextFileReader
             System.out.println("Error opening song file " + fileName);
             System.exit(1);
         }
-        SongEmotions nextSongEmotion = null;
-        while ((nextSongEmotion = reader.readRemovedSong()) != null)
+        RemovedSongs removedSongs;
+        while ((removedSongs = reader.readRemovedSong()) != null)
         {
-//            System.out.println("obj created");
+            System.out.println("obj created "+removedSongs.getEmotion());
         }
     }
 }
