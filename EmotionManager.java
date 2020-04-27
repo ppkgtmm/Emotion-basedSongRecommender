@@ -49,6 +49,19 @@ public class EmotionManager
         return new ArrayList<>(emotions.keySet());
     }
 
+    public int getAmountEmotions()
+    {
+        return emotions.size();
+    }
+
+    public boolean isEmotionID(String emotionID)
+    {
+        boolean bOk = true;
+        if(!emotions.containsKey(emotionID))
+            bOk = false;
+        return bOk;
+    }
+
     public boolean addEmotion(String emotion,ArrayList<String> words)
     {
         boolean bOk = false;
@@ -94,8 +107,12 @@ public class EmotionManager
         boolean bOk = emotionManager.readEmotions("emotions.txt");
         if(bOk)
         {
-            emotionManager.addEmotion("Hungry",new ArrayList<>());
-            emotionManager.writeEmotions();
+            //emotionManager.addEmotion("Hungry",new ArrayList<>());
+            //emotionManager.writeEmotions();
+            System.out.println(emotionManager.getAmountEmotions());
+            System.out.println(emotionManager.getEmotions());
+            System.out.println(emotionManager.isEmotionID("Haha"));
+            System.out.println(emotionManager.isEmotionID("Happy"));
         }
     }
 }

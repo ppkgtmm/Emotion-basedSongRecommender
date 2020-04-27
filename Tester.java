@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+
 public class Tester
 {
     private static final String songsFileName = "songs.txt";
@@ -51,39 +53,145 @@ public class Tester
         return selectChoice;
     }
 
+    public static boolean isNumeric(String checkString)
+    {
+        return checkString.chars().allMatch( Character::isDigit );
+    }
+
+    public static String properCase (String inputVal) 
+    {
+        // Empty strings should be returned as-is.
+        if (inputVal.length() == 0) return "";
+        // Strings with only one character uppercased.
+        if (inputVal.length() == 1) return inputVal.toUpperCase();
+        // Otherwise uppercase first letter, lowercase the rest.
+        return inputVal.substring(0,1).toUpperCase()
+            + inputVal.substring(1).toLowerCase();
+    }
+
     public static void seeAllSongs()
     {
-        System.out.println("Option 1: See all songs");
+        System.out.println("\n>>Option 1: See all songs");
         Facade.printAllSongs();
     }
 
     public static void seeLyrics()
     {
-        System.out.println("Option 2: See lyrics");
-        System.out.println("Enter songID to show: ");
-        Scanner inputLine = new Scanner(System.in);
-        int songID = inputLine.nextInt();
-        Facade.printLyrics(songID);
+        System.out.println("\n>>Option 2: See lyrics");
+        boolean returnToMenu = false;
+        while(!returnToMenu)
+        {
+            System.out.println("Enter songID to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String inputLine = scan.nextLine();
+            if(!inputLine.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else if(isNumeric(inputLine))
+            {
+                int songID = Integer.parseInt(inputLine);
+                Facade.printLyrics(songID);
+            }
+            else
+            {
+                System.out.println("Please input SongID");
+            }
+            System.out.println("\n");
+        }
     }
 
     public static void seeAllEmotions()
     {
-
+        System.out.println("\n>>Option 3: See all emotions");
+        Facade.printAllEmotions();
     }
 
     public static void findSongByTitle()
     {
-        
+        System.out.println("\n>>Option 4: Find songs by title");
+        boolean returnToMenu = false;
+        while(!returnToMenu)
+        {
+            System.out.println("Enter songID to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String inputLine = scan.nextLine();
+            if(!inputLine.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else
+            {
+                Facade.printSongs(inputLine);
+            }
+            System.out.println("\n");
+        }
     }
 
     public static void findSongFromEmotion()
     {
-        
+        System.out.println("\n>>Option 5: Find song from emotion");
+        boolean returnToMenu = false;
+        while(!returnToMenu)
+        {
+            Facade.printAllEmotions();
+            System.out.println("Enter emotionID to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String inputLine = scan.nextLine();
+            if(!inputLine.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else
+            {
+                Facade.printSongsFromEmotion(inputLine);
+            }
+            System.out.println("\n");
+        }
     }
 
     public static void addEmotion()
     {
-        
+        System.out.println("\n>>Option 6: Add emotion");
+        boolean returnToMenu = false;
+        while(!returnToMenu)
+        {
+            Facade.printAllEmotions();
+            System.out.println("Enter emotionID name(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String newEmotionID = scan.nextLine();
+            if(!newEmotionID.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else
+            {
+                boolean addedEmotion = false;
+                ArrayList<String> words = new ArrayList<>();
+                while(!addedEmotion)
+                {
+                    newEmotionID = properCase(newEmotionID);
+                    System.out.println("Enter "+ newEmotionID +" words to show(Enter to return back): ");
+                    Scanner scan2 = new Scanner(System.in);
+                    String inputLine = scan2.nextLine();
+                    if(!inputLine.matches(".*\\w.*"))
+                    {
+                        boolean checkeAdded = Facade.addEmotion(inputLine, words);
+                        if(checkeAdded)
+                        {
+                            addedEmotion = true;
+                            returnToMenu = true;
+                        }
+                    }
+                    else
+                    {
+                        words.add(inputLine);
+                    }
+                    System.out.println(words+"\n");
+                }
+            }
+            System.out.println("\n");
+        }
     }
 
     public static void removeSongFromEmotion()
@@ -102,24 +210,24 @@ public class Tester
                 switch (chooseChoice)
                 {
                     case 1 :
-                        //System.out.println("Option 1");
                         seeAllSongs();
                         break;
                     case 2 :
-                        //System.out.println("Option 2");
                         seeLyrics();
                         break;
                     case 3 :
-                        System.out.println("Option 3");
+                        seeAllEmotions();
                         break;
                     case 4 :
+                        //findSongByTitle();
                         System.out.println("Option 4");
                         break;
                     case 5 :
+                        //findSongFromEmotion()
                         System.out.println("Option 5");
                         break;
                     case 6 :
-                        System.out.println("Option 6");
+                        addEmotion();
                         break;
                     case 7 :
                         System.out.println("Option 7");
