@@ -4,16 +4,16 @@ import java.util.*;
 
 public class Facade
 {
-    private SongManager songManager;
-    private SongEmotions songEmotions;
-    private EmotionManager emotionManager;
+    private static SongManager songManager = SongManager.getInstance();
+    private static SongEmotions songEmotions = SongEmotions.getInstance();
+    private static EmotionManager emotionManager = EmotionManager.getInstance();
 
-    public boolean doSetting(String songFileName,String emotionFileName,String songEmotionFileName)
+    public static boolean doSetting(String songFileName,String emotionFileName,String songEmotionFileName)
     {
         boolean bOk = true;
-        SongManager songManager = SongManager.getInstance();
-        SongEmotions songEmotions = SongEmotions.getInstance();
-        EmotionManager emotionManager = EmotionManager.getInstance();
+        //SongManager songManager = SongManager.getInstance();
+        //SongEmotions songEmotions = SongEmotions.getInstance();
+        //EmotionManager emotionManager = EmotionManager.getInstance();
         if(!songManager.readSongs(songFileName))
         {
             System.out.println("Error reading song file "+ songFileName);
@@ -31,17 +31,17 @@ public class Facade
         }
         if(bOk)
         {
-            System.out.println("Successfully reading file "+songFileName+"," + emotionFileName +","+ songEmotionFileName);
-            syncSongEmotion();
+            System.out.println("Successfully reading file "+songFileName+"," + emotionFileName +","+ songEmotionFileName+"\n");
+            //syncSongEmotion();
         }
         return bOk;
     }
 
-    public void syncSongEmotion()
+    public static void syncSongEmotion()
     {
-        SongManager songManager = SongManager.getInstance();
-        SongEmotions songEmotions = SongEmotions.getInstance();
-        EmotionManager emotionManager = EmotionManager.getInstance();
+        //SongManager songManager = SongManager.getInstance();
+        //SongEmotions songEmotions = SongEmotions.getInstance();
+        //EmotionManager emotionManager = EmotionManager.getInstance();
         ArrayList<String> allEmotions = emotionManager.getEmotions();
         ArrayList<Song> allSongs = songManager.getAllSongs();
         //System.out.println("AllSongs "+ allSongs);
@@ -56,7 +56,7 @@ public class Facade
         }
     }
 
-    public boolean syncDeletedSongs()
+    public static boolean syncDeletedSongs()
     {
         boolean bOk = true;
         //SongEmotions songEmotions = SongEmotions.getInstance();
@@ -72,7 +72,7 @@ public class Facade
         return bOk;
     }
 
-    public void printAllEmotions()
+    public static void printAllEmotions()
     {
         //EmotionManager emotionManager = EmotionManager.getInstance();
         ArrayList<String> allEmotions = emotionManager.getEmotions();
@@ -90,7 +90,7 @@ public class Facade
         }
     }
 
-    public void printLyrics(int songID)
+    public static void printLyrics(int songID)
     {
         //SongManager songManager = SongManager.getInstance();
         Song currentSong = songManager.getASong(songID);
@@ -109,7 +109,7 @@ public class Facade
         }
     }
 
-    public void printAllSongs()
+    public static void printAllSongs()
     {
         //SongManager songManager = SongManager.getInstance();
         ArrayList<Song> allSongs = songManager.getAllSongs();
@@ -129,7 +129,7 @@ public class Facade
     }
 
     ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
-    public void printSongs(String keyword)
+    public static void printSongs(String keyword)
     {
         //SongManager songManager = SongManager.getInstance();
         ArrayList<Song> allSongKeyword = songManager.getSongs(keyword);
@@ -142,7 +142,7 @@ public class Facade
         // }
     }
 
-    public boolean removeFromCategory(int songID,String emotionID)
+    public static boolean removeFromCategory(int songID,String emotionID)
     {
         boolean bOk = true;
         //SongManager songManager = SongManager.getInstance();
@@ -153,7 +153,7 @@ public class Facade
         return bOk;
     }
 
-    public boolean addEmotion(String emotion,ArrayList<String> words)
+    public static boolean addEmotion(String emotion,ArrayList<String> words)
     {
         boolean bOk = true;
         //EmotionManager emotionManager = EmotionManager.getInstance();
@@ -163,7 +163,7 @@ public class Facade
     }
 
     ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
-    public void printSongsFromEmotion(String emotionID)
+    public static void printSongsFromEmotion(String emotionID)
     {
         //SongEmotions songEmotions = SongEmotions.getInstance();
         ArrayList<Song> allSongsFromEmotion = songEmotions.getSongsFromEmotion(emotionID);
