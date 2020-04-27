@@ -93,6 +93,7 @@ public class SongEmotions
         }
         return removed;
     }
+
     public void sync(String emotion,ArrayList<String> words,ArrayList<Song> songs)
     {
         SongComparator.setEmotion(emotion);
@@ -116,6 +117,7 @@ public class SongEmotions
             }
         }
     }
+
     public boolean writeRemovedSongs()
     {
         boolean succeed = false;
@@ -143,14 +145,13 @@ public class SongEmotions
         return succeed;
 
     }
+
     public static void main(String[] args) {
         SongEmotions songEmotions = SongEmotions.getInstance();
         boolean bOk = songEmotions.initialize("removed.txt");
-        if(bOk)
-        {
-            songEmotions.writeRemovedSongs();
-        }
-
-
+        // if(bOk)
+        // {
+        //     songEmotions.writeRemovedSongs();
+        // }
     }
 }

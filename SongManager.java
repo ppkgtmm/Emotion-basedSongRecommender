@@ -12,6 +12,7 @@ public class SongManager
     {
         songs = new SongCollection();
     }
+
     public static SongManager getInstance()
     {
         if(SongManager.songManager == null)
@@ -48,10 +49,10 @@ public class SongManager
         Song nextSong = null;
         while ((nextSong = reader.readSong()) != null)
         {
-            System.out.println("=====> Successfully added " + nextSong.getTitle());
+            //System.out.println("=====> Successfully added " + nextSong.getTitle());
             for (String lyric:nextSong.getLyrics())
             {
-                System.out.println(lyric);
+                //System.out.println(lyric);
             }
                 songs.addSong(nextSong);
                 result = true;
@@ -59,12 +60,12 @@ public class SongManager
         return  result;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SongManager manager = SongManager.getInstance();
-        boolean result = songManager.readSongs("songsShort.txt");
+        boolean result = songManager.readSongs("songs.txt");
         if(result)
             System.out.println("OKKKKKK");
-
     }
 
 }

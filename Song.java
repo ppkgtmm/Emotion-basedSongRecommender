@@ -56,7 +56,8 @@ public class Song
         return -1.0;
     }
 
-    public Integer countWordsInLyrics(){
+    public Integer countWordsInLyrics()
+    {
         Integer count = 0;
         for(String line:lyrics)
         {
@@ -79,7 +80,9 @@ public class Song
         }
         emotionScore.put(emotion,score);
     }
-    public static void main(String[] args) {
+
+    public static void main(String[] args)
+    {
 
     }
 }

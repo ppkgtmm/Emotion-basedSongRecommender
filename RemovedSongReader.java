@@ -16,7 +16,7 @@ public class RemovedSongReader extends TextFileReader
                 if(colonIndex!=-1)
                 {
                     currentEmotion = line.substring(0,colonIndex).trim();
-                    System.out.println("emotion:"+currentEmotion);
+                    //System.out.println("emotion:"+currentEmotion);
                     found = true;
                 }
             }
@@ -33,7 +33,7 @@ public class RemovedSongReader extends TextFileReader
             if(!lastSong.isEmpty())
             {
                 currentSongs.add(lastSong);
-                System.out.println("last song:"+lastSong);
+                //System.out.println("last song:"+lastSong);
             }
             isLast = true;
         }
@@ -71,7 +71,7 @@ public class RemovedSongReader extends TextFileReader
                                }
                                else
                                {
-                                   System.out.println("middle song: "+ line);
+                                   //System.out.println("middle song: "+ line);
                                    currentSongs.add(line);
                                }
                            }
@@ -80,7 +80,7 @@ public class RemovedSongReader extends TextFileReader
                }
                else
                {
-                   System.out.println("Bad line "+line+" ==> skipping");
+                   //System.out.println("Bad line "+line+" ==> skipping");
                }
            }
             }

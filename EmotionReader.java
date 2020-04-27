@@ -76,7 +76,7 @@ public class EmotionReader extends TextFileReader
                     }
                     else
                     {
-                        System.out.println("Bad line "+line+" ==> skipping");
+                        //System.out.println("Bad line "+line+" ==> skipping");
                     }
                 }
             }

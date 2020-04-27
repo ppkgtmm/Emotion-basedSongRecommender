@@ -78,7 +78,7 @@ public class TextFileReader
         boolean isEmpty = line.length()==0;
         if(isEmpty)
         {
-            System.out.println("Empty line ==> skipping");
+            //System.out.println("Empty line ==> skipping");
         }
         return isEmpty;
     }

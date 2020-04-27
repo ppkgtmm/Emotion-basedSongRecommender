@@ -6,6 +6,3 @@ Falling
 Angry : [
 Go For G!
 ]
-Love : [
-Love
-]

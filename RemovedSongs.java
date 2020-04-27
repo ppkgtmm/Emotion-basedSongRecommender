@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class RemovedSongs
 {
@@ -12,11 +15,13 @@ public class RemovedSongs
         this.songs = songs;
     }
 
-    public String getEmotion() {
+    public String getEmotion() 
+    {
         return emotion;
     }
 
-    public ArrayList<String> getSongs() {
+    public ArrayList<String> getSongs() 
+    {
         return songs;
     }
 }
