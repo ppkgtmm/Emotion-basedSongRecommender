@@ -13,18 +13,21 @@ public class SongManager
         songs = new SongCollection();
     }
 
+    public int getAmountSongs()
+    {
+        return songs.getAmountSongs();
+    }
 
-    /*public boolean isSongID(Integer songID)
+    public boolean isSongID(Integer songID)
     {
         boolean bOk = false;
-
-        for(int counter = 0;counter< songs.getSongsAmount();counter++)
+        for(int counter = 0;counter< songs.getAmountSongs();counter++)
         {
             if(songID == songs.getAllSongs().get(counter).getId())
                 bOk = true;
         }
         return bOk;
-    }*/
+    }
 
     public static SongManager getInstance()
     {
@@ -79,9 +82,9 @@ public class SongManager
         boolean result = songManager.readSongs("songs.txt");
         if(result)
         {
-            /*System.out.println(songManager.isSongID(1));
+            System.out.println(songManager.isSongID(1));
             System.out.println(songManager.isSongID(-8));
-            System.out.println(songManager.isSongID(55));*/
+            System.out.println(songManager.isSongID(55));
         }
     }
 

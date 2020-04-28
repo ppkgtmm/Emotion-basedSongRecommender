@@ -6,7 +6,7 @@ public class Tester
     private static final String songsFileName = "songs.txt";
     private static final String emotionsFileName = "emotions.txt";
     private static final String removedFileName = "removed.txt";
-    private static Facilitator facilitator = Facilitator.getInstance();
+    private static Facade facade = Facade.getInstance();
     private static Scanner inputLine = new Scanner(System.in);
     public static int parseOption(String option)
     {
@@ -70,17 +70,18 @@ public class Tester
         String  input = inputLine.nextLine();
         return parseOption(input);
     }
+
     public static void seeLyrics()
     {
             int selectedChoice = getHowFindSong();
             switch (selectedChoice)
             {
                 case 1:
-                    facilitator.seeLyricsFromList();
+                    facade.seeLyricsFromList();
                     break;
                 case 2:
                     String keyword = inputLine.nextLine();
-                    facilitator.seeLyricsFromKeyWord(keyword);
+                    facade.seeLyricsFromKeyWord(keyword);
                     break;
                 case -1:
                     break;
@@ -164,7 +165,7 @@ public class Tester
 
     public static void main(String[] args)
     {
-        if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
+        if(facade.doSetting(songsFileName,emotionsFileName,removedFileName))
         {
             boolean notExit = true;
             while(notExit)
@@ -173,16 +174,16 @@ public class Tester
                 switch (chosenChoice)
                 {
                     case 1 :
-                        facilitator.printAllSongs();
+                        facade.printAllSongs();
                         break;
                     case 2 :
                         seeLyrics();
                         break;
                     case 3 :
-                        facilitator.printAllEmotions();
+                        facade.printAllEmotions();
                         break;
                     case 4 :
-                        facilitator.findSongByTitle();
+                        facade.findSongByTitle();
                         break;
                     case 5 :
                         //findSongFromEmotion()

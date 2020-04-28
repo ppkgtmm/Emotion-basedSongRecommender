@@ -1,195 +1,307 @@
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.*;
+import java.util.Scanner;
 
 public class Facade
 {
-    private static SongManager songManager = SongManager.getInstance();
-    private static SongEmotions songEmotions = SongEmotions.getInstance();
-    private static EmotionManager emotionManager = EmotionManager.getInstance();
+    private SongManager songManager=null;
+    private SongEmotions songEmotions = null;
+    private EmotionManager emotionManager = null;
+    private static Facade facade = null;
 
-    public static boolean doSetting(String songFileName,String emotionFileName,String songEmotionFileName)
+    private Facade()
     {
-        boolean bOk = true;
-        if(!songManager.readSongs(songFileName))
+        songManager = SongManager.getInstance();
+        songEmotions = SongEmotions.getInstance();
+        emotionManager = EmotionManager.getInstance();
+    }
+    public static Facade getInstance()
+    {
+        if (facade==null)
         {
-            System.out.println("Error reading song file "+ songFileName);
-            bOk = false;
+            facade = new Facade();
         }
-        if(!emotionManager.readEmotions(emotionFileName))
-        {
-            System.out.println("Error reading emotion file "+ emotionFileName);
-            bOk = false;
-        }
-        if(!songEmotions.initialize(songEmotionFileName))
-        {
-            System.out.println("Error reading song emotion file "+ songEmotionFileName);
-            bOk = false;
-        }
-        if(bOk)
-        {
-            System.out.println("Successfully reading file "+songFileName+"," + emotionFileName +","+ songEmotionFileName+"\n");
-            //syncSongEmotion();
-        }
-        return bOk;
+        return facade;
     }
 
-    public static void syncSongEmotion()
+    public boolean doSetting(String songFileName,String emotionFileName,String removedSongsFile)
+    {
+        boolean songOK = songManager.readSongs(songFileName);
+        boolean emotionOK = emotionManager.readEmotions(emotionFileName);
+        boolean removedSongsOK;
+        boolean ok = false;
+        if(!removedSongsFile.isEmpty())
+        {
+            removedSongsOK = syncDeletedSongs(removedSongsFile);
+            if(songOK && emotionOK && removedSongsOK)
+            {
+                doSync();
+                ok = true;
+            }
+        }
+        else if(songOK && emotionOK)
+        {
+         doSync();
+         ok = true;
+        }
+        return ok;
+    }
+    public void doSync()
     {
         ArrayList<String> allEmotions = emotionManager.getEmotions();
         ArrayList<Song> allSongs = songManager.getAllSongs();
-        for (int counter = 0; counter < emotionManager.getAmountEmotions(); counter++)
+        for(String emotion:allEmotions)
         {
-            String currentEmotion = allEmotions.get(counter);
-            ArrayList<String> currentWords = emotionManager.getEmotionWords(currentEmotion);
-            songEmotions.sync(currentEmotion,currentWords,allSongs);
+            songEmotions.sync(emotion,emotionManager.getEmotionWords(emotion),allSongs);
         }
     }
-
-    public static boolean syncDeletedSongs()
+    public boolean syncDeletedSongs(String fileName)
     {
-        boolean bOk = true;
-        if( !songEmotions.writeRemovedSongs() )
-        {
-            System.out.println("Error writing RemovedSongs file");
-            bOk = false;
-        }
-        else
-        {
-            System.out.println("Successfully writing RemovedSongs file");
-        }
-        return bOk;
+        return songEmotions.initialize(fileName);
     }
 
-    public static void printAllEmotions()
+    public void printAllEmotions()
     {
         ArrayList<String> allEmotions = emotionManager.getEmotions();
-        System.out.println(">> Emotion List <<");
-        if(allEmotions == null)
+        if(allEmotions==null || allEmotions.size()==0)
         {
-            System.out.println("No any emotions ");
+            System.out.println("There are no emotions stored in the system");
         }
         else
         {
-            for (int counter = 0; counter < emotionManager.getAmountEmotions(); counter++)
+            System.out.println(">> Emotion List <<");
+            for (int counter = 0; counter < allEmotions.size(); counter++)
             {
-                System.out.println("Emotion: " + allEmotions.get(counter));
+                System.out.println((counter+1)+ " " + allEmotions.get(counter));
             }
         }
     }
-
-    public static boolean printLyrics(int songID)
+    public void printLyrics(int songID)
     {
         boolean bOk = true;
-        if(songManager.isSongID(songID))
+        ArrayList<Song> allSong = songManager.getAllSongs();
+        if(songID>allSong.size() || songID<1)
         {
-            Song currentSong = songManager.getASong(songID);
-            ArrayList<String> currentLyric = currentSong.getLyrics();
-            System.out.println(">> Lyric of "+ currentSong.getTitle() + " <<");
-            if(currentLyric == null)
+            System.out.println("Please enter a valid song number");
+        }
+        else
+        {
+            songID--;
+            Song currentSong = allSong.get(songID);
+            if(currentSong.getId()==(songID+1))
             {
-                System.out.println("There are not any lyric of " + currentSong);
-                bOk = false;
+                ArrayList<String> currentLyrics = currentSong.getLyrics();
+                if(currentLyrics!=null && currentLyrics.size()>0)
+                {
+                    System.out.println(">> Lyrics of " + currentSong.getTitle() + " <<");
+                    for (int counter = 0; counter < currentLyrics.size(); counter++)
+                    {
+                        System.out.println(currentLyrics.get(counter));
+                    }
+                }
+                else
+                {
+                    System.out.println("There are no lyrics for " + currentSong.getTitle());
+                }
             }
             else
             {
-                for (int counter = 0; counter < currentLyric.size(); counter++)
-                {
-                    System.out.println(currentLyric.get(counter));
-                }
+                System.out.println("Song mismatch error occurred");
             }
-        }
-        else
-            {
-                System.out.println("There are no "+ songID);
-                bOk = false;
-            }
-        return bOk;
-    }
 
-    public static void printAllSongs()
+        }
+
+    }
+    public void printAllSongs()
     {
         ArrayList<Song> allSongs = songManager.getAllSongs();
-        System.out.println(">> Songs List <<");
-        if(allSongs == null)
+        if(allSongs == null || allSongs.size()==0)
         {
-            System.out.println("No any song ");
+            System.out.println("No songs available");
         }
         else
         {
-            for (int counter = 0; counter < songManager.getAmountSongs(); counter++)
-            {
-                Song currentSong = allSongs.get(counter);
-                System.out.println(currentSong. getId()+" Tilte: " + currentSong.getTitle());
+            System.out.println(">> All Songs List <<");
+            for (Song currentSong : allSongs) {
+                System.out.println(currentSong.getId() + " " + currentSong.getTitle());
             }
         }
     }
-
-    ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
-    public static void printSongs(String keyword)
+    public void printSongs(String keyword)
     {
-        //SongManager songManager = SongManager.getInstance();
-        ArrayList<Song> allSongKeyword = songManager.getSongs(keyword);
-        System.out.println(">> Song with Keyword List <<");
-        System.out.println(allSongKeyword);
-        // for (int counter = 0; counter < allSongKeyword.size(); counter++)
-        // {
-        //     Song currentSong = allSongKeyword.get(counter);
-        //     System.out.println(currentSong. getId()+" Tilte: " + currentSong.getTitle());
-        // }
+        ArrayList<Song> songsFound = songManager.getSongs(keyword);
+        if(songsFound==null || songsFound.size()==0)
+        {
+            System.out.println("No songs found for "+keyword);
+        }
+        else
+        {
+            System.out.println(">> Song with Keyword List <<");
+            for (int counter = 0; counter < songsFound.size(); counter++)
+             {
+                 Song currentSong = songsFound.get(counter);
+                 System.out.println((counter+1) +" " + currentSong.getTitle());
+             }
+        }
     }
 
-    public static boolean removeFromCategory(int songID,String emotionID)
+    public void findSongByTitle()
     {
-        boolean bOk = true;
-        if(songManager.isSongID(songID)&&emotionManager.isEmotionID(emotionID))
+        System.out.println("Enter keyword in song title: ");
+        Scanner scan = new Scanner(System.in);
+        String inputLine = scan.nextLine();
+        printSongs(inputLine);
+        System.out.println("\n");
+    }
+
+    public void seeLyricsFromList()
+    {
+        System.out.println("\n>>Option 2: See lyrics");
+        boolean returnToMenu = false;
+        while(!returnToMenu)
         {
-            Song currentSong = songManager.getASong(songID);
-            if(!songEmotions.removeFromCategory(currentSong,emotionID))
+            System.out.println("Enter songID to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String inputLine = scan.nextLine();
+            if(!inputLine.matches(".*\\w.*"))
             {
-                System.out.println("Error remove " + songID);
-                bOk = false;
+                returnToMenu = true;
             }
+            else if(isNumeric(inputLine))
+            {
+                int songID = Integer.parseInt(inputLine);
+                printLyrics(songID);
+            }
+            else
+            {
+                System.out.println("Please input SongID");
+            }
+            System.out.println("\n");
         }
-        else if(!songManager.isSongID(songID))
-        {
-            System.out.println("There are no " + songID);
-            bOk = false;
-        }
-        else if(!emotionManager.isEmotionID(emotionID))
-        {
-            System.out.println("There are no " + emotionID);
-            bOk = false;
-        }
-        else
-        {
-            System.out.println("There are no " + songID + " and "+ emotionID);
-            bOk = false;
-        }
-        return bOk;
     }
 
-    public static boolean addEmotion(String emotion,ArrayList<String> words)
+    public void seeLyricsFromKeyWord(String keyword)
     {
-        boolean bOk = true;
-        if(emotionManager.isEmotionID(emotion))
+
+    }
+
+    public void findSongFromEmotion()
+    {
+        boolean returnToMenu = false;
+        while(!returnToMenu)
         {
-            System.out.println("There already had " + emotion);
-            bOk = false;
+            printAllEmotions();
+            System.out.println("Enter emotionID to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String inputLine = scan.nextLine();
+            if(!inputLine.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else if(isNumeric(inputLine))
+            {
+                System.out.println("EmotionID need to be any words");
+            }
+            else if(!emotionManager.isEmotionID(inputLine))
+            {
+                System.out.println("There are not " + inputLine +" in emotionID");
+            }
+            else
+            {
+                printSongsFromEmotion(inputLine);
+            }
+            System.out.println("\n");
         }
-        else
+    }
+
+    public void addEmotion()
+    {
+        System.out.println("\n>>Option 6: Add emotion");
+        boolean returnToMenu = false;
+        printAllEmotions();
+        while(!returnToMenu)
         {
-            if(!emotionManager.addEmotion(emotion,words))
+            System.out.println("Enter emotionID name(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String newEmotionID = scan.nextLine();
+            newEmotionID = properCase(newEmotionID);
+            if(!newEmotionID.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else if(isNumeric(newEmotionID))
+            {
+                System.out.println("EmotionID need to be any words");
+            }
+            else if(emotionManager.isEmotionID(newEmotionID))
+            {
+                System.out.println("There already had "+ newEmotionID);
+            }
+            else
+            {
+                ArrayList<String> words = addEmotionWords(newEmotionID);
+                if(words != null)
                 {
-                    bOk = false;
-                    System.out.println("Error cannot added this "+ emotion);
+                    emotionManager.addEmotion(newEmotionID, words);
                 }
+            }
+            System.out.println("\n");
         }
-        return bOk;
     }
 
-    ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
-    public static void printSongsFromEmotion(String emotionID)
+    public void removeSongFromEmotion()
+    {
+        System.out.println("\n>>Option 7: Remove a song from emotion");
+        boolean returnToMenu = false;
+        printAllEmotions();
+        while(!returnToMenu)
+        {
+            System.out.println("Enter emotionID name(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String emotionID = scan.nextLine();
+            emotionID = properCase(emotionID);
+            if(!emotionID.matches(".*\\w.*"))
+            {
+                returnToMenu = true;
+            }
+            else if(isNumeric(emotionID))
+            {
+                System.out.println("EmotionID need to be any words");
+            }
+            else if(!emotionManager.isEmotionID(emotionID))
+            {
+                System.out.println("There are not "+ emotionID);
+            }
+            else
+            {
+                boolean returnToRemove = false;
+                printSongsFromEmotion(emotionID);
+                while(!returnToRemove)
+                {
+                    System.out.println("Enter songID to remove from"+ emotionID +"(Enter to return back): ");
+                    Scanner scann = new Scanner(System.in);
+                    String inputLine = scann.nextLine();
+                    if(!inputLine.matches(".*\\w.*"))
+                    {
+                        returnToRemove = true;
+                    }
+                    else if(!isNumeric(inputLine))
+                    {
+                        System.out.println("SongID is an integer number");
+                    }
+                    else
+                    {
+                        int songID = Integer.parseInt(inputLine);
+                        if(!removeFromCategory(songID,emotionID))
+                            System.out.println("Please input any words to find a song again");
+                    }
+                    System.out.println("\n");
+                }
+            }
+            System.out.println("\n");
+        }
+    }
+
+    public void printSongsFromEmotion(String emotionID)
     {
         if(emotionManager.isEmotionID(emotionID))
         {
@@ -205,23 +317,92 @@ public class Facade
             System.out.println("There are no " + emotionID);
     }
 
-    public static void main(String[] args)
+    public boolean isNumeric(String checkString)
     {
-        Facade manager = new Facade();
-        if(manager.doSetting("songs.txt","emotions.txt","removed.txt"))
-        {
-            System.out.println("Reading file");
-        }
-
-        // ArrayList<String> words = new ArrayList<String>();
-        // words.add("Volvo");
-        // words.add("BMW");
-        // words.add("Ford");
-        // System.out.println(words);
-        // manager.addEmotion("Hungry",words);
-        // manager.printAllEmotions();
-
-        //manager.printSongsFromEmotion("Love");
-        //manager.removeFromCategory(1,"Happy");
+        return checkString.chars().allMatch( Character::isDigit );
     }
+
+    public String properCase (String inputVal)
+    {
+        // Empty strings should be returned as-is.
+        if (inputVal.length() == 0) return "";
+        // Strings with only one character uppercased.
+        if (inputVal.length() == 1) return inputVal.toUpperCase();
+        // Otherwise uppercase first letter, lowercase the rest.
+        return inputVal.substring(0,1).toUpperCase()
+            + inputVal.substring(1).toLowerCase();
+    }
+
+    public ArrayList<String> addEmotionWords(String newEmotion)
+    {
+        ArrayList<String> words = new ArrayList<String>();
+        boolean hasNext = true;
+        while(hasNext)
+        {
+            System.out.println("Enter "+ newEmotion +" words to show(Enter to return back): ");
+            Scanner scan = new Scanner(System.in);
+            String word = scan.nextLine();
+            if(!word.matches(".*\\w.*"))
+            {
+                hasNext = false;
+            }
+            else if(isNumeric(word))
+            {
+                System.out.println("Please input any words");
+            }
+            else
+            {
+                boolean found = false;
+                int counter=0;
+                while(counter<words.size())
+                {
+                    if(words.get(counter).equalsIgnoreCase(word))
+                    {
+                        found = true;
+                        break;
+                    }
+                    counter++;
+                }
+                if(!found)
+                {
+                    words.add(word);
+                }
+                else
+                    System.out.println("There already had "+ word);
+            }
+        }
+        System.out.println(words);
+        return words;
+    }
+
+   public boolean removeFromCategory(int songID,String emotionID)
+   {
+       boolean bOk = true;
+       if(songManager.isSongID(songID)&&emotionManager.isEmotionID(emotionID))
+       {
+           Song currentSong = songManager.getASong(songID);
+           if(!songEmotions.removeFromCategory(currentSong,emotionID))
+           {
+               System.out.println("Error remove " + songID);
+               bOk = false;
+           }
+       }
+       else if(!songManager.isSongID(songID))
+       {
+           System.out.println("There are no " + songID);
+           bOk = false;
+       }
+       else if(!emotionManager.isEmotionID(emotionID))
+       {
+           System.out.println("There are no " + emotionID);
+           bOk = false;
+       }
+       else
+       {
+           System.out.println("There are no " + songID + " and "+ emotionID);
+           bOk = false;
+       }
+       return bOk;
+   }
+
 }
