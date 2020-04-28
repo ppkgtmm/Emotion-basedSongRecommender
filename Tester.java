@@ -6,29 +6,8 @@ public class Tester
     private static final String songsFileName = "songs.txt";
     private static final String emotionsFileName = "emotions.txt";
     private static final String removedFileName = "removed.txt";
-    private static Facade facade = Facade.getInstance();
+    private static Facilitator facilitator = Facilitator.getInstance();
     private static Scanner inputLine = new Scanner(System.in);
-    public static int parseOption(String option)
-    {
-        int parsedOption = -1;
-        option = option.split(" ")[0];
-        try
-        {
-            parsedOption = Integer.parseInt(option);
-        }
-        catch (Exception e)
-        {
-            if(e instanceof NumberFormatException)
-            {
-                System.out.println("Please enter integer for option");
-            }
-            else
-            {
-                e.printStackTrace();
-            }
-        }
-        return parsedOption;
-    }
     public static int getOption()
     {
         System.out.println("Options:");
@@ -42,24 +21,8 @@ public class Tester
         System.out.println("8. Exit");
         System.out.println("Please select an option: ");
         String  input = inputLine.nextLine();
-        return parseOption(input);
+        return Utils.parseOption(input);
     }
-
-//    public static boolean isNumeric(String checkString)
-//    {
-//        return checkString.chars().allMatch( Character::isDigit );
-//    }
-
-//    public static String properCase (String inputVal)
-//    {
-//        // Empty strings should be returned as-is.
-//        if (inputVal.length() == 0) return "";
-//        // Strings with only one character uppercased.
-//        if (inputVal.length() == 1) return inputVal.toUpperCase();
-//        // Otherwise uppercase first letter, lowercase the rest.
-//        return inputVal.substring(0,1).toUpperCase()
-//            + inputVal.substring(1).toLowerCase();
-//    }
 
     public static int getHowFindSong()
     {
@@ -68,7 +31,7 @@ public class Tester
         System.out.println("2 Find from keyword in title");
         System.out.println("Please enter an option");
         String  input = inputLine.nextLine();
-        return parseOption(input);
+        return Utils.parseOption(input);
     }
 
     public static void seeLyrics()
@@ -77,11 +40,12 @@ public class Tester
             switch (selectedChoice)
             {
                 case 1:
-                    facade.seeLyricsFromList();
+                    facilitator.seeLyricsFromList();
                     break;
                 case 2:
+                    System.out.println("Please enter keyword ");
                     String keyword = inputLine.nextLine();
-                    facade.seeLyricsFromKeyWord(keyword);
+                    facilitator.seeLyricsFromKeyWord(keyword);
                     break;
                 case -1:
                     break;
@@ -90,29 +54,6 @@ public class Tester
                     break;
             }
     }
-
-
-//    public static void findSongFromEmotion()
-//    {
-//        System.out.println("\n>>Option 5: Find song from emotion");
-//        boolean returnToMenu = false;
-//        while(!returnToMenu)
-//        {
-//            Facade.printAllEmotions();
-//            System.out.println("Enter emotionID to show(Enter to return back): ");
-//            Scanner scan = new Scanner(System.in);
-//            String inputLine = scan.nextLine();
-//            if(!inputLine.matches(".*\\w.*"))
-//            {
-//                returnToMenu = true;
-//            }
-//            else
-//            {
-//                Facade.printSongsFromEmotion(inputLine);
-//            }
-//            System.out.println("\n");
-//        }
-//    }
 
 //    public static void addEmotion()
 //    {
@@ -158,14 +99,21 @@ public class Tester
 //        }
 //    }
 
-    public static void removeSongFromEmotion()
+    public static String findSongFromKeyword()
     {
-        
+        System.out.println("Do you want to find song to remove from keyword? ");
+        String answer = inputLine.nextLine();
+        if(answer.toLowerCase().startsWith("y"))
+        {
+            System.out.println("Enter keyword ");
+            return inputLine.nextLine();
+        }
+        return "";
     }
 
     public static void main(String[] args)
     {
-        if(facade.doSetting(songsFileName,emotionsFileName,removedFileName))
+        if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
         {
             boolean notExit = true;
             while(notExit)
@@ -174,28 +122,36 @@ public class Tester
                 switch (chosenChoice)
                 {
                     case 1 :
-                        facade.printAllSongs();
+                        facilitator.printAllSongs();
                         break;
                     case 2 :
                         seeLyrics();
                         break;
                     case 3 :
-                        facade.printAllEmotions();
+                        facilitator.printAllEmotions();
                         break;
                     case 4 :
-                        facade.findSongByTitle();
+                        facilitator.findSongByTitle();
                         break;
                     case 5 :
-                        //findSongFromEmotion()
-                        System.out.println("Option 5");
+                        facilitator.findSongFromEmotion();
                         break;
                     case 6 :
                         
                         break;
                     case 7 :
-                        System.out.println("Option 7");
+                        boolean bOk = facilitator.removeFromCategory(findSongFromKeyword());
+                        if(bOk)
+                        {
+                            System.out.println("Song removed from emotion category successfully");
+                        }
+                        else
+                        {
+                            System.out.println("Failed to remove song from emotion category");
+                        }
                         break;
                     case 8 :
+                        //
                         System.out.println("Exiting from the system\n");
                         notExit = false;
                         break;
