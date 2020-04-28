@@ -26,11 +26,6 @@ public class SongCollection
         return result;
     }
 
-    public int getAmountSongs()
-    {
-        return songs.size();
-    }
-
     public void addSong(Song song)
     {
         songs.add(song);
