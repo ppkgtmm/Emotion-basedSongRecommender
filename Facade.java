@@ -30,6 +30,7 @@ public class Facade
         {
             System.out.println("Successfully reading file "+songFileName+"," + emotionFileName +","+ songEmotionFileName+"\n");
             //syncSongEmotion();
+            //syncDeletedSongs();
         }
         return bOk;
     }
@@ -126,17 +127,26 @@ public class Facade
     }
 
     ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
-    public static void printSongs(String keyword)
+    public static boolean printSongs(String keyword)
     {
-        //SongManager songManager = SongManager.getInstance();
+        boolean bOk = true;
         ArrayList<Song> allSongKeyword = songManager.getSongs(keyword);
         System.out.println(">> Song with Keyword List <<");
         System.out.println(allSongKeyword);
-        // for (int counter = 0; counter < allSongKeyword.size(); counter++)
-        // {
-        //     Song currentSong = allSongKeyword.get(counter);
-        //     System.out.println(currentSong. getId()+" Tilte: " + currentSong.getTitle());
-        // }
+        if(allSongKeyword==null)
+        {
+            System.out.println("There are no any song with " + keyword);
+            bOk = false;
+        }
+        else
+        {
+            for (int counter = 0; counter < allSongKeyword.size(); counter++)
+            {
+                Song currentSong = allSongKeyword.get(counter);
+                System.out.println(currentSong. getId()+" Tilte: " + currentSong.getTitle());
+            }
+        }
+        return bOk;
     }
 
     public static boolean removeFromCategory(int songID,String emotionID)
@@ -188,6 +198,22 @@ public class Facade
         return bOk;
     }
 
+    public static boolean isEmotionID(String emotion)
+    {
+        boolean bOk = true;
+        if(!emotionManager.isEmotionID(emotion))
+            bOk = false;
+        return bOk;
+    }
+
+    public static boolean isSongID(Integer songID)
+    {
+        boolean bOk = true;
+        if(!songManager.isSongID(songID))
+            bOk = false;
+        return bOk;
+    }
+
     ///บ่อด้ายยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยงงงงงงงงงงงงง
     public static void printSongsFromEmotion(String emotionID)
     {
@@ -205,6 +231,25 @@ public class Facade
             System.out.println("There are no " + emotionID);
     }
 
+    public static boolean writeToFile()
+    {
+        boolean bOk = true;
+        if(!songEmotions.writeRemovedSongs())
+        {
+            System.out.println("Error cannot write removed songs file");
+            bOk = false;
+        }
+        else
+        {
+            if(!emotionManager.writeEmotions())
+            {
+                System.out.println("Error cannot write emotion file");
+                bOk = false;
+            }
+        }
+        return bOk;
+    }
+
     public static void main(String[] args)
     {
         Facade manager = new Facade();
@@ -213,15 +258,16 @@ public class Facade
             System.out.println("Reading file");
         }
 
-        // ArrayList<String> words = new ArrayList<String>();
-        // words.add("Volvo");
-        // words.add("BMW");
-        // words.add("Ford");
-        // System.out.println(words);
-        // manager.addEmotion("Hungry",words);
-        // manager.printAllEmotions();
+        ArrayList<String> words = new ArrayList<String>();
+        words.add("Volvo");
+        words.add("BMW");
+        words.add("Ford");
+        System.out.println(words);
+        manager.addEmotion("Hungry",words);
+        manager.printAllEmotions();
 
         //manager.printSongsFromEmotion("Love");
-        //manager.removeFromCategory(1,"Happy");
+        //manager.removeFromCategory(5,"Happy");
+        //manager.writeToFile();
     }
 }
