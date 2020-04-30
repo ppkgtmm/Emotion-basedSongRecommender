@@ -7,6 +7,7 @@ public class Facilitator
     private SongEmotions songEmotions = null;
     private EmotionManager emotionManager = null;
     private static Facilitator facilitator = null;
+    private Scanner scanner = new Scanner(System.in);
 
     private Facilitator()
     {
@@ -132,15 +133,6 @@ public class Facilitator
         }
     }
 
-    public void findSongByTitle()
-    {
-        System.out.println("Enter keyword in song title: ");
-        Scanner scanner = new Scanner(System.in);
-        String inputLine = scanner.nextLine();
-        printSongs(inputLine);
-        System.out.println("\n");
-    }
-
     public void seeLyricsFromList()
     {
         Song song = getSongFromList();
@@ -162,7 +154,6 @@ public class Facilitator
         if(songs.size()>0)
         {
             System.out.println("Enter song number ");
-            Scanner scanner = new Scanner(System.in);
             String inputLine = scanner.nextLine();
             int id = Utils.parseOption(inputLine);
             if(id<1 || id>songs.size())
@@ -187,7 +178,6 @@ public class Facilitator
                 System.out.println((i+1)+" "+foundSongs.get(i).getTitle());
             }
             System.out.println("Enter song number ");
-            Scanner scanner = new Scanner(System.in);
             String inputLine = scanner.nextLine();
             int id = Utils.parseOption(inputLine);
             if(id>0 && id<=foundSongs.size())
@@ -224,7 +214,6 @@ public class Facilitator
                 System.out.println((i + 1) + " " + emotions.get(i));
             }
             System.out.println("Enter emotion number ");
-            Scanner scanner = new Scanner(System.in);
             String inputLine = scanner.nextLine();
             int number = Utils.parseOption(inputLine);
             if(number>0 && number<=emotions.size())
@@ -280,4 +269,16 @@ public class Facilitator
         return bOk;
     }
 
+    public boolean addEmotion(String emotion,ArrayList<String> words)
+    {
+        return emotionManager.addEmotion(emotion,words);
+    }
+
+    public boolean terminate()
+    {
+        scanner.close();
+        boolean emotionsWritten = emotionManager.writeEmotions();
+        boolean songsRemovedOk = songEmotions.writeRemovedSongs();
+        return emotionsWritten && songsRemovedOk;
+    }
 }

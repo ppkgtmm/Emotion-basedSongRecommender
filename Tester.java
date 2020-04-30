@@ -55,49 +55,27 @@ public class Tester
             }
     }
 
-//    public static void addEmotion()
-//    {
-//        System.out.println("\n>>Option 6: Add emotion");
-//        boolean returnToMenu = false;
-//        while(!returnToMenu)
-//        {
-//            Facade.printAllEmotions();
-//            System.out.println("Enter emotionID name(Enter to return back): ");
-//            Scanner scan = new Scanner(System.in);
-//            String newEmotionID = scan.nextLine();
-//            if(!newEmotionID.matches(".*\\w.*"))
-//            {
-//                returnToMenu = true;
-//            }
-//            else
-//            {
-//                boolean addedEmotion = false;
-//                ArrayList<String> words = new ArrayList<>();
-//                while(!addedEmotion)
-//                {
-//                    newEmotionID = properCase(newEmotionID);
-//                    System.out.println("Enter "+ newEmotionID +" words to show(Enter to return back): ");
-//                    Scanner scan2 = new Scanner(System.in);
-//                    String inputLine = scan2.nextLine();
-//                    if(!inputLine.matches(".*\\w.*"))
-//                    {
-//                        boolean checkeAdded = Facade.addEmotion(inputLine, words);
-//                        if(checkeAdded)
-//                        {
-//                            addedEmotion = true;
-//                            returnToMenu = true;
-//                        }
-//                    }
-//                    else
-//                    {
-//                        words.add(inputLine);
-//                    }
-//                    System.out.println(words+"\n");
-//                }
-//            }
-//            System.out.println("\n");
-//        }
-//    }
+    public static boolean addEmotion()
+    {
+        ArrayList<String> words = new ArrayList<>();
+        System.out.println("Please enter emotion to add");
+        String emotion = inputLine.nextLine();
+        while(true)
+        {
+            System.out.println("Enter words for emotion or _done_ : ");
+            String word = inputLine.nextLine();
+            if(word.compareToIgnoreCase("_done_")==0 && words.size()>0)
+            {
+                break;
+            }
+            else if(word.compareToIgnoreCase("_done_")==0)
+            {
+                System.out.println("You must enter at least a word for emotion");
+            }
+            words.add(word);
+        }
+        return facilitator.addEmotion(emotion,words);
+    }
 
     public static String findSongFromKeyword()
     {
@@ -111,12 +89,25 @@ public class Tester
         return "";
     }
 
+    public static void findSongByTitle()
+    {
+        System.out.println("Enter keyword in song title: ");
+        String keyword = inputLine.nextLine();
+        facilitator.printSongs(keyword);
+
+    }
+
+    public static boolean endProgram()
+    {
+        inputLine.close();
+        return facilitator.terminate();
+    }
     public static void main(String[] args)
     {
         if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
         {
-            boolean notExit = true;
-            while(notExit)
+            boolean bOk;
+            while(true)
             {
                 int chosenChoice = Tester.getOption();
                 switch (chosenChoice)
@@ -131,16 +122,24 @@ public class Tester
                         facilitator.printAllEmotions();
                         break;
                     case 4 :
-                        facilitator.findSongByTitle();
+                        findSongByTitle();
                         break;
                     case 5 :
                         facilitator.findSongFromEmotion();
                         break;
                     case 6 :
-                        
+                        bOk = addEmotion();
+                        if(bOk)
+                        {
+                            System.out.println("Emotion added successfully");
+                        }
+                        else
+                        {
+                            System.out.println("Failed to add emotion");
+                        }
                         break;
                     case 7 :
-                        boolean bOk = facilitator.removeFromCategory(findSongFromKeyword());
+                        bOk = facilitator.removeFromCategory(findSongFromKeyword());
                         if(bOk)
                         {
                             System.out.println("Song removed from emotion category successfully");
@@ -151,9 +150,16 @@ public class Tester
                         }
                         break;
                     case 8 :
-                        //
                         System.out.println("Exiting from the system\n");
-                        notExit = false;
+                        System.out.println("\n--------------------------------------------------------\n");
+                        boolean succeed = endProgram();
+                        if (succeed)
+                        {
+                            System.exit(0);
+                        } else
+                        {
+                            System.exit(1);
+                        }
                         break;
                     case -1 :
                         break;
@@ -161,8 +167,6 @@ public class Tester
                         System.out.println("Please enter a valid option");
                         break;
                 }
-                System.out.println("\n--------------------------------------------------------\n");
-                inputLine.close();
             }
         }
     }

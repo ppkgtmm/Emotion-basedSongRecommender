@@ -72,10 +72,10 @@ public class EmotionManager
             for (String emotion: allEmotions)
             {
                 ArrayList<String> words = emotions.get(emotion);
-                writer.write(emotion+" : [\n");
+                writer.write(emotion.toLowerCase()+" : [\n");
                 for(String word : words)
                 {
-                    writer.write(word+"\n");
+                    writer.write(word.toLowerCase()+"\n");
                 }
                 writer.write("]\n");
             }

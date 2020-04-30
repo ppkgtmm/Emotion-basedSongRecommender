@@ -128,10 +128,10 @@ public class SongEmotions
             for (String emotion:emotions)
             {
                 ArrayList<String> songs = songsRemoved.get(emotion);
-                writer.write(emotion+" : [\n");
+                writer.write(emotion.toLowerCase()+" : [\n");
                 for(String song : songs)
                 {
-                    writer.write(song+"\n");
+                    writer.write(song.toLowerCase()+"\n");
                 }
                 writer.write("]\n");
             }
