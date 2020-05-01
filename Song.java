@@ -16,6 +16,7 @@ public class Song
         id = counter;
         this.title = title;
         this.lyrics = lyrics;
+        emotionScore = new HashMap<>();
     }
 
     public String getTitle()
