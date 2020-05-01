@@ -26,8 +26,8 @@ public class Facilitator
 
     public boolean doSetting(String songFileName,String emotionFileName,String removedSongsFile)
     {
-        boolean songOK = songManager.readSongs(songFileName);
         boolean emotionOK = emotionManager.readEmotions(emotionFileName);
+        boolean songOK = songManager.readSongs(songFileName);
         boolean removedSongsOK;
         boolean ok = false;
         if(!removedSongsFile.isEmpty())

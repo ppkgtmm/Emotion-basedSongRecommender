@@ -83,12 +83,15 @@ public class SongEmotions
     private boolean isRemovedSong(String emotion,Song song)
     {
         boolean removed = false;
-        for(String songTitle: songsRemoved.get(emotion))
+        if(songsRemoved.containsKey(emotion))
         {
-            if(song.getTitle().compareToIgnoreCase(songTitle)==0)
+            for(String songTitle: songsRemoved.get(emotion))
             {
-                removed = true;
-                break;
+                if(song.getTitle().compareToIgnoreCase(songTitle)==0)
+                {
+                    removed = true;
+                    break;
+                }
             }
         }
         return removed;
@@ -97,6 +100,7 @@ public class SongEmotions
     public void sync(String emotion,ArrayList<String> words,ArrayList<Song> songs)
     {
         SongComparator.setEmotion(emotion);
+//        System.out.println(emotion);
         for(Song song:songs)
         {
             if(!isRemovedSong(emotion,song))

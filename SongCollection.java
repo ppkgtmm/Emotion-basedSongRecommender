@@ -18,7 +18,7 @@ public class SongCollection
         ArrayList<Song> result = new ArrayList<>();
         for(Song song:songs)
         {
-            if(song.getTitle().contains(keyword))
+            if(song.getTitle().toLowerCase().contains(keyword.toLowerCase()))
             {
                 result.add(song);
             }

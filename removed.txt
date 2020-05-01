@@ -1,8 +1,8 @@
-Happy : [
-Bruises
-Happy
-Falling
+happy : [
+bruises
+happy
+falling
 ]
-Angry : [
-Go For G!
+angry : [
+go for g!
 ]
