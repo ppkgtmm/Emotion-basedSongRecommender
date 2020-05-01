@@ -167,6 +167,7 @@ public class Facilitator
         }
         return result;
     }
+
     private Song getSongByKeyword(String keyword)
     {
         ArrayList<Song> foundSongs = songManager.getSongs(keyword);
@@ -196,6 +197,7 @@ public class Facilitator
         }
         return song;
     }
+
     public void seeLyricsFromKeyWord(String keyword)
     {
         Song song = getSongByKeyword(keyword);
@@ -232,6 +234,7 @@ public class Facilitator
         }
         return emotion;
     }
+
     public void findSongFromEmotion()
     {
         String emotion = getEmotionInput();
@@ -249,6 +252,7 @@ public class Facilitator
             }
 
     }
+
     public boolean removeFromCategory(String keyword)
     {
         boolean bOk = false;
