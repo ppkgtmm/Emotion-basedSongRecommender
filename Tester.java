@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Tester
 {
@@ -55,6 +56,25 @@ public class Tester
             }
     }
 
+
+    private static boolean isNumeric(String strNum) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
+    }
+
+    private static String setSpaces(String input)
+    {
+        String result = "";
+        String[] splitWords = input.split(" ");
+        for (String word:splitWords)
+        {
+            result += word + " ";
+        }
+        return result.trim();
+    }
     public static boolean addEmotion()
     {
         ArrayList<String> words = new ArrayList<>();
@@ -63,16 +83,28 @@ public class Tester
         while(true)
         {
             System.out.println("Enter words for emotion or _done_ : ");
-            String word = inputLine.nextLine();
+            String word = inputLine.nextLine().trim(); // space in word
             if(word.compareToIgnoreCase("_done_")==0 && words.size()>0)
             {
                 break;
             }
-            else if(word.compareToIgnoreCase("_done_")==0)
+            else if(word.compareToIgnoreCase("_done_")==0 && words.size()==0)
             {
-                System.out.println("You must enter at least a word for emotion");
+                System.out.println("No words have been added to word collection");
             }
-            words.add(word);
+            else if(isNumeric(word))
+            {
+                System.out.println("Word should not be only number");
+            }
+            else if(word.isEmpty())
+            {
+                System.out.println("Word should not be empty");
+            }
+            else
+            {
+                word = setSpaces(word);
+                words.add(word.trim());
+            }
         }
         return facilitator.addEmotion(emotion,words);
     }
