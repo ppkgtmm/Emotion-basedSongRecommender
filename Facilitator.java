@@ -286,7 +286,7 @@ public class Facilitator
         //         }
         //     }
         // }
-        return emotionManager.addEmotion(emotion,words);
+        return emotionManager.addEmotion(emotion.trim().toLowerCase(),words);
     }
 
     public boolean terminate()

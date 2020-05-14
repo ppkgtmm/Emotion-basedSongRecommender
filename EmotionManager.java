@@ -34,10 +34,10 @@ public class EmotionManager
          while ((nextEmotion = reader.readEmotions()) != null)
          {
             // System.out.println("Successfully read " + nextEmotion.getEmotion());
-             for (String word:nextEmotion.getWords())
-             {
-                //System.out.println(word);
-             }
+//             for (String word:nextEmotion.getWords())
+//             {
+//                //System.out.println(word);
+//             }
              addEmotion(nextEmotion.getEmotion(),nextEmotion.getWords());
              result = true;
          }
@@ -52,8 +52,13 @@ public class EmotionManager
     public boolean addEmotion(String emotion,ArrayList<String> words)
     {
         boolean bOk = false;
+        if(emotions.containsKey(emotion))
+        {
+            ArrayList<String> currentWords = emotions.get(emotion);
+            words.addAll(currentWords);
+        }
         if(emotions.put(emotion,words) == null)
-            bOk = true;
+                bOk = true;
         return bOk;
     }
 
@@ -89,5 +94,5 @@ public class EmotionManager
         return succeed;
     }
 
-    
+
 }

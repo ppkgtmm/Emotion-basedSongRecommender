@@ -82,7 +82,12 @@ public class Tester
     public static boolean addEmotion()
     {
         ArrayList<String> words = new ArrayList<>();
-        String emotion = getInputString("Please enter emotion to add");
+        String emotion = getInputString("Please enter emotion to add").trim();
+        while(!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.length()==0)
+        {
+            System.out.println("Emotion is not a valid word");
+            emotion = getInputString("Please enter emotion to add again").trim();
+        }
         while(true)
         {
             String word = getInputString("Enter words for emotion or _done_ : ").trim();
@@ -105,6 +110,10 @@ public class Tester
             else
             {
                 word = setSpaces(word).trim();
+                if(words.indexOf(word)!=-1)
+                {
+                    continue;
+                }
                 words.add(word);
             }
         }

@@ -15,7 +15,7 @@ public class EmotionReader extends TextFileReader
             int colonIndex = line.indexOf(":");
             if(colonIndex!=-1)
             {
-                currentEmotion = line.substring(0,colonIndex).trim();
+                currentEmotion = line.substring(0,colonIndex).trim().toLowerCase();
 //                System.out.println("emotion:"+currentEmotion);
                 found = true;
             }

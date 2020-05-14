@@ -342,6 +342,9 @@ safe
 capable
 ]
 kiki : [
+lala
+lalamove
+lala moon
 lomn
 lomn
 ]
