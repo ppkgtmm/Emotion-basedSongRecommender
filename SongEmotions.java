@@ -63,7 +63,6 @@ public class SongEmotions
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if(songs!=null)
         {
-            succeed = songs.remove(song);
             if(songsRemoved.containsKey(emotion))
             {
                 ArrayList<String> oldSongsList = songsRemoved.get(emotion);
@@ -76,6 +75,7 @@ public class SongEmotions
                 newList.add(song.getTitle());
                 songsRemoved.put(emotion,newList);
             }
+            succeed = songs.remove(song);
         }
         return succeed;
     }

@@ -175,18 +175,18 @@ public class Tester
                         }
                         else
                         {
-                            System.out.println("Failed to add emotion");
+                            System.out.println("Cannot to add emotion");
                         }
                         break;
                     case 7 :
-                        bOk = facilitator.removeFromCategory(findSongFromKeyword());
+                        bOk = facilitator.removeFromCategory();
                         if(bOk)
                         {
                             System.out.println("Song removed from emotion category successfully");
                         }
                         else
                         {
-                            System.out.println("Failed to remove song from emotion category");
+                            System.out.println("Cannot remove song from emotion category");
                         }
                         break;
                     case 8 :

@@ -100,37 +100,44 @@ public class Facilitator
             }
 
     }
-    public void printAllSongs()
-    {
+    public void printAllSongs(){
         ArrayList<Song> allSongs = songManager.getAllSongs();
-        if(allSongs == null || allSongs.size()==0)
+        printSongs(allSongs);
+    }
+    private void printSongs(ArrayList<Song> songs)
+    {
+        if(songs == null || songs.size()==0)
         {
             System.out.println("No songs available");
         }
         else
         {
-            System.out.println(">> All Songs List <<");
-            for (Song currentSong : allSongs) {
-                System.out.println(currentSong.getId() + " " + currentSong.getTitle());
+            System.out.println(">> Songs List <<");
+            int i = 0;
+            for (Song song:songs)
+            {
+                System.out.println((i+1)+" "+song.getTitle());
+                i++;
             }
         }
     }
     public void printSongs(String keyword)
     {
         ArrayList<Song> songsFound = songManager.getSongs(keyword);
-        if(songsFound==null || songsFound.size()==0)
-        {
-            System.out.println("No songs found with title that contains "+keyword);
-        }
-        else
-        {
-            System.out.println(">> Song with Keyword List <<");
-            for (int counter = 0; counter < songsFound.size(); counter++)
-             {
-                 Song currentSong = songsFound.get(counter);
-                 System.out.println((counter+1) +" " + currentSong.getTitle());
-             }
-        }
+        printSongs(songsFound);
+//        if(songsFound==null || songsFound.size()==0)
+//        {
+//            System.out.println("No songs found with title that contains "+keyword);
+//        }
+//        else
+//        {
+//            System.out.println(">> Song with Keyword List <<");
+//            for (int counter = 0; counter < songsFound.size(); counter++)
+//             {
+//                 Song currentSong = songsFound.get(counter);
+//                 System.out.println((counter+1) +" " + currentSong.getTitle());
+//             }
+//        }
     }
 
     public void seeLyricsFromList()
@@ -145,12 +152,13 @@ public class Facilitator
     {
         Song result = null;
         ArrayList<Song> songs = songManager.getAllSongs();
-        int i = 0;
-        for (Song song:songs)
-        {
-            System.out.println((i+1)+" "+song.getTitle());
-            i++;
-        }
+//        int i = 0;
+//        for (Song song:songs)
+//        {
+//            System.out.println((i+1)+" "+song.getTitle());
+//            i++;
+//        }
+        printSongs(songs);
         if(songs.size()>0)
         {
             System.out.println("Enter song number ");
@@ -171,12 +179,13 @@ public class Facilitator
     {
         ArrayList<Song> foundSongs = songManager.getSongs(keyword);
         Song song = null;
+        printSongs(foundSongs);
         if(foundSongs!=null && foundSongs.size()>0)
         {
-            for (int i=0;i<foundSongs.size();i++)
-            {
-                System.out.println((i+1)+" "+foundSongs.get(i).getTitle());
-            }
+//            for (int i=0;i<foundSongs.size();i++)
+//            {
+//                System.out.println((i+1)+" "+foundSongs.get(i).getTitle());
+//            }
             System.out.println("Enter song number ");
             String inputLine = scanner.nextLine();
             int id = Utils.parseOption(inputLine);
@@ -238,10 +247,11 @@ public class Facilitator
         ArrayList<Song> foundSongs = songEmotions.getSongsFromEmotion(emotion);
         if(foundSongs!=null && foundSongs.size()>0)
         {
-            for (Song song:foundSongs )
-            {
-                System.out.println(song.getId()+" "+song.getTitle());
-            }
+//            for (Song song:foundSongs )
+//            {
+//                System.out.println(song.getId()+" "+song.getTitle());
+//            }
+            printSongs(foundSongs);
         }
         else
             {
@@ -252,22 +262,30 @@ public class Facilitator
             }
 
     }
-    public boolean removeFromCategory(String keyword)
+    public boolean removeFromCategory()
     {
         boolean bOk = false;
         String emotion = getEmotionInput();
-        Song song;
-        if(keyword.isEmpty())
+        if(emotion!=null)
         {
-            song = getSongFromList();
-        }
-        else
-        {
-            song = getSongByKeyword(keyword);
-        }
-        if(song!=null)
-        {
-            bOk = songEmotions.removeFromCategory(song,emotion);
+           ArrayList<Song> songs = songEmotions.getSongsFromEmotion(emotion);
+           printSongs(songs);
+            if(songs!=null && songs.size()>0)
+            {
+                System.out.println("Enter song number ");
+                String inputLine = scanner.nextLine();
+                int number = Utils.parseOption(inputLine);
+                if(number>0 && number<=songs.size())
+                {
+                    number--;
+//                    System.out.println(songs.get(number).getTitle());
+                    bOk = songEmotions.removeFromCategory(songs.get(number),emotion);
+                }
+                else
+                {
+                    System.out.println("Please enter a valid song number");
+                }
+            }
         }
         return bOk;
     }
