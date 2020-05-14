@@ -55,7 +55,7 @@ public class Facilitator
             songEmotions.sync(emotion,emotionManager.getEmotionWords(emotion),allSongs);
         }
     }
-    public boolean syncDeletedSongs(String fileName)
+    private boolean syncDeletedSongs(String fileName)
     {
         return songEmotions.initialize(fileName);
     }
@@ -240,12 +240,15 @@ public class Facilitator
         {
             for (Song song:foundSongs )
             {
-                System.out.println(song.getTitle());
+                System.out.println(song.getId()+" "+song.getTitle());
             }
         }
         else
             {
-                System.out.println("No songs found for emotion "+emotion);
+                if(emotion!=null)
+                {
+                    System.out.println("No songs found for emotion "+emotion);
+                }
             }
 
     }

@@ -106,17 +106,20 @@ public class SongEmotions
             if(!isRemovedSong(emotion,song))
             {
                 song.countScore(emotion,words);
-                if(songsWithEmotions.containsKey(emotion))
+                if(song.getScore(emotion)>0)
                 {
-                    TreeSet<Song> songsByScore = songsWithEmotions.get(emotion);
-                    songsByScore.add(song);
-                    songsWithEmotions.put(emotion,songsByScore);
-                }
-                else
-                {
-                    TreeSet<Song> newTreeSet = new TreeSet<>(new SongComparator());
-                    newTreeSet.add(song);
-                    songsWithEmotions.put(emotion,newTreeSet);
+                    if(songsWithEmotions.containsKey(emotion))
+                    {
+                        TreeSet<Song> songsByScore = songsWithEmotions.get(emotion);
+                        songsByScore.add(song);
+                        songsWithEmotions.put(emotion,songsByScore);
+                    }
+                    else
+                    {
+                        TreeSet<Song> newTreeSet = new TreeSet<>(new SongComparator());
+                        newTreeSet.add(song);
+                        songsWithEmotions.put(emotion,newTreeSet);
+                    }
                 }
             }
         }

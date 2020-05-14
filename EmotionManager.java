@@ -89,13 +89,5 @@ public class EmotionManager
         return succeed;
     }
 
-    public static void main(String[] args) {
-        EmotionManager emotionManager = EmotionManager.getInstance();
-        boolean bOk = emotionManager.readEmotions("emotions.txt");
-        if(bOk)
-        {
-            //emotionManager.addEmotion("Hungry",new ArrayList<>());
-            //emotionManager.writeEmotions();
-        }
-    }
+    
 }

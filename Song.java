@@ -82,8 +82,4 @@ public class Song
         emotionScore.put(emotion,score);
     }
 
-    public static void main(String[] args)
-    {
-
-    }
 }

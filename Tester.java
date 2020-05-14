@@ -34,6 +34,11 @@ public class Tester
         String  input = inputLine.nextLine();
         return Utils.parseOption(input);
     }
+    private static String getInputString(String message)
+    {
+        System.out.println(message);
+        return inputLine.nextLine();
+    }
 
     public static void seeLyrics()
     {
@@ -44,8 +49,7 @@ public class Tester
                     facilitator.seeLyricsFromList();
                     break;
                 case 2:
-                    System.out.println("Please enter keyword ");
-                    String keyword = inputLine.nextLine();
+                    String keyword = getInputString("Please enter keyword ");
                     facilitator.seeLyricsFromKeyWord(keyword);
                     break;
                 case -1:
@@ -78,12 +82,10 @@ public class Tester
     public static boolean addEmotion()
     {
         ArrayList<String> words = new ArrayList<>();
-        System.out.println("Please enter emotion to add");
-        String emotion = inputLine.nextLine();
+        String emotion = getInputString("Please enter emotion to add");
         while(true)
         {
-            System.out.println("Enter words for emotion or _done_ : ");
-            String word = inputLine.nextLine().trim(); // space in word
+            String word = getInputString("Enter words for emotion or _done_ : ").trim();
             if(word.compareToIgnoreCase("_done_")==0 && words.size()>0)
             {
                 break;
@@ -102,8 +104,8 @@ public class Tester
             }
             else
             {
-                word = setSpaces(word);
-                words.add(word.trim());
+                word = setSpaces(word).trim();
+                words.add(word);
             }
         }
         return facilitator.addEmotion(emotion,words);
@@ -111,20 +113,17 @@ public class Tester
 
     public static String findSongFromKeyword()
     {
-        System.out.println("Do you want to find song to remove from keyword? ");
-        String answer = inputLine.nextLine();
+        String answer = getInputString("Do you want to find song to remove from keyword? (y or n)");
         if(answer.toLowerCase().startsWith("y"))
         {
-            System.out.println("Enter keyword ");
-            return inputLine.nextLine();
+            return getInputString("Enter keyword ");
         }
         return "";
     }
 
     public static void findSongByTitle()
     {
-        System.out.println("Enter keyword in song title: ");
-        String keyword = inputLine.nextLine();
+        String keyword = getInputString("Enter keyword in song title: ");
         facilitator.printSongs(keyword);
 
     }
