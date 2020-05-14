@@ -271,6 +271,18 @@ public class Facilitator
 
     public boolean addEmotion(String emotion,ArrayList<String> words)
     {
+        // for (int i = 0; i < words.size(); i++)
+        // {
+        //     for (int j = i + 1; j < words.size(); j++)
+        //     {
+        //         // if (words.get(i) == words.get(j))
+        //         if(words.get(i).equalsIgnoreCase(words.get(j)))
+        //         {
+        //             words.remove(j);
+        //             j--;
+        //         }
+        //     }
+        // }
         return emotionManager.addEmotion(emotion,words);
     }
 

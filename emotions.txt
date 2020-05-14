@@ -1,69 +1,6 @@
 love : [
-adulation
-allegiance
-amity
-amour
-ardor
-amorousness
-attachment
-affection
-appreciation
-beat
-devotion
-emotion
-fondness
-friendship
-fidelity
-case
-comfort
-fervor
-flame
-enjoyment
-enchantment
-crush
-sentiment
-hankering
-worship
-zeal
-idolatry
-delight
-darling
-relish
-cherishing
-devotedness
-infatuation
-inclination
-involvement
-regard
-lust
-rapture
-passion
-partiality
-cure
-respect
-touch
-piety
-perfect
-taste
 like
-honey
-tenderness
-sweet
-smile
-want
-with me
-with you
-yearning
-together
-my girl
-kiss
-share
-beautiful
-light up
-on my mind
-pretty
-lovely
-love
+mma
 ]
 relaxed : [
 calm
@@ -263,6 +200,10 @@ pain
 hurt
 world-weary
 ]
+tree : [
+fdfd
+fdfd
+]
 angry : [
 crazy
 mad
@@ -399,4 +340,8 @@ goodbye
 right
 safe
 capable
+]
+kiki : [
+lomn
+lomn
 ]
