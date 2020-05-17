@@ -75,7 +75,17 @@ public class SongEmotions
                 newList.add(song.getTitle());
                 songsRemoved.put(emotion,newList);
             }
-            succeed = songs.remove(song);
+//            System.out.println(songs.contains(song));
+            for(Song storedSong :songs)
+            {
+                if(storedSong.getTitle().compareToIgnoreCase(song.getTitle())==0)
+                {
+                    System.out.println(storedSong);
+                    System.out.println(song);
+                    succeed = songsWithEmotions.get(emotion).remove(storedSong);
+                    break;
+                }
+            }
         }
         return succeed;
     }
