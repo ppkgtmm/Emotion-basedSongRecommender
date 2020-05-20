@@ -63,6 +63,7 @@ public class SongEmotions
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if(songs!=null)
         {
+            System.out.println(songs.contains(song));
             if(songsRemoved.containsKey(emotion))
             {
                 ArrayList<String> oldSongsList = songsRemoved.get(emotion);
@@ -75,17 +76,8 @@ public class SongEmotions
                 newList.add(song.getTitle());
                 songsRemoved.put(emotion,newList);
             }
-//            System.out.println(songs.contains(song));
-            for(Song storedSong :songs)
-            {
-                if(storedSong.getTitle().compareToIgnoreCase(song.getTitle())==0)
-                {
-                    System.out.println(storedSong);
-                    System.out.println(song);
-                    succeed = songsWithEmotions.get(emotion).remove(storedSong);
-                    break;
-                }
-            }
+                    SongComparator.setEmotion(emotion); //added
+                    succeed = songsWithEmotions.get(emotion).remove(song);
         }
         return succeed;
     }

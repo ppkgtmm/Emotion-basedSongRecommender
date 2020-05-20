@@ -116,7 +116,7 @@ public class Facilitator
             int i = 0;
             for (Song song:songs)
             {
-                System.out.println((i+1)+" "+song.getTitle());
+                System.out.println((i+1)+ " id: "+ song.getId() + " "+song.getTitle());
                 i++;
             }
         }
@@ -220,7 +220,7 @@ public class Facilitator
         if(emotions!=null && emotions.size()>0)
         {
             for (int i = 0; i < emotions.size(); i++) {
-                System.out.println((i + 1) + " " + emotions.get(i));
+                System.out.println((i + 1)  + emotions.get(i));
             }
             System.out.println("Enter emotion number ");
             String inputLine = scanner.nextLine();
@@ -278,7 +278,7 @@ public class Facilitator
                 if(number>0 && number<=songs.size())
                 {
                     number--;
-//                    System.out.println(songs.get(number).getTitle());
+                    System.out.println(emotion);
                     bOk = songEmotions.removeFromCategory(songs.get(number),emotion);
                 }
                 else

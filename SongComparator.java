@@ -5,7 +5,7 @@ public class SongComparator implements Comparator<Song>
 
     private int compareById(Song song1,Song song2)
     {
-        return song1.getId().compareTo(song2.getId());
+        return song2.getId().compareTo(song1.getId());
     }
 
     @Override

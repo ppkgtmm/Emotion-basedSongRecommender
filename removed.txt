@@ -1,3 +1,7 @@
+love : [
+love me like you do
+only love can hurt like this
+]
 happy : [
 bruises
 happy
@@ -5,4 +9,10 @@ falling
 ]
 angry : [
 go for g!
+wicked love
+lights glowing
+]
+inspired : [
+what makes you beautiful
+grateful
 ]

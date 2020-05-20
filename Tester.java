@@ -191,7 +191,7 @@ public class Tester
                         break;
                     case 8 :
                         System.out.println("Exiting from the system\n");
-                        System.out.println("\n--------------------------------------------------------\n");
+                        System.out.println("--------------------------------------------------------\n");
                         boolean succeed = endProgram();
                         if (succeed)
                         {
