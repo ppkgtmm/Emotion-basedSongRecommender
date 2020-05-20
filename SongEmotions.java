@@ -76,7 +76,7 @@ public class SongEmotions
                 newList.add(song.getTitle());
                 songsRemoved.put(emotion,newList);
             }
-                    SongComparator.setEmotion(emotion); //added
+                    SongComparator.setEmotion(emotion); //addedddd
                     succeed = songsWithEmotions.get(emotion).remove(song);
         }
         return succeed;
