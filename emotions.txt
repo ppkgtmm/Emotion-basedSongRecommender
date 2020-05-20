@@ -1,6 +1,6 @@
 love : [
 like
-mma
+love
 ]
 relaxed : [
 calm
@@ -200,10 +200,6 @@ pain
 hurt
 world-weary
 ]
-tree : [
-fdfd
-fdfd
-]
 angry : [
 crazy
 mad
@@ -340,11 +336,4 @@ goodbye
 right
 safe
 capable
-]
-kiki : [
-lala
-lalamove
-lala moon
-lomn
-lomn
 ]
