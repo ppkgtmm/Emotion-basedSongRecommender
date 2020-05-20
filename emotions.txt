@@ -89,6 +89,13 @@ persistently jealous
 possessive
 resentful
 ]
+lively : [
+love
+live
+do
+want
+wait
+]
 happy : [
 dance
 happy
@@ -203,6 +210,13 @@ world-weary
 tree : [
 fdfd
 fdfd
+]
+lol : [
+--
+point
+laugh
+ha
+lol
 ]
 angry : [
 crazy
@@ -340,11 +354,4 @@ goodbye
 right
 safe
 capable
-]
-kiki : [
-lala
-lalamove
-lala moon
-lomn
-lomn
 ]

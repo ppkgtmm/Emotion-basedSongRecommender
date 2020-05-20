@@ -116,7 +116,7 @@ public class Facilitator
             int i = 0;
             for (Song song:songs)
             {
-                System.out.println((i+1)+ " id: "+ song.getId() + " "+song.getTitle());
+                System.out.println((i+1)+" "+song.getTitle());
                 i++;
             }
         }
@@ -220,7 +220,7 @@ public class Facilitator
         if(emotions!=null && emotions.size()>0)
         {
             for (int i = 0; i < emotions.size(); i++) {
-                System.out.println((i + 1)  + emotions.get(i));
+                System.out.println((i + 1) +" " + emotions.get(i));
             }
             System.out.println("Enter emotion number ");
             String inputLine = scanner.nextLine();
@@ -292,19 +292,9 @@ public class Facilitator
 
     public boolean addEmotion(String emotion,ArrayList<String> words)
     {
-        // for (int i = 0; i < words.size(); i++)
-        // {
-        //     for (int j = i + 1; j < words.size(); j++)
-        //     {
-        //         // if (words.get(i) == words.get(j))
-        //         if(words.get(i).equalsIgnoreCase(words.get(j)))
-        //         {
-        //             words.remove(j);
-        //             j--;
-        //         }
-        //     }
-        // }
-        return emotionManager.addEmotion(emotion.trim().toLowerCase(),words);
+       boolean succeed = emotionManager.addEmotion(emotion.trim().toLowerCase(),words);
+       songEmotions.sync(emotion,words,songManager.getAllSongs());
+       return  succeed;
     }
 
     public boolean terminate()
