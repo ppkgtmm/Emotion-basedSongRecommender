@@ -1,20 +1,48 @@
+/**
+ *
+ *
+ *
+ *
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Facilitator
 {
-    private SongManager songManager=null;
+    /** SongManager instance to help dealing with songs. */
+    private SongManager songManager = null;
+
+    /**
+     *  SongEmotions instance to help dealing with songs
+     *  related to each emotion.
+     */
     private SongEmotions songEmotions = null;
+
+    /** EmotionManager instance to help dealing with emotions. */
     private EmotionManager emotionManager = null;
+
+    /** Facilitator instance which let other classes use its methods*/
     private static Facilitator facilitator = null;
+
+    /** Scanner object used to get input from user */
     private Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Constructor which initialize songManager, songEmotions
+     * and emotionManager instance
+     */
     private Facilitator()
     {
         songManager = SongManager.getInstance();
         songEmotions = SongEmotions.getInstance();
         emotionManager = EmotionManager.getInstance();
     }
+
+    /**
+     * Getter for instance of facilitator which is created only
+     * once.
+     * @return facilitator instance
+     */
     public static Facilitator getInstance()
     {
         if (facilitator==null)
@@ -24,49 +52,75 @@ public class Facilitator
         return facilitator;
     }
 
+    /**
+     * set up data inside the program like songs, emotions and
+     * removed songs which will be used in the program
+     * @param songFileName name of song text file
+     * @param emotionFileName name of emotion text file
+     * @param removedSongsFile name of removed song text file
+     * @return true if succeed , false if error occurred
+     */
     public boolean doSetting(String songFileName,String emotionFileName,String removedSongsFile)
     {
+        /* to read and store emotions */
         boolean emotionOK = emotionManager.readEmotions(emotionFileName);
+        /* to read and store songs */
         boolean songOK = songManager.readSongs(songFileName);
+        /* to store result from doing set up for songs removed from emotion category */
         boolean removedSongsOK;
         boolean ok = false;
+        /* user has provided removed songs file name */
         if(!removedSongsFile.isEmpty())
         {
-            removedSongsOK = syncDeletedSongs(removedSongsFile);
+            /* to read and store removed songs */
+            removedSongsOK = songEmotions.initialize(removedSongsFile);
+            /* check if no errors found */
             if(songOK && emotionOK && removedSongsOK)
             {
+                /* to count emotions scores of song and store song sorted
+                in emotion category */
                 doSync();
-                ok = true;
+                ok = true; /* no errors */
             }
         }
+        /* user does not provide removed song file name */
         else if(songOK && emotionOK)
         {
-         doSync();
-         ok = true;
+            /* to count emotions scores of song and store song sorted
+                in emotion category */
+             doSync();
+             ok = true; /* no errors */
         }
         return ok;
     }
+
+    /**
+     * call function to count emotions scores of songs and store songs
+     * in sorted order in each emotion category.
+     */
     private void doSync()
     {
         ArrayList<Emotion> allEmotions = emotionManager.getEmotions();
         ArrayList<Song> allSongs = songManager.getAllSongs();
+        /* to count score of songs for each emotion */
         for(Emotion emotion:allEmotions)
         {
             songEmotions.sync(emotion.getEmotion(),emotion.getWords(),allSongs);
         }
     }
-    private boolean syncDeletedSongs(String fileName)
-    {
-        return songEmotions.initialize(fileName);
-    }
 
+    /**
+     * Displays all emotions in the system
+     */
     public void printAllEmotions()
     {
+        /* getting all available emotion(s)*/
         ArrayList<Emotion> allEmotions = emotionManager.getEmotions();
         if(allEmotions==null || allEmotions.size()==0)
         {
             System.out.println("There are no emotions stored in the system");
         }
+        /* there exist some emotion(s) in the system */
         else
         {
             System.out.println(">> Emotion List <<");
@@ -76,11 +130,18 @@ public class Facilitator
             }
         }
     }
+
+    /**
+     * Print lyrics of song provided
+     * @param currentSong song to print lyrics
+     *
+     */
     public void printLyrics(Song currentSong)
     {
             if(currentSong!=null)
             {
                 ArrayList<String> currentLyrics = currentSong.getLyrics();
+                /* song has lyrics */
                 if(currentLyrics!=null && currentLyrics.size()>0)
                 {
                     System.out.println(">> Lyrics of " + currentSong.getTitle() + " <<");
@@ -96,10 +157,12 @@ public class Facilitator
             }
             else
             {
-                System.out.println("No song found with the id");
+                System.out.println("Unable to print song lyrics");
             }
 
     }
+
+    /***/
     public void printAllSongs(){
         ArrayList<Song> allSongs = songManager.getAllSongs();
         printSongs(allSongs);
@@ -125,19 +188,6 @@ public class Facilitator
     {
         ArrayList<Song> songsFound = songManager.getSongs(keyword);
         printSongs(songsFound);
-//        if(songsFound==null || songsFound.size()==0)
-//        {
-//            System.out.println("No songs found with title that contains "+keyword);
-//        }
-//        else
-//        {
-//            System.out.println(">> Song with Keyword List <<");
-//            for (int counter = 0; counter < songsFound.size(); counter++)
-//             {
-//                 Song currentSong = songsFound.get(counter);
-//                 System.out.println((counter+1) +" " + currentSong.getTitle());
-//             }
-//        }
     }
 
     public void seeLyricsFromList()
@@ -152,12 +202,6 @@ public class Facilitator
     {
         Song result = null;
         ArrayList<Song> songs = songManager.getAllSongs();
-//        int i = 0;
-//        for (Song song:songs)
-//        {
-//            System.out.println((i+1)+" "+song.getTitle());
-//            i++;
-//        }
         printSongs(songs);
         if(songs.size()>0)
         {
@@ -182,10 +226,6 @@ public class Facilitator
         printSongs(foundSongs);
         if(foundSongs!=null && foundSongs.size()>0)
         {
-//            for (int i=0;i<foundSongs.size();i++)
-//            {
-//                System.out.println((i+1)+" "+foundSongs.get(i).getTitle());
-//            }
             System.out.println("Enter song number ");
             String inputLine = scanner.nextLine();
             int id = Utils.parseOption(inputLine);
@@ -247,10 +287,6 @@ public class Facilitator
         ArrayList<Song> foundSongs = songEmotions.getSongsFromEmotion(emotion);
         if(foundSongs!=null && foundSongs.size()>0)
         {
-//            for (Song song:foundSongs )
-//            {
-//                System.out.println(song.getId()+" "+song.getTitle());
-//            }
             printSongs(foundSongs);
         }
         else
