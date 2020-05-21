@@ -41,19 +41,21 @@ public class EmotionReader extends TextFileReader
     }
 
     /**
-     * check if it is the last word related to emotion current
+     * check if it is the last word related to current emotion
      * in text file and add the word to collection
      * @param  line   current line
      * @return true if successful, false if the line is not the
-     * last word of emotion current emotion.
+     * last word of current emotion.
      *
      */
     private boolean isLastWordOfEmotion(String line)
     {
         boolean isLast = false;
         int braceIndex = line.lastIndexOf("]");
+        /* check if it is last word */
         if(braceIndex!= -1 && braceIndex==line.length()-1)
         {
+            /* getting last word */
             String lastWord = line.substring(0,braceIndex).trim();
             if(!lastWord.isEmpty())
             {
@@ -69,7 +71,7 @@ public class EmotionReader extends TextFileReader
      * create emotion object from emotion and words related to the
      * emotion.
      * @return emotion object if reading about an emotion complete
-     * or end of file reached.
+     * or null if end of file reached.
      */
     public Emotion readEmotions()
     {
@@ -96,7 +98,7 @@ public class EmotionReader extends TextFileReader
                             line = line.trim();
                             if (!isEmptyLine(line))
                             {
-                                /* check is it the last words */
+                                /* check is it the last word */
                                 boolean lastWordMatch = isLastWordOfEmotion(line);
                                 if (lastWordMatch)
                                 {

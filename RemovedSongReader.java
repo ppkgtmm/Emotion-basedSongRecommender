@@ -1,40 +1,38 @@
 /**
- * Class to read info about removes songs from a file
- * and create removedSong.
+ * Class to read info about removed songs from a file
+ * and create RemovedSong object.
  *
- * Each line of the file has the following structure
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
  *
- *  First field is emotion - lines that have colon after emotion
- *  Second field is the songs - lines which are in the bracket after emotion
- *
-*  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  19 May 2020
  */
+
 import java.util.ArrayList;
 
 public class RemovedSongReader extends TextFileReader
 {
-    /* emotions which have removed song */
+    /* current emotion which have songs removed read from file */
     private String currentEmotion = null;
-
-    /* removed songs of current emotion */
+    /* songs removed from current emotion */
     private ArrayList<String> currentSongs = null;
 
     /**
-     * check is it the emotion line by checking is it has colon
-     * @return true if successful, false if the line is not emotion
+     * check if the line contains emotion and set current emotion if found.
+     * @return true if successful, false if the line does not have emotion
      */
-    public boolean findAndSetEmotion(String line)
+    private boolean findAndSetEmotion(String line)
     {
         boolean found = false;
-            /* check is it have emotion */
-            if(line.charAt(line.length()-1) == '[')     /* find out the colon (emotion symbol)*/
+        /* trying to get emotion from file to set */
+            if(line.charAt(line.length()-1) == '[')
             {
                 int colonIndex = line.indexOf(":");
-                /* get the emotion */
                 if(colonIndex!=-1)
                 {
-                    currentEmotion = line.substring(0,colonIndex).trim();
-                    //System.out.println("emotion:"+currentEmotion);
+                    /* line contains emotion */
+                    currentEmotion = line.substring(0,colonIndex).trim(); /* get the emotion and set*/
                     found = true;
                 }
             }
@@ -42,22 +40,25 @@ public class RemovedSongReader extends TextFileReader
     }
 
     /**
-     * find emotion in text file and set emotion to currentEmotion
+     * check if it is the last song of current emotion
+     * in text file and add the song title to collection
      * @param  line   current line
-     * @return true if successful, false if cannot find emotion
+     * @return true if successful, false if the line is not the
+     * last song of current emotion.
+     *
      */
-    public boolean isLastSongOfEmotion(String line)
+    private boolean isLastSongOfEmotion(String line)
     {
         boolean isLast = false;
         int braceIndex = line.lastIndexOf("]");
-        /* check is it have emotion */
+        /* check if it is last song */
         if(braceIndex!= -1 && braceIndex==line.length()-1)
         {
+            /* getting last song */
             String lastSong = line.substring(0,braceIndex).trim();
             if(!lastSong.isEmpty())
             {
                 currentSongs.add(lastSong);
-                //System.out.println("last song:"+lastSong);
             }
             isLast = true;
         }
@@ -65,75 +66,62 @@ public class RemovedSongReader extends TextFileReader
     }
 
     /**
-     * This method reads a line (if necessary)
-     * then creates removedSong. It automatically
-     * handles the field indicating multiple emotion and removed.
-     * @param  line   current line
-     * @return removedSong
+     * read a removed song text file, if possible. It will read and
+     * create removed song object from emotion and songs removed from
+     * the emotion.
+     * @return removedSong object if reading about an emotion and
+     * song removed from the emotion are completed or null if end of
+     * file reached.
      */
     public RemovedSongs readRemovedSong()
     {
         RemovedSongs removedSongs = null;
         String line = null;
-        /* */
         do {
             line = getNextLine();
             if (line!=null)
             {
+                /* eliminates leading and trailing spaces of a line */
                 line = line.trim();
                 if(!isEmptyLine(line))
-                {
-                    boolean foundEmotion = findAndSetEmotion(line);
-                    if(foundEmotion)
-                    {
-                        currentSongs = new ArrayList<>();
-                        do {
-                            line = getNextLine();
-                            if(line!=null)
-                            {
-                                line = line.trim();
-                                if(!isEmptyLine(line))
-                                {
-                                    boolean lastSong = isLastSongOfEmotion(line);
-                                    /* now create and return RemoveSong from current emotion and songs */
-                                    if(lastSong)
-                                    {
-                                        removedSongs = new RemovedSongs(currentEmotion,currentSongs);
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        //System.out.println("middle song: "+ line);
-                                        currentSongs.add(line);
-                                    }
-                                }
-                            }
-                        }while(line!=null);
-                    }
-                    else
-                    {
-                        //System.out.println("Bad line "+line+" ==> skipping");
-                    }
-                }
+               {
+                   /* find and set current emotion */
+                   boolean foundEmotion = findAndSetEmotion(line);
+                   if(foundEmotion)
+                   {
+                       /* instantiate to collect songs removed from emotions separately*/
+                       currentSongs = new ArrayList<>();
+                       /* collect songs removed from emotion */
+                       do {
+                           line = getNextLine();
+                           if(line!=null)
+                           {
+                               line = line.trim();
+                               if(!isEmptyLine(line))
+                               {
+                                   /* check is it the last song */
+                                   boolean lastSong = isLastSongOfEmotion(line);
+                                   if(lastSong)
+                                   {
+                                       removedSongs = new RemovedSongs(currentEmotion,currentSongs);
+                                       break;
+                                   }
+                                   else
+                                   {
+                                       currentSongs.add(line);
+                                   }
+                               }
+                           }
+                       }while(line!=null);
+                   }
+                   else
+                   {
+                       System.out.println("Bad line "+line+" ==> skipping");
+                   }
+               }
             }
         }while( line!=null && removedSongs == null);
         return removedSongs;
     }
 
-    public static void main(String[] args)
-    {
-        RemovedSongReader reader;
-        String fileName = "removed.txt";
-        reader = new RemovedSongReader();
-        if (!reader.open(fileName))
-        {
-            System.out.println("Error opening song file " + fileName);
-            System.exit(1);
-        }
-        RemovedSongs removedSongs;
-        while ((removedSongs = reader.readRemovedSong()) != null)
-        {
-            System.out.println("obj created "+removedSongs.getEmotion());
-        }
-    }
 }
