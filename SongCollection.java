@@ -1,22 +1,27 @@
 /**
  *  SongCollection.java
  *
- *  A SongCollection is a group of songs.
- *  SongCollection encapsulates access to groups of songs.
+ *  A SongCollection is a group of songs which provides
+ *  functionality for getting songs
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
  */
 import java.util.ArrayList;
 
 public class SongCollection
 {
+
     /**
      * Collection of songs
      */
     private ArrayList<Song> songs;
 
     /**
-     * Constructor sets song arraylist.
+     * Constructor instantiate array list of songs.
      */
     public SongCollection()
     {
@@ -27,23 +32,22 @@ public class SongCollection
      * Getter for all songs from collection
      * @return all songs
      */
-    public ArrayList<Song> getAllSongs() 
+    public ArrayList<Song> getAllSongs()
     {
         return songs;
     }
 
     /**
-     * Getter for songs by inputted keyword which finds
-     * the word in song lyrics.
+     * Getter for songs by from input keyword which finds
+     * the word in song title.
      * @param keyword   a keyword to find songs
-     * @return songs    arraylist of song which contains keyword
+     * @return songs    ArrayList of song which contains keyword
      */
-    public ArrayList<Song> getSongs(String keyword) 
-    {
+    public ArrayList<Song> getSongs(String keyword) {
         ArrayList<Song> result = new ArrayList<>();
         for(Song song:songs)
         {
-            /** find songs which contains the keyword */
+            /* find keyword in title */
             if(song.getTitle().toLowerCase().contains(keyword.toLowerCase()))
             {
                 result.add(song);
@@ -53,17 +57,8 @@ public class SongCollection
     }
 
     /**
-     * Getter for amount of song
-     * @return amount of song
-     */
-    public int getAmountSongs()
-    {
-        return songs.size();
-    }
-
-    /**
      * Add song to song collection
-     * @param song
+     * @param song song to add
      */
     public void addSong(Song song)
     {
@@ -71,8 +66,9 @@ public class SongCollection
     }
 
     /**
-     * Getter for amount of song by song id
-     * @return a song
+     * Getter for song by song id
+     * @return song with specified id or null if
+     * not found
      */
     public Song getSongByID(Integer id)
     {
