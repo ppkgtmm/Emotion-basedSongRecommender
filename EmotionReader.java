@@ -1,42 +1,38 @@
 /**
- * Class to read info about emotions from a file
- * and create emotions.
+ * EmotionReader.java
+ * Class to read information about emotions from a file
+ * and create emotion objects for further use.
  *
- * Each line of the file has the following structure
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
  *
- *  First field is emotion - lines that have colon, after emotion
- *  Second field is the words - lines which are in the bracket after emotion
- *
-*  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  19 May 2020
  */
 import java.util.ArrayList;
 
-/**
- * This class encapsulates the weird Java file IO to give emotions and related words
- * a way to read text files line by line
- */
+
 public class EmotionReader extends TextFileReader
 {
-    /** currentEmotion associated with current emotion of words*/
+    /** currentEmotion associated with current words read from file */
     private String currentEmotion = null;
-    /** currentWords arraylist associated with words related emotion*/
+    /** words related with current emotion read from file */
     private ArrayList<String> currentWords = null;
 
+
     /**
-     * find emotion in text file and set emotion to currentEmotion
+     * find emotion in text file and set the emotion to currentEmotion
      * @param  line   current line
      * @return true if successful, false if cannot find emotion
      */
     private boolean findAndSetEmotion(String line)
     {
         boolean found = false;
-        /* check is it have emotion */
         if(line.charAt(line.length()-1) == '[')
         {
-            int colonIndex = line.indexOf(":");     /* find out the colon (emotion symbol)*/
+            int colonIndex = line.indexOf(":");
             if(colonIndex!=-1)
             {
-                /* get the emotion */
                 currentEmotion = line.substring(0,colonIndex).trim().toLowerCase();
                 found = true;
             }
@@ -45,20 +41,20 @@ public class EmotionReader extends TextFileReader
     }
 
     /**
-     * check is it the last word of related emotion in text file and
+     * check if it is the last word related to emotion current
+     * in text file and add the word to collection
      * @param  line   current line
-     * @return true if successful, false if the line is not the last word of emotion
+     * @return true if successful, false if the line is not the
+     * last word of emotion current emotion.
      *
      */
     private boolean isLastWordOfEmotion(String line)
     {
         boolean isLast = false;
-        int braceIndex = line.lastIndexOf("]");                     /* find out the bracket of the last line (ending word symbol)*/
-        /* check is it the last word of related emotion*/
+        int braceIndex = line.lastIndexOf("]");
         if(braceIndex!= -1 && braceIndex==line.length()-1)
         {
-            String lastWord = line.substring(0,braceIndex).trim();  /* divide to get the last word */
-            /* check is it empty */
+            String lastWord = line.substring(0,braceIndex).trim();
             if(!lastWord.isEmpty())
             {
                 currentWords.add(lastWord);
@@ -69,35 +65,39 @@ public class EmotionReader extends TextFileReader
     }
 
     /**
-    * read a emotion text file, if possible. It will be read and
-    * initit emotions and words of each related emotion.
-    * @return Emotion emotion set
-    */
+     * read a emotion text file, if possible. It will read and
+     * create emotion object from emotion and words related to the
+     * emotion.
+     * @return emotion object if reading about an emotion complete
+     * or end of file reached.
+     */
     public Emotion readEmotions()
     {
         Emotion newEmotion = null;
         String line = null;
-        /* loop until the end of the text file */
         do {
             line = getNextLine();
             if (line!=null)
             {
                 /* eliminates leading and trailing spaces of a line */
                 line = line.trim();
-                /* cheak is it reads completely  */
+                /* check for empty line */
                 if (!isEmptyLine(line))
                 {
-                    boolean foundEmotion = findAndSetEmotion(line); /* find and set current emotion */
+                    /* find and set current emotion */
+                    boolean foundEmotion = findAndSetEmotion(line);
                     if (foundEmotion)
                     {
-                        currentWords = new ArrayList<>();           /* arraylist to collect word of emotion */
+                        /* instantiate to collect word of emotion separately*/
+                        currentWords = new ArrayList<>();
                         /* collect words of emotion */
                         while ((line = getNextLine()) != null)
                         {
                             line = line.trim();
                             if (!isEmptyLine(line))
                             {
-                                boolean lastWordMatch = isLastWordOfEmotion(line);  /* check is it the last words */
+                                /* check is it the last words */
+                                boolean lastWordMatch = isLastWordOfEmotion(line);
                                 if (lastWordMatch)
                                 {
                                     newEmotion = new Emotion(currentEmotion,currentWords);
@@ -109,6 +109,10 @@ public class EmotionReader extends TextFileReader
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        System.out.println("Bad line "+line+" ==> skipping");
                     }
                 }
             }
