@@ -1,28 +1,32 @@
 /**
  *  RemovedSongs.java
  *
- *  This class represents RemovedSongs object which collects
- *  emotion which has removed song and removed songs.
+ *  This class represents RemovedSongs object which encapsulates
+ *  emotion and song titles removed from the emotion.
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
  */
+
 import java.util.ArrayList;
 
 public class RemovedSongs
 {
     /* emotions which have removed song */
     private String emotion;
-
-    /* removed songs of current emotion */
+    /* songs removed from emotion */
     private ArrayList<String> songs = null;
 
     /**
      * Constructor sets the emotion and removed songs.
      * We should probably validate to make sure the emotion is legal
-     * and also songs are legal but it's akward to deal 
+     * and also songs are legal but it's awkward to deal
      * with errors in constructors.
-     * @param  emotion   emotion which has removed song
-     * @param  words     removed song
+     * @param  emotion   emotion which has removed songs
+     * @param  songs     removed song titles of from emotion
      */
     public RemovedSongs(String emotion,ArrayList<String> songs)
     {
@@ -32,16 +36,16 @@ public class RemovedSongs
 
     /**
      * Getter for emotion
-     * @return tile emotion
+     * @return emotion
      */
-    public String getEmotion()
+    public String getEmotion() 
     {
         return emotion;
     }
 
     /**
      * Getter for removed songs
-     * @return removed songs
+     * @return removed songs' title
      */
     public ArrayList<String> getSongs() 
     {
