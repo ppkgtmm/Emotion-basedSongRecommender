@@ -84,7 +84,7 @@ public class EmotionReader extends TextFileReader
                 /* eliminates leading and trailing spaces of a line */
                 line = line.trim();
                 /* check for empty line */
-                if (!isEmptyLine(line))
+                if (!line.isEmpty())
                 {
                     /* find and set current emotion */
                     boolean foundEmotion = findAndSetEmotion(line);
@@ -96,7 +96,7 @@ public class EmotionReader extends TextFileReader
                         while ((line = getNextLine()) != null)
                         {
                             line = line.trim();
-                            if (!isEmptyLine(line))
+                            if (!line.isEmpty())
                             {
                                 /* check is it the last word */
                                 boolean lastWordMatch = isLastWordOfEmotion(line);

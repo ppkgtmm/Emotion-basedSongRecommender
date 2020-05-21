@@ -83,7 +83,7 @@ public class RemovedSongReader extends TextFileReader
             {
                 /* eliminates leading and trailing spaces of a line */
                 line = line.trim();
-                if(!isEmptyLine(line))
+                if(!line.isEmpty())
                {
                    /* find and set current emotion */
                    boolean foundEmotion = findAndSetEmotion(line);
@@ -97,7 +97,7 @@ public class RemovedSongReader extends TextFileReader
                            if(line!=null)
                            {
                                line = line.trim();
-                               if(!isEmptyLine(line))
+                               if(!line.isEmpty())
                                {
                                    /* check is it the last song */
                                    boolean lastSong = isLastSongOfEmotion(line);
