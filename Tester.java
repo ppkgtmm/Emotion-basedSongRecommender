@@ -1,33 +1,30 @@
 /**
  * Tester.java
  *
- * This class represents a single user in the emotion-based song
- * recommender. It has 7 features to service songs related with
- * user emotion including Show all song titles, Show all emotions
+ * This class let user interact with the system. It has 7 features
+ * to serve user including Show all song titles, Show all emotions
  * Show lyrics of a song, Find song from title, Find music from emotion
  * Remove song from emotion category, Add new emotion category.
  *
- *   Created by Sally Goldin, 2 October 2017
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
  */
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Tester
 {
-    /** song text file name */
     private static final String songsFileName = "songs.txt";
-
-    /** emotions text file name */
     private static final String emotionsFileName = "emotions.txt";
-
-    /** removed song from emotion text file name */
     private static final String removedFileName = "removed.txt";
-
-    /** facilitator instance */
+    /** facilitator instance used to help communication in the system */
     private static Facilitator facilitator = Facilitator.getInstance();
-
-    /** buffer to get input data */
+    /** used to get input from user */
     private static Scanner inputLine = new Scanner(System.in);
 
     /**
@@ -53,9 +50,9 @@ public class Tester
 
     /**
      * Ask a way to find a song from user
-     * @return a way to find a song
+     * @return way to find a song
      */
-    public static int getHowFindSong()
+    private static int getHowFindSong()
     {
         System.out.println("How would you like to find a song? ");
         System.out.println("1 Find from all songs list");
@@ -66,9 +63,10 @@ public class Tester
     }
 
     /**
-     * Display message and return the next line
-     * @param message current message
-     * @return next inputline
+     * Display message and get input related to message
+     * from user
+     * @param message message to display
+     * @return user input
      */
     private static String getInputString(String message)
     {
@@ -77,25 +75,26 @@ public class Tester
     }
 
     /**
-     * see song lyrics feature by selecting option to see
-     * from user and calling each function to display song lyrics
+     * Help user to see song lyrics by calling function to
+     * get way to find song and ask for more input if
+     * needed. Lastly, call function to process user request
+     * or report error.
      */
-    public static void seeLyrics()
+    private static void seeLyrics()
     {
             int selectedChoice = getHowFindSong();
             switch (selectedChoice)
             {
+                /* user want to choose song from all songs list to see lyrics */
                 case 1:
-                    /** see song lyrics by song number */
                     facilitator.seeLyricsFromList();
                     break;
+                /* user want to find song from keyword to see lyrics */
                 case 2:
-                    /** see song lyrics by keyword */
                     String keyword = getInputString("Please enter keyword ");
                     facilitator.seeLyricsFromKeyWord(keyword);
                     break;
-                case -1:
-                    break;
+                /* invalid option entered */
                 default:
                     System.out.println("Please enter a valid option");
                     break;
@@ -103,22 +102,22 @@ public class Tester
     }
 
     /**
-     * validate number in string 
-     * @param strNum    analyzed string
-     * @return true if found, false if it cannot find and number in string
+     * Check if string is a number or not
+     * @param numericString string to check
+     * @return true if string is a number, else false
      */
-    private static boolean isNumeric(String strNum) {
+    private static boolean isNumeric(String numericString) {
         Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        if (strNum == null) {
+        if (numericString == null) {
             return false;
         }
-        return pattern.matcher(strNum).matches();
+        return pattern.matcher(numericString).matches();
     }
 
     /**
-     * set space to have only 1 space bar in each input
-     * @param   input   inputting string
-     * @return  string  with only set space bar
+     * set space to have only single spaced input
+     * @param   input   input string
+     * @return  input string as single spaced
      */
     private static String setSpaces(String input)
     {
@@ -126,55 +125,59 @@ public class Tester
         String[] splitWords = input.split(" ");
         for (String word:splitWords)
         {
+            /* to make string single spaced */
             result += word + " ";
         }
+        /* remove extra space */
         return result.trim();
     }
 
     /**
-     * add emotion feature that ask for new emotion and 
-     * words of related song. The input will be validated
-     * and set to be legal.
-     * @return true if sucess, false if it cannot add emotion
+     * Add emotion but first ask for new emotion and
+     * words related to that emotion. The input will
+     * be validated.
+     * @return true if succeed, false if it cannot add emotion
      */
-    public static boolean addEmotion()
+    private static boolean addEmotion()
     {
         ArrayList<String> words = new ArrayList<>();
+        /* get emotion input */
         String emotion = getInputString("Please enter emotion to add").trim();
-        /** validate special letter */
+        /* validate emotion input. Ask until get valid input (if needed) */
         while(!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.length()==0)
         {
             System.out.println("Emotion is not a valid word");
             emotion = getInputString("Please enter emotion to add again").trim();
         }
-        /** insert words of current emotion */
+        /* get words related to emotion */
         while(true)
         {
-            /** get words of emotion */
             String word = getInputString("Enter words for emotion or _done_ : ").trim();
-            /** check user want to add or finish end */
+            /* user have finished entering word */
             if(word.compareToIgnoreCase("_done_")==0 && words.size()>0)
             {
                 break;
             }
-            /** there are no input word */
+            /* user want to finish but have not given any words */
             else if(word.compareToIgnoreCase("_done_")==0 && words.size()==0)
             {
                 System.out.println("No words have been added to word collection");
             }
-            /** there are any numberic in input */
+            /* word is a number */
             else if(isNumeric(word))
             {
                 System.out.println("Word should not be only number");
             }
-            /** check user input empty */
+            /* nothing entered */
             else if(word.isEmpty())
             {
                 System.out.println("Word should not be empty");
             }
             else
             {
+                /* make word single spaced */
                 word = setSpaces(word).trim();
+                /* duplicate word found */
                 if(words.indexOf(word)!=-1)
                 {
                     continue;
@@ -185,74 +188,63 @@ public class Tester
         return facilitator.addEmotion(emotion,words);
     }
 
-    /**
-     * ask for a way to remove a song
-     * @return the anwser
-     */
-    public static String findSongFromKeyword()
-    {
-        String answer = getInputString("Do you want to find song to remove from keyword? (y or n)");
-        if(answer.toLowerCase().startsWith("y"))
-        {
-            return getInputString("Enter keyword ");
-        }
-        return "";
-    }
-
-    /**
-     * find song by title feature that gets keyword from inputting
-     * and calls facilitator to display songs from keywords
-     */
-    public static void findSongByTitle()
+   /**
+    * Get keyword used to find song from user and call
+    * function to find song
+    *
+    */
+    private static void findSongByTitle()
     {
         String keyword = getInputString("Enter keyword in song title: ");
         facilitator.printSongs(keyword);
+
     }
 
     /**
-     * write new emotion and removed song to text file
-     * by calling facilicator and close input
-     * @return true if write, false if it cannot write text file
+     * write emotions and removed songs to text file
+     * by calling function and close scanner object
+     * @return true if written successfully, false if
+     * it error occurred
      */
-    public static boolean endProgram()
+    private static boolean endProgram()
     {
         inputLine.close();
         return facilitator.terminate();
     }
+
     public static void main(String[] args)
     {
-        /** set songs, emotions and removed song from ctegory  */
+        /* set songs, emotions and removed song info in the program successfully */
         if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
         {
             boolean bOk;
-            /** loop to ask option */
             while(true)
             {
-                /** get selected option */
+                /* get user choice of what to do */
                 int chosenChoice = Tester.getOption();
                 switch (chosenChoice)
                 {
-                    /** See all songs */
+                    /* See all songs */
                     case 1 :
                         facilitator.printAllSongs();
                         break;
-                    /** See lyrics */
+                    /* See lyrics */
                     case 2 :
                         seeLyrics();
                         break;
-                    /** See all emotions */
+                    /* See all emotions */
                     case 3 :
                         facilitator.printAllEmotions();
                         break;
-                    /** Find song by title */
+                    /* Find song by title */
                     case 4 :
                         findSongByTitle();
                         break;
-                    /** Find song based on emotion */
+                    /* Find song based on emotion */
                     case 5 :
                         facilitator.findSongFromEmotion();
                         break;
-                    /** Add emotion */
+                    /* Add emotion */
                     case 6 :
                         bOk = addEmotion();
                         if(bOk)
@@ -264,7 +256,7 @@ public class Tester
                             System.out.println("Cannot to add emotion");
                         }
                         break;
-                    /** Remove song from emotion category */
+                    /* Remove song from emotion category */
                     case 7 :
                         bOk = facilitator.removeFromCategory();
                         if(bOk)
@@ -276,7 +268,7 @@ public class Tester
                             System.out.println("Cannot remove song from emotion category");
                         }
                         break;
-                    /** exit program */
+                    /* exit the program */
                     case 8 :
                         System.out.println("Exiting from the system\n");
                         System.out.println("--------------------------------------------------------\n");
@@ -288,8 +280,6 @@ public class Tester
                         {
                             System.exit(1);
                         }
-                        break;
-                    case -1 :
                         break;
                     default:
                         System.out.println("Please enter a valid option");
