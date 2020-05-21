@@ -1,12 +1,14 @@
 /**
  *  EmotionManager.java
  *
- *  This class represents the pool of unselected tiles in the
- *  game of Scrabble.
+ *  Manages emotions and provide information related
+ *  to emotions.
  *
- *  All methods are static because this is a singleton class.
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419,
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  19 May 2020
  */
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,27 +17,25 @@ import java.util.HashMap;
 
 public class EmotionManager
 {
-    /**
-     * instance of a EmotionManager for getting, reading, adding and writing emotion
-     */
+    /** instance of  EmotionManager for managing emotion */
     private static EmotionManager emotionManager= null;
-
-    /** reader that knows how to parse the emotion file  */
+    /** reader that knows how to read and parse the emotion file  */
     private EmotionReader reader;
-
-    /** emotion hash map which key emotion and words  */
-    private HashMap<String,ArrayList<String>> emotions;
+    /** collection of all emotions */
+    private ArrayList<Emotion> allEmotions;
 
     /**
-     * Constructor class to create emotion hash map
+     * Constructor class which creates ArrayList to store emotion information
      */
     private EmotionManager()
     {
-        emotions = new HashMap<>();
+        allEmotions = new ArrayList<>();
     }
 
     /**
-     * Get emotion manager instance
+     * Getter for emotion manager instance which is created
+     * only once
+     * @return emotion manager instance
      */
     public static EmotionManager getInstance()
     {
@@ -47,100 +47,86 @@ public class EmotionManager
     }
 
     /**
-     * read emotion file class
+     * read emotion file
      * @param  fileName  emotion file name
-     * @return true if successful, false if error
-     *         Error could involve there are not open file or
-     *         add emotion
+     * @return true if successful, false if error.
+     *         Error could involve failure while opening file
      */
      public boolean readEmotions(String fileName)
      {
          boolean result = false;
-         reader = new EmotionReader();  /* Reader object to access the file */
-         /* Check opening file */
+         reader = new EmotionReader();
+         /* trying to open input file */
          if (!reader.open(fileName))
          {
              System.out.println("Error opening emotion file " + fileName);
          }
+         /* emotion read from file */
          Emotion nextEmotion;
-         /* loop get emotion and word */
+         /* loop to get emotion read from file */
          while ((nextEmotion = reader.readEmotions()) != null)
          {
-             addEmotion(nextEmotion.getEmotion(),nextEmotion.getWords());
+             /* adding emotion to array list */
+             addEmotion(nextEmotion);
              result = true;
          }
          return  result;
      }
 
-     /**
-     * Getter for emotion
-     * @return tile emotion
+    /**
+     * Getter for emotions stored
+     * @return all emotions stored
      */
-    public ArrayList<String> getEmotions()
+    public ArrayList<Emotion> getEmotions()
     {
-        return new ArrayList<>(emotions.keySet());
+        return allEmotions;
     }
 
     /**
-     * add emotion and words
-     * @param  emotion  emotion key
-     * @param  words    words related to emotion
-     * @return true if successful, false if error
-     *         Error could involve there are put or add
-     *
+     * add emotion if it does not exist in the system yet
+     * @param  emotion  emotion to add
+     * @return true if successful, false if emotion already
+     * exist in the system.
      */
-    public boolean addEmotion(String emotion,ArrayList<String> words)
+    public boolean addEmotion(Emotion emotion)
     {
         boolean bOk = false;
-        /* check emotion is it alraedy has */
-        if(emotions.containsKey(emotion))
+        if(allEmotions.indexOf(emotion)==-1)
         {
-            ArrayList<String> currentWords = emotions.get(emotion);
-            /* add all word to words related to emotion */
-            words.addAll(currentWords);
+            allEmotions.add(emotion);
+            bOk = true;
         }
-        /*  check is it already put emotion to collection */
-        if(emotions.put(emotion,words) == null)
-                bOk = true;
         return bOk;
     }
 
     /**
-     * Getter for words of each related emotion
-     * @return tile emotion
+     * Write a text file using file writer
+     * @return true if successfully written, false if failed to write.
      */
-    public ArrayList<String> getEmotionWords(String emotion)
-    {
-        return emotions.getOrDefault(emotion, null);
-    }
-
-    /**
-    * Write a text file, if possible. It will be closed
-    * when finishs writing file.
-    * @return true if successfully written, false if not writetn.
-    */
     public boolean writeEmotions()
     {
         boolean succeed = false;
         try
         {
-            FileWriter writer = new FileWriter("emotions.txt");                 /* emotion writter file */
-            ArrayList<String> allEmotions = new ArrayList<>(emotions.keySet()); /* emotion key set */
-            /* loop for write emotion and related words */
-            for (String emotion: allEmotions)
+            /* use file writer to help writing */
+            FileWriter writer = new FileWriter("emotions.txt");
+            for (Emotion emotion: allEmotions)
             {
-                ArrayList<String> words = emotions.get(emotion);                /* related words */
-                writer.write(emotion.toLowerCase()+" : [\n");
-                /* loop for write words related emotion */
+                ArrayList<String> words = emotion.getWords();
+                /* writing emotion category */
+                writer.write(emotion.getEmotion().toLowerCase()+" : [\n");
+                /* writing words for the emotion */
                 for(String word : words)
                 {
                     writer.write(word.toLowerCase()+"\n");
                 }
                 writer.write("]\n");
             }
+            /* finished writing emotion file */
             writer.close();
             succeed = true;
         }
+        /* in case error occurred */
         catch(IOException e)
         {
             e.printStackTrace();
