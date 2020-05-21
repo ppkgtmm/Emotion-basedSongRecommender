@@ -86,12 +86,14 @@ public class SongManager
     {
         boolean result = false;
         reader = new SongReader();
+        /* trying to open song file */
         if (!reader.open(fileName))
         {
             System.out.println("Error opening song file "+fileName);
             System.exit(1);
         }
         Song nextSong = null;
+        /* reading songs from song file */
         while ((nextSong = reader.readSong()) != null)
         {
                 songs.addSong(nextSong);

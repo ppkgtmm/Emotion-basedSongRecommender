@@ -95,6 +95,7 @@ public class EmotionReader extends TextFileReader
                         /* collect words of emotion */
                         while ((line = getNextLine()) != null)
                         {
+                            /* eliminates leading and trailing spaces of a line */
                             line = line.trim();
                             if (!line.isEmpty())
                             {

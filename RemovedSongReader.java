@@ -20,6 +20,7 @@ public class RemovedSongReader extends TextFileReader
 
     /**
      * check if the line contains emotion and set current emotion if found.
+     * @param line current line
      * @return true if successful, false if the line does not have emotion
      */
     private boolean findAndSetEmotion(String line)
@@ -96,6 +97,7 @@ public class RemovedSongReader extends TextFileReader
                            line = getNextLine();
                            if(line!=null)
                            {
+                               /* eliminates leading and trailing spaces of a line */
                                line = line.trim();
                                if(!line.isEmpty())
                                {

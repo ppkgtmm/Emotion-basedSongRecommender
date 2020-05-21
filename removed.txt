@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 love : [
 love me like you do
 only love can hurt like this
@@ -7,8 +6,6 @@ lively : [
 l.a. state of mind
 love me like you do
 ]
-=======
->>>>>>> 716e99eff17052c566e5dae8b6add41cc3bd5804
 happy : [
 bruises
 happy
@@ -18,4 +15,8 @@ angry : [
 go for g!
 wicked love
 lights glowing
+]
+inspired : [
+what makes you beautiful
+grateful
 ]
