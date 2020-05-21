@@ -1,8 +1,24 @@
+/**
+ *  SongComparator.java
+ *
+ *  Simple comparator to compare emotion score
+ *
+ *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ */
 import java.util.Comparator;
 public class SongComparator implements Comparator<Song>
 {
+    /**
+     * current emotion
+     */
     private static String currentEmotion = null;
 
+    /**
+     * 
+     * @param song1 
+     * @param song2
+     * @return
+     */
     private int compareById(Song song1,Song song2)
     {
         return song2.getId().compareTo(song1.getId());

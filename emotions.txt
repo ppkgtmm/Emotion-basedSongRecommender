@@ -1,6 +1,6 @@
 love : [
 like
-mma
+love
 ]
 relaxed : [
 calm
@@ -207,6 +207,7 @@ pain
 hurt
 world-weary
 ]
+<<<<<<< HEAD
 tree : [
 fdfd
 fdfd
@@ -218,6 +219,8 @@ laugh
 ha
 lol
 ]
+=======
+>>>>>>> 716e99eff17052c566e5dae8b6add41cc3bd5804
 angry : [
 crazy
 mad
@@ -354,4 +357,8 @@ goodbye
 right
 safe
 capable
+<<<<<<< HEAD
 ]
+=======
+]
+>>>>>>> 716e99eff17052c566e5dae8b6add41cc3bd5804
