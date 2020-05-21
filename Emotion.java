@@ -1,17 +1,22 @@
 /**
- *  Facilitator.java
+ *  Emotion.java
  *
- *  A Emotion represents a emotion which collects words
+ *  Represents an emotion which words related
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419,
  *
+ *  19 May 2020
  */
+
 import java.util.ArrayList;
+
 public class Emotion
 {
-    /** Emotion associated with emotion category */
+    /** Emotion category */
     private String emotion = null;
-    /** Words associated with related words to each category */
+    /** Words associated with emotion category */
     private ArrayList<String> words = null;
 
     /**
@@ -19,7 +24,7 @@ public class Emotion
      * We should probably validate to make sure the emotion is legal
      * but it's akward to deal with errors in constructors.
      * @param  emotion   emotion category
-     * @param  words     emotion words
+     * @param  words     emotion related words
      */
     public Emotion(String emotion,ArrayList<String> words)
     {
@@ -29,17 +34,19 @@ public class Emotion
 
     /**
      * Getter for emotion
-     * @return tile emotion
+     * @return emotion category
      */
-    public String getEmotion() {
+    public String getEmotion()
+    {
         return emotion;
     }
 
     /**
      * Getter for words
-     * @return tile words
+     * @return emotion related words
      */
-    public ArrayList<String> getWords() {
+    public ArrayList<String> getWords()
+    {
         return words;
     }
 }
