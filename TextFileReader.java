@@ -3,6 +3,12 @@
  *   Reads a text file line by line
  *
  *   Created by Sally Goldin, 21 March 2012
+ *
+ *   Used for project of
+ *   Pinky Gautam ID: 60070503401,
+ *   Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *   19 May 2020
  */
 
 import java.io.BufferedReader;
