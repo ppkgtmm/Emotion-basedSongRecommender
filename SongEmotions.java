@@ -25,7 +25,7 @@ public class SongEmotions
      */
     private HashMap<String,TreeSet<Song>> songsWithEmotions;
 
-    /** instance of SongEmotions to for managing songs related to emotions */
+    /** instance of SongEmotions for managing songs related to emotions */
     private static SongEmotions songEmotions = null;
 
     /** store songs removed from emotion category in the past
@@ -34,14 +34,13 @@ public class SongEmotions
      */
     private HashMap<String, ArrayList<String>> songsRemoved;
 
-    /** reader that knows how to read and parse the removed song file  */
+    /** reader that knows how to read and parse the removed song file */
     private RemovedSongReader removedSongReader = null;
 
     /**
      * Constructor which instantiates HashMaps that will be
      * used later.
      */
-
     private SongEmotions()
     {
         songsWithEmotions = new HashMap<>();

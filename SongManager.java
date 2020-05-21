@@ -1,59 +1,41 @@
 /**
  *  SongManager.java
  *
- *  This class represents organization to manage songs
- *  by initialize, collecting, getting, checking and adding.
+ *  This class represents organization to manage songs.
+ *  It provides functionality to get songs in many ways.
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
  */
 import java.util.ArrayList;
 
 public class SongManager
 {
-    /** song collection object */
+    /** collection of song managed by manager */
     private SongCollection songs;
 
-    /** consucture songManager */
+    /** instance of SongManager for managing songs */
     private static SongManager songManager= null;
 
-    /** Reader object to access the file */
+    /**  reader that knows how to read and parse the song file*/
     private SongReader reader;
 
-    /** A constucture set of song collection object */
+
+    /**
+     * Constructor which instantiates song collection
+     */
     private SongManager()
     {
         songs = new SongCollection();
     }
 
     /**
-     * Getter for an amount of song
-     * @return an amount song
-     */
-    public int getAmountSongs()
-    {
-        return songs.getAmountSongs();
-    }
-
-    /**
-     * find song id in song collection
-     * @param songID    checking song id
-     * @return true if finding, false if it cannot find song ID
-     */
-    public boolean isSongID(Integer songID)
-    {
-        boolean bOk = false;
-        for(int counter = 0;counter< songs.getAmountSongs();counter++)
-        {
-            /** get a song by songID and compare */
-            if(songID == songs.getAllSongs().get(counter).getId())
-                bOk = true;
-        }
-        return bOk;
-    }
-
-    /**
-     * Getter for songManager instance
-     * @return songManager
+     * Getter for songManager instance which is created
+     * only once.
+     * @return  songManager instance
      */
     public static SongManager getInstance()
     {
@@ -66,7 +48,7 @@ public class SongManager
 
     /**
      * Getter for all songs
-     * @return arraylist of song
+     * @return all songs managed by the manager
      */
     public ArrayList<Song> getAllSongs()
     {
@@ -74,8 +56,10 @@ public class SongManager
     }
 
     /**
-     * Getter for a song by song ID
-     * @return a song
+     * Getter for a song by song id
+     * @param id id of song
+     * @return song with specified id or null
+     * if song not found
      */
     public Song getASong(Integer id)
     {
@@ -84,7 +68,8 @@ public class SongManager
 
     /**
      * Getter for songs from keyword
-     * @return arraylist of song which contains keyword
+     * @param keyword keyword to find for
+     * @return song(s) which title contains keyword
      */
     public ArrayList<Song> getSongs(String keyword)
     {
@@ -92,46 +77,27 @@ public class SongManager
     }
 
     /**
-     * read method by opening a song file and calling reader to read
-     * and initial song to song collection.
+     * Open a song file and calling reader to read
+     * and add songs read to song collection.
      * @param fileName  a song file name
-     * @return true if sucessful, false if it cannot read or get songs
+     * @return true if successful, false if it cannot read songs.
      */
     public boolean readSongs(String fileName)
     {
         boolean result = false;
         reader = new SongReader();
-        /** open a song text file */
         if (!reader.open(fileName))
         {
             System.out.println("Error opening song file "+fileName);
             System.exit(1);
         }
         Song nextSong = null;
-        /** read,get and create song instance */
         while ((nextSong = reader.readSong()) != null)
         {
-            //System.out.println("=====> Successfully added " + nextSong.getTitle());
-            for (String lyric:nextSong.getLyrics())
-            {
-                //System.out.println(lyric);
-            }
                 songs.addSong(nextSong);
-                result = true;
         }
-        return  result;
+        return true;
     }
 
-    public static void main(String[] args)
-    {
-        SongManager manager = SongManager.getInstance();
-        boolean result = songManager.readSongs("songs.txt");
-        if(result)
-        {
-            System.out.println(songManager.isSongID(1));
-            System.out.println(songManager.isSongID(-8));
-            System.out.println(songManager.isSongID(55));
-        }
-    }
 
 }
