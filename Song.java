@@ -2,12 +2,16 @@
  *  Song.java
  *
  *  This class represents songs object which collects
- *  all song detail with title, lyrics, id and emotion scorce.
+ *  all song detail with title, lyrics, id and emotion score.
  *  It will calculate emotion scorce from words in lyric and
- *  gets the most top 3 emotion score.
  *
- *  Created by Pinky Gautam , Thitiporn Sukpartcharoen, 19 May 2020
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
  */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,19 +29,18 @@ public class Song
     /** song lyrics */
     private ArrayList<String> lyrics;
 
-    /** emotion score in order */
+    /** emotion score based on lyrics */
     private HashMap<String,Double> emotionScore;
 
     /**
-     * Constructor sets the title and lyrics.
-     * We should probably validate to make sure the title is legal and lyrics
-     * but it's akward to deal with errors in constructors.
+     * Constructor sets the id, title, lyrics and instantiate HashMap
+     * of emotion score
      * @param  title    song title
      * @param  lyrics   song lyrics
      */
     public Song(String title, ArrayList<String> lyrics)
     {
-        counter += 1;   /* increases counter by 1 */
+        counter += 1;
         id = counter;
         this.title = title;
         this.lyrics = lyrics;
@@ -72,19 +75,17 @@ public class Song
     }
 
     /**
-     * Count a word from related emotion in lyrics
-     * find line by line in lyrics
-     * @param   word    word to count score
-     * @return  count   emotion score
+     * Count occurrence word related to emotion in lyrics
+     * @param   word    word to count
+     * @return  occurrence of word
      */
     private Integer analyzeLyrics(String word)
     {
         Integer count = 0;
+        /* used to keep track of where we are in lyrics */
         Integer fromIndex = 0;
-        /** find lines which have the word*/
         for(String line : lyrics)
         {
-            /** find the word in a line*/
             while ((fromIndex = line.indexOf(word, fromIndex)) != -1 ){
                 count++;
                 fromIndex++;
@@ -94,12 +95,12 @@ public class Song
     }
 
     /**
-     * Getter for song score
-     * @return tile song score
+     * Getter for song's emotion score
+     * @return song's score or -1 if score not available
      */
     public Double getScore(String emotion)
     {
-        /** check the key emotion */
+        /* emotion score exist */
         if(emotionScore.containsKey(emotion))
         {
             return emotionScore.get(emotion);
@@ -108,41 +109,39 @@ public class Song
     }
 
     /**
-     * Count words in each lyrics
-     * @return count    amount of word of lyrics
+     * Count words in lyrics
+     * @return count of amount of words of lyrics
      */
-    public Integer countWordsInLyrics()
+    private Integer countWordsInLyrics()
     {
         Integer count = 0;
         for(String line:lyrics)
         {
-            /** count word in each line */
+            /* find number of words in line using space */
             count += line.split("//s+").length;
         }
         return count;
     }
 
     /**
-     * Calculate emotion score from lyric by count words which related
-     * to each emotion and collect the emotion score in order
-     * @param emotion   current emotion
-     * @param words     words of related current emotion
+     * Calculate emotion score from lyrics by counting number of words
+     * which are related with emotion and divide by word count in lyrics.
+     * @param emotion   emotion
+     * @param words     words related to emotion
      */
     public void countScore(String emotion,ArrayList<String> words)
     {
-        Double score = 0.0;         /** initial the score */
-        /** Count words of emotion */
+        Double score = 0.0;
+        /* Count emotion score */
         for(String word:words)
         {
             score += analyzeLyrics(word);
         }
         Integer wordCount = countWordsInLyrics();
-        /** Calculate the emotion score*/
         if(wordCount>0)
         {
             score = score/wordCount;
         }
-        /** collect the emotion score in order */
         emotionScore.put(emotion,score);
     }
 
