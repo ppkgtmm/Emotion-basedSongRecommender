@@ -1,11 +1,16 @@
 /**
+ * Help to hide details of classes behind the scene
+ * from UI. Also, Facilitates communication
+ * of UI with internal classes.
  *
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
  *
- *
- *
+ *  19 May 2020
  */
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Facilitator
 {
@@ -24,8 +29,6 @@ public class Facilitator
     /** Facilitator instance which let other classes use its methods*/
     private static Facilitator facilitator = null;
 
-    /** Scanner object used to get input from user */
-    private Scanner scanner = new Scanner(System.in);
 
     /**
      * Constructor which initialize songManager, songEmotions
@@ -109,43 +112,80 @@ public class Facilitator
         }
     }
 
+    /**
+     * call function to get all songs in the system
+     * @return all songs in the system
+     */
     public ArrayList<Song> getAllSongs()
     {
        return songManager.getAllSongs();
     }
 
 
+    /**
+     * call function to get songs using keyword in song title
+     * @param keyword keyword in song title
+     * @return songs which title contain the keyword
+     */
     public ArrayList<Song> getSongs(String keyword)
     {
         return songManager.getSongs(keyword);
     }
 
+    /**
+     * call function to get all emotions stored in the system
+     * @return  all emotions stored in the system so far.
+     */
     public ArrayList<Emotion> getAllEmotions()
     {
         return emotionManager.getEmotions();
     }
 
+    /**
+     * get songs based on emotion
+     * @param emotion emotion of which songs we want to get
+     * @return songs related to specified emotion
+     */
     public ArrayList<Song> getSongsFromEmotion(Emotion emotion)
     {
         return songEmotions.getSongsFromEmotion(emotion.getEmotion());
     }
 
+    /**
+     * Removes specified song from specified emotion category.
+     * @param emotion emotion to remove song from
+     * @param song song to remove from emotion category
+     * @return true if succeed to remove else, false.
+     */
     public boolean removeSongFromCategory(Emotion emotion,Song song)
     {
         return songEmotions.removeFromCategory(song,emotion.getEmotion());
     }
 
+    /**
+     * add new emotion and word related to the system and call function
+     * to count the scores of songs for the new emotion.
+     * @param emotion emotion to add
+     * @return true if succeed else, false.
+     */
     public boolean addEmotion(Emotion emotion)
     {
         boolean bOk = emotionManager.addEmotion(emotion);
+        /* counting songs scores for new emotion */
         songEmotions.sync(emotion.getEmotion(),emotion.getWords(),songManager.getAllSongs());
         return bOk;
 
     }
+
+    /**
+     * do some settings before exiting from the system.
+     * @return true if settings were done successfully else, false.
+     */
     public boolean terminate()
     {
-        scanner.close();
+        /* writing emotions in the system to text file */
         boolean emotionsWritten = emotionManager.writeEmotions();
+        /* writing songs removed from emotion to text file */
         boolean songsRemovedOk = songEmotions.writeRemovedSongs();
         return emotionsWritten && songsRemovedOk;
     }
