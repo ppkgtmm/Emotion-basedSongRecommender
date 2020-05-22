@@ -1,3 +1,5 @@
+import java.util.regex.Pattern;
+
 /**
  * This class is helper class for converting option
  * from menu that user has input to integer.
@@ -45,5 +47,41 @@ public class Utils
             }
         }
         return parsedOption;
+    }
+
+    /**
+     * Check if string is a number or not
+     * @param numericString string to check
+     * @return true if string is a number, else false
+     */
+    public static boolean isNumeric(String numericString) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (numericString == null) {
+            return false;
+        }
+        return pattern.matcher(numericString).matches();
+    }
+
+    /**
+     * set space to have only single spaced input
+     * @param   input   input string
+     * @return  input string as single spaced
+     */
+    public static String setSpaces(String input)
+    {
+        String result = "";
+        String[] splitWords = input.split(" ");
+        for (String word:splitWords)
+        {
+            /* to make string single spaced */
+            result += word + " ";
+        }
+        /* remove extra space */
+        return result.trim();
+    }
+
+    public static boolean isValidChoice(int choice, int limit)
+    {
+        return choice > 0 && choice <= limit;
     }
 }

@@ -186,7 +186,7 @@ public class SongEmotions
             {
                 /* to calculate emotion score */
                 song.countScore(emotion,words);
-                if(song.getScore(emotion)>0.4)
+                if(song.getScore(emotion)>0.04)
                 {
                     /* emotion already exist */
                     if(songsWithEmotions.containsKey(emotion))

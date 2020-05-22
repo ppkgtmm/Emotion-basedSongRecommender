@@ -355,3 +355,7 @@ right
 safe
 capable
 ]
+point : [
+ripple
+dip
+]

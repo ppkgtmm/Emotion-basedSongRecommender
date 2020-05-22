@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class UI
 {
@@ -55,6 +54,24 @@ public class UI
         return inputLine.nextLine();
     }
 
+    private static void getSongPrintLyrics(ArrayList<Song> songs)
+    {
+        Display.printSongs(songs);
+        if(songs!=null && songs.size()>0)
+        {
+            String input = getInputString("Please enter song number");
+            int selectedChoice = Utils.parseOption(input);
+            if(Utils.isValidChoice(selectedChoice,songs.size()))
+            {
+                selectedChoice--;
+                Display.printLyrics(songs.get(selectedChoice));
+            }
+            else
+            {
+                System.out.println("You have entered invalid song number");
+            }
+        }
+    }
     /**
      * Help user to see song lyrics by calling function to
      * get way to find song and ask for more input if
@@ -65,22 +82,19 @@ public class UI
     {
         int selectedChoice = getHowFindSong();
         String input;
+        ArrayList<Song> songs = null;
         switch (selectedChoice)
         {
             /* user want to choose song from all songs list to see lyrics */
             case 1:
-                facilitator.printAllSongs();
-                input = getInputString("Please enter song number");
-                selectedChoice = Utils.parseOption(input);
-                facilitator.seeLyricsFromList(selectedChoice);
+                songs = facilitator.getAllSongs();
+                getSongPrintLyrics(songs);
                 break;
             /* user want to find song from keyword to see lyrics */
             case 2:
                 String keyword = getInputString("Please enter keyword ");
-                facilitator.printSongs(keyword);
-                input = getInputString("Please enter song number");
-                selectedChoice = Utils.parseOption(input);
-                facilitator.seeLyricsFromKeyWord(selectedChoice,keyword);
+                songs = facilitator.getSongs(keyword);
+                getSongPrintLyrics(songs);
                 break;
             /* invalid option entered */
             default:
@@ -89,55 +103,9 @@ public class UI
         }
     }
 
-    /**
-     * Check if string is a number or not
-     * @param numericString string to check
-     * @return true if string is a number, else false
-     */
-    private static boolean isNumeric(String numericString) {
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        if (numericString == null) {
-            return false;
-        }
-        return pattern.matcher(numericString).matches();
-    }
-
-    /**
-     * set space to have only single spaced input
-     * @param   input   input string
-     * @return  input string as single spaced
-     */
-    private static String setSpaces(String input)
-    {
-        String result = "";
-        String[] splitWords = input.split(" ");
-        for (String word:splitWords)
-        {
-            /* to make string single spaced */
-            result += word + " ";
-        }
-        /* remove extra space */
-        return result.trim();
-    }
-
-    /**
-     * Add emotion but first ask for new emotion and
-     * words related to that emotion. The input will
-     * be validated.
-     * @return true if succeed, false if it cannot add emotion
-     */
-    private static boolean addEmotion()
+    private static ArrayList<String> getEmotionWords()
     {
         ArrayList<String> words = new ArrayList<>();
-        /* get emotion input */
-        String emotion = getInputString("Please enter emotion to add").trim();
-        /* validate emotion input. Ask until get valid input (if needed) */
-        while(!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.length()==0)
-        {
-            System.out.println("Emotion is not a valid word");
-            emotion = getInputString("Please enter emotion to add again").trim();
-        }
-        /* get words related to emotion */
         while(true)
         {
             String word = getInputString("Enter words for emotion or _done_ : ").trim();
@@ -152,7 +120,7 @@ public class UI
                 System.out.println("No words have been added to word collection");
             }
             /* word is a number */
-            else if(isNumeric(word))
+            else if(Utils.isNumeric(word))
             {
                 System.out.println("Word should not be only number");
             }
@@ -164,7 +132,7 @@ public class UI
             else
             {
                 /* make word single spaced */
-                word = setSpaces(word).trim();
+                word = Utils.setSpaces(word).trim();
                 /* duplicate word found */
                 if(words.indexOf(word)!=-1)
                 {
@@ -173,8 +141,36 @@ public class UI
                 words.add(word);
             }
         }
+        return words;
+    }
+
+    /**
+     * Add emotion but first ask for new emotion and
+     * words related to that emotion. The input will
+     * be validated.
+     */
+    private static void addEmotion()
+    {
+        /* get emotion input */
+        String emotion = getInputString("Please enter emotion to add").trim();
+        /* validate emotion input. Ask until get valid input (if needed) */
+        while(!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.length()==0)
+        {
+            System.out.println("Emotion is not a valid word");
+            emotion = getInputString("Please enter emotion to add again").trim();
+        }
+        /* get words related to emotion */
+        ArrayList<String> words = getEmotionWords();
         Emotion newEmotion = new Emotion(emotion.trim().toLowerCase(),words);
-        return facilitator.addEmotion(newEmotion);
+        boolean bOk = facilitator.addEmotion(newEmotion);
+        if(bOk)
+        {
+            System.out.println("Emotion added successfully");
+        }
+        else
+        {
+            System.out.println("Cannot to add emotion");
+        }
     }
 
     /**
@@ -185,60 +181,94 @@ public class UI
     private static void findSongByTitle()
     {
         String keyword = getInputString("Enter keyword in song title: ");
-        facilitator.printSongs(keyword);
+        Display.printSongs(facilitator.getSongs(keyword));
 
     }
 
     public static void removeFromCategory()
     {
-        facilitator.printAllEmotions();
-        String input = getInputString("Enter emotion number");
-        int option = Utils.parseOption(input);
-        boolean succeed = facilitator.findSongFromEmotion(option);
-        if(succeed)
+        Emotion emotion = getEmotionInput();
+        if(emotion!=null)
         {
-            input = getInputString("Enter song number");
-            option = Utils.parseOption(input);
-            
+            ArrayList<Song> songs = facilitator.getSongsFromEmotion(emotion);
+            Display.printSongs(songs);
+            if(songs!=null && songs.size()>0)
+            {
+                String input = getInputString("Enter song number");
+                int option = Utils.parseOption(input);
+                if(Utils.isValidChoice(option,songs.size()))
+                {
+                    option--;
+                    boolean succeed = facilitator.removeSongFromCategory(emotion,songs.get(option));
+                    if(succeed)
+                    {
+                        System.out.println("Song removed from emotion category successfully");
+                    }
+                    else
+                    {
+                        System.out.println("Cannot remove song from emotion category");
+                    }
+                }
+            }
         }
-//        bOk = facilitator.removeFromCategory();
-//        if(bOk)
-//        {
-//            System.out.println("Song removed from emotion category successfully");
-//        }
-//        else
-//        {
-//            System.out.println("Cannot remove song from emotion category");
-//        }
     }
 
     /**
      * write emotions and removed songs to text file
-     * by calling function and close scanner object
-     * @return true if written successfully, false if
-     * it error occurred
+     * by calling function and close scanner object and
+     * then exit from the system
      */
-    private static boolean endProgram()
+    private static void endProgram()
     {
         inputLine.close();
-        return facilitator.terminate();
+        boolean succeed = facilitator.terminate();
+        System.out.println("Exiting from the system\n");
+        System.out.println("--------------------------------------------------------\n");
+        if (succeed)
+        {
+            System.exit(0);
+        } else
+        {
+            System.exit(1);
+        }
     }
 
-    private static void findSongFromEmotion()
+    private static Emotion getEmotionInput()
     {
-        facilitator.printAllEmotions();
-        String input = getInputString("Please enter emotion number");
-        int selectedChoice = Utils.parseOption(input);
-        facilitator.findSongFromEmotion(selectedChoice);
+        ArrayList<Emotion> allEmotion = facilitator.getAllEmotions();
+        Display.printAllEmotions(allEmotion);
+        if(allEmotion!=null && allEmotion.size()>0)
+        {
+            String input = getInputString("Please enter emotion number");
+            int selectedChoice = Utils.parseOption(input);
+            if(Utils.isValidChoice(selectedChoice,allEmotion.size()))
+            {
+                selectedChoice --;
+                return allEmotion.get(selectedChoice);
+            }
+            else
+            {
+                System.out.println("Invalid emotion number entered");
+            }
+        }
+        return null;
+    }
+    private static ArrayList<Song> findSongFromEmotion()
+    {
+        Emotion emotion = getEmotionInput();
+        if(emotion!=null)
+        {
+            return facilitator.getSongsFromEmotion(emotion);
+        }
+        return null;
     }
     private static void proceedOption(int option)
     {
-        boolean bOk;
         switch (option)
         {
             /* See all songs */
             case 1 :
-                facilitator.printAllSongs();
+                Display.printSongs(facilitator.getAllSongs());
                 break;
             /* See lyrics */
             case 2 :
@@ -246,7 +276,7 @@ public class UI
                 break;
             /* See all emotions */
             case 3 :
-                facilitator.printAllEmotions();
+                Display.printAllEmotions(facilitator.getAllEmotions());
                 break;
             /* Find song by title */
             case 4 :
@@ -254,36 +284,19 @@ public class UI
                 break;
             /* Find song based on emotion */
             case 5 :
-                findSongFromEmotion();
+                Display.printSongs(findSongFromEmotion());
                 break;
             /* Add emotion */
             case 6 :
-                bOk = addEmotion();
-                if(bOk)
-                {
-                    System.out.println("Emotion added successfully");
-                }
-                else
-                {
-                    System.out.println("Cannot to add emotion");
-                }
+                addEmotion();
                 break;
             /* Remove song from emotion category */
             case 7 :
-                removeFromCategory();
+                removeFromCategory(); //
                 break;
             /* exit the program */
             case 8 :
-                System.out.println("Exiting from the system\n");
-                System.out.println("--------------------------------------------------------\n");
-                boolean succeed = endProgram();
-                if (succeed)
-                {
-                    System.exit(0);
-                } else
-                {
-                    System.exit(1);
-                }
+                endProgram();
                 break;
             default:
                 System.out.println("Please enter a valid option");
@@ -307,5 +320,22 @@ public class UI
             System.out.println("Failed to do system set up --- exiting");
             System.exit(1);
         }
+    }
+    public static void main(String[] args)
+    {
+        if(args.length<2)
+        {
+            System.out.println("You should provide at least SongFile and EmotionFile");
+            System.exit(1);
+        }
+        else if(args.length>2)
+        {
+            UI.run(args[0],args[1],args[2]);
+        }
+        else
+        {
+            UI.run(args[0],args[1],"");
+        }
+
     }
 }

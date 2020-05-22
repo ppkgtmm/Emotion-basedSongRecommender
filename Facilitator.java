@@ -109,214 +109,39 @@ public class Facilitator
         }
     }
 
-    /**
-     * Displays all emotions in the system
-     */
-    public void printAllEmotions()
+    public ArrayList<Song> getAllSongs()
     {
-        /* getting all available emotion(s)*/
-        ArrayList<Emotion> allEmotions = emotionManager.getEmotions();
-        if(allEmotions==null || allEmotions.size()==0)
-        {
-            System.out.println("There are no emotions stored in the system");
-        }
-        /* there exist some emotion(s) in the system */
-        else
-        {
-            System.out.println(">> Emotion List <<");
-            for (int counter = 0; counter < allEmotions.size(); counter++)
-            {
-                System.out.println((counter+1)+ " " + allEmotions.get(counter).getEmotion());
-            }
-        }
-    }
-
-    /**
-     * Print lyrics of song provided
-     * @param currentSong song to print lyrics
-     *
-     */
-    public void printLyrics(Song currentSong)
-    {
-            if(currentSong!=null)
-            {
-                ArrayList<String> currentLyrics = currentSong.getLyrics();
-                /* song has lyrics */
-                if(currentLyrics!=null && currentLyrics.size()>0)
-                {
-                    System.out.println(">> Lyrics of " + currentSong.getTitle() + " <<");
-                    for (int counter = 0; counter < currentLyrics.size(); counter++)
-                    {
-                        System.out.println(currentLyrics.get(counter));
-                    }
-                }
-                else
-                {
-                    System.out.println("There are no lyrics for " + currentSong.getTitle());
-                }
-            }
-            else
-            {
-                System.out.println("Unable to print song lyrics");
-            }
-
-    }
-
-    /**
-     * Get all songs from song manager and call function to
-     * print the songs.
-     */
-    public void printAllSongs(){
-        ArrayList<Song> allSongs = songManager.getAllSongs();
-        printSongs(allSongs);
-    }
-
-    /**
-     * Print songs in the song list provided
-     * @param songs list of songs to print
-     */
-    private void printSongs(ArrayList<Song> songs)
-    {
-        /* list does not have any songs */
-        if(songs == null || songs.size()==0)
-        {
-            System.out.println("No songs available");
-        }
-        /* list contains song(s) */
-        else
-        {
-            System.out.println(">> Songs List <<");
-            int i = 0;
-            for (Song song:songs)
-            {
-                System.out.println((i+1)+" "+song.getTitle());
-                i++;
-            }
-        }
+       return songManager.getAllSongs();
     }
 
 
-    public void printSongs(String keyword)
+    public ArrayList<Song> getSongs(String keyword)
     {
-        ArrayList<Song> songsFound = songManager.getSongs(keyword);
-        printSongs(songsFound);
+        return songManager.getSongs(keyword);
     }
 
-    public void seeLyricsFromList(int choice)
+    public ArrayList<Emotion> getAllEmotions()
     {
-        Song song = getSongFromChoice(choice);
-        if(song!=null)
-        {
-            printLyrics(song);
-        }
-    }
-    private Song getSongFromChoice(int choice)
-    {
-        Song result = null;
-        ArrayList<Song> songs = songManager.getAllSongs();
-        if(songs.size()>0)
-        {
-            if(choice<1 || choice>songs.size())
-            {
-                System.out.println("Please enter a valid song number");
-            }
-            else
-            {
-               result = songManager.getASong(choice);
-            }
-        }
-        return result;
+        return emotionManager.getEmotions();
     }
 
-    public void seeLyricsFromKeyWord(int selectedChoice,String keyword)
+    public ArrayList<Song> getSongsFromEmotion(Emotion emotion)
     {
-        ArrayList<Song> foundSongs = songManager.getSongs(keyword);
-        Song song = null;
-        if(selectedChoice>0 && selectedChoice<=foundSongs.size())
-            {
-                selectedChoice--;
-                song = foundSongs.get(selectedChoice);
-                printLyrics(song);
-            }
-            else
-            {
-                System.out.println("Please enter a valid song number");
-            }
-
+        return songEmotions.getSongsFromEmotion(emotion.getEmotion());
     }
-    private String getEmotion(int selectedChoice)
-    {
-        String emotion = null;
-        ArrayList<Emotion> emotions = emotionManager.getEmotions();
-        if(emotions!=null && emotions.size()>0)
-        {
-            selectedChoice--;
-            if(selectedChoice>=0 && selectedChoice<emotions.size())
-            {
-                    emotion = emotions.get(selectedChoice).getEmotion();
-            }
-            else
-            {
-                System.out.println("Emotion number entered is wrong");
-            }
 
-        }
-        return emotion;
-    }
-    public boolean findSongFromEmotion(int selectedChoice)
+    public boolean removeSongFromCategory(Emotion emotion,Song song)
     {
-        String emotion = getEmotion(selectedChoice);
-        ArrayList<Song> foundSongs = songEmotions.getSongsFromEmotion(emotion);
-        if(foundSongs!=null && foundSongs.size()>0)
-        {
-            printSongs(foundSongs);
-            return true;
-        }
-        else
-            {
-                if(emotion!=null)
-                {
-                    System.out.println("No songs found for emotion "+emotion);
-                }
-                return false;
-            }
+        return songEmotions.removeFromCategory(song,emotion.getEmotion());
+    }
 
-    }
-    public boolean removeFromCategory(int selectedChoice)
+    public boolean addEmotion(Emotion emotion)
     {
-        boolean bOk = false;
-        String emotion = getEmotion(selectedChoice);
-        if(emotion!=null)
-        {
-           ArrayList<Song> songs = songEmotions.getSongsFromEmotion(emotion);
-           printSongs(songs);
-            if(songs!=null && songs.size()>0)
-            {
-                System.out.println("Enter song number ");
-                String inputLine = scanner.nextLine();
-                int number = Utils.parseOption(inputLine);
-                if(number>0 && number<=songs.size())
-                {
-                    number--;
-                    System.out.println(emotion);
-                    bOk = songEmotions.removeFromCategory(songs.get(number),emotion);
-                }
-                else
-                {
-                    System.out.println("Please enter a valid song number");
-                }
-            }
-        }
+        boolean bOk = emotionManager.addEmotion(emotion);
+        songEmotions.sync(emotion.getEmotion(),emotion.getWords(),songManager.getAllSongs());
         return bOk;
-    }
 
-    public boolean addEmotion(Emotion newEmotion)
-    {
-       boolean succeed = emotionManager.addEmotion(newEmotion);
-       songEmotions.sync(newEmotion.getEmotion(),newEmotion.getWords(),songManager.getAllSongs());
-       return  succeed;
     }
-
     public boolean terminate()
     {
         scanner.close();

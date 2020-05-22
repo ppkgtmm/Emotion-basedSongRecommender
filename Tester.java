@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
 
 public class Tester
 {
-//    private static final String songsFileName = "songs.txt";
-//    private static final String emotionsFileName = "emotions.txt";
-//    private static final String removedFileName = "removed.txt";
+    private static final String songsFileName = "songs.txt";
+    private static final String emotionsFileName = "emotions.txt";
+    private static final String removedFileName = "removed.txt";
 //    /** facilitator instance used to help communication in the system */
 //    private static Facilitator facilitator = Facilitator.getInstance();
 //    /** used to get input from user */
@@ -212,81 +212,6 @@ public class Tester
 //        return facilitator.terminate();
 //    }
 
-    public static void main(String[] args)
-    {
-//        /* set songs, emotions and removed song info in the program successfully */
-//        if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
-//        {
-//            boolean bOk;
-//            while(true)
-//            {
-//                /* get user choice of what to do */
-//                int chosenChoice = Tester.getOption();
-//                switch (chosenChoice)
-//                {
-//                    /* See all songs */
-//                    case 1 :
-//                        facilitator.printAllSongs();
-//                        break;
-//                    /* See lyrics */
-//                    case 2 :
-//                        seeLyrics();
-//                        break;
-//                    /* See all emotions */
-//                    case 3 :
-//                        facilitator.printAllEmotions();
-//                        break;
-//                    /* Find song by title */
-//                    case 4 :
-//                        findSongByTitle();
-//                        break;
-//                    /* Find song based on emotion */
-//                    case 5 :
-//                        facilitator.findSongFromEmotion();
-//                        break;
-//                    /* Add emotion */
-//                    case 6 :
-//                        bOk = addEmotion();
-//                        if(bOk)
-//                        {
-//                            System.out.println("Emotion added successfully");
-//                        }
-//                        else
-//                        {
-//                            System.out.println("Cannot to add emotion");
-//                        }
-//                        break;
-//                    /* Remove song from emotion category */
-//                    case 7 :
-//                        bOk = facilitator.removeFromCategory();
-//                        if(bOk)
-//                        {
-//                            System.out.println("Song removed from emotion category successfully");
-//                        }
-//                        else
-//                        {
-//                            System.out.println("Cannot remove song from emotion category");
-//                        }
-//                        break;
-//                    /* exit the program */
-//                    case 8 :
-//                        System.out.println("Exiting from the system\n");
-//                        System.out.println("--------------------------------------------------------\n");
-//                        boolean succeed = endProgram();
-//                        if (succeed)
-//                        {
-//                            System.exit(0);
-//                        } else
-//                        {
-//                            System.exit(1);
-//                        }
-//                        break;
-//                    default:
-//                        System.out.println("Please enter a valid option");
-//                        break;
-//                }
-//            }
-//        }
-    }
+
 
 }
