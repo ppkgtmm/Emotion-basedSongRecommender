@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
  *
  *  This class is helper class for UI to convert
  *  user input or check it.
+ *
  *  Created by
  *  Pinky Gautam ID: 60070503401,
  *  Thitiporn Sukpartcharoen ID: 60070503419

@@ -1,3 +1,17 @@
+/**
+ *
+ *  Display.java
+ *
+ *  Help to display data like songs, emotions or
+ *  even lyrics.
+ *
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
+ */
+
 import java.util.ArrayList;
 
 public class Display
@@ -27,6 +41,10 @@ public class Display
         }
     }
 
+    /**
+     * Print emotions in emotion list provided
+     * @param allEmotions list of emotions to print
+     */
     public static void printAllEmotions(ArrayList<Emotion> allEmotions)
     {
         if(allEmotions==null || allEmotions.size()==0)
