@@ -211,22 +211,23 @@ public class UI
     }
 
     /**
-     *
-     *
-     *
-     *
+     * Get emotion and song input from user and remove song from
+     * that emotion category
      */
     public static void removeFromCategory()
     {
         Emotion emotion = getEmotionInput();
+        /* there are emotions stored and user chose valid one */
         if(emotion!=null)
         {
+            /* get songs to display and let user select */
             ArrayList<Song> songs = facilitator.getSongsFromEmotion(emotion);
             Display.printSongs(songs);
             if(songs!=null && songs.size()>0)
             {
                 String input = getInputString("Enter song number");
                 int option = Utils.parseOption(input);
+                /* valid song number */
                 if(Utils.isValidChoice(option,songs.size()))
                 {
                     option--;
@@ -264,6 +265,12 @@ public class UI
         }
     }
 
+    /**
+     * call function to display emotion and then get emotion
+     * input from user
+     * @return user selected emotion or null if invalid
+     * emotion number entered or no emotions in the system
+     */
     private static Emotion getEmotionInput()
     {
         ArrayList<Emotion> allEmotion = facilitator.getAllEmotions();
@@ -284,6 +291,14 @@ public class UI
         }
         return null;
     }
+
+    /**
+     * call function to get emotion input from user then return
+     * songs in that emotion category by help of facilitator
+     * function.
+     * @return  list of song that belongs to user selected
+     * emotion
+     */
     private static ArrayList<Song> findSongFromEmotion()
     {
         Emotion emotion = getEmotionInput();
@@ -293,6 +308,12 @@ public class UI
         }
         return null;
     }
+
+    /**
+     * process user selected option from the main menu.
+     * @param option option that user has selected
+     *
+     */
     private static void proceedOption(int option)
     {
         switch (option)
@@ -323,7 +344,7 @@ public class UI
                 break;
             /* Remove song from emotion category */
             case 7 :
-                removeFromCategory(); //
+                removeFromCategory();
                 break;
             /* exit the program */
             case 8 :
@@ -335,17 +356,26 @@ public class UI
         }
     }
 
+    /**
+     * uses to run the program to be able to use its functionality.
+     * Has public visibility specifier to help running in case
+     * main method is in another file.
+     * @param songsFileName song text file name
+     * @param emotionsFileName emotion text file name
+     * @param removedFileName removed song text file name
+     */
     public static void run(String songsFileName, String emotionsFileName, String removedFileName)
     {
         if(facilitator.doSetting(songsFileName,emotionsFileName,removedFileName))
         {
-            //may err
+            /* let user use system features */
             while(true)
             {
                 int option = getOption();
                 proceedOption(option);
             }
         }
+        /* cannot set up data */
         else
         {
             System.out.println("Failed to do system set up --- exiting");
@@ -354,15 +384,18 @@ public class UI
     }
     public static void main(String[] args)
     {
+        /* not enough input file name provided */
         if(args.length<2)
         {
             System.out.println("You should provide at least SongFile and EmotionFile");
             System.exit(1);
         }
+        /* all text file names provided (song, emotion, removed song)*/
         else if(args.length>2)
         {
             UI.run(args[0],args[1],args[2]);
         }
+        /* removed song file name not provided */
         else
         {
             UI.run(args[0],args[1],"");
