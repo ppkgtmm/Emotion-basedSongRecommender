@@ -1,6 +1,6 @@
 import java.util.regex.Pattern;
 
-/**
+/*
  * This class is helper class for converting option
  * from menu that user has input to integer.
  * get from user.

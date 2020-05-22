@@ -1,4 +1,6 @@
 /**
+ * Facilitator.java
+ *
  * Help to hide details of classes behind the scene
  * from UI. Also, Facilitates communication
  * of UI with internal classes.

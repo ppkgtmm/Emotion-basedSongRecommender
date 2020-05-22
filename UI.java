@@ -1,3 +1,15 @@
+/**
+ * UI.java
+ * This class acts as interface between user and the system.
+ * It communicates with the facilitator to proceed user
+ * request.
+ *
+ *  Created by
+ *  Pinky Gautam ID: 60070503401,
+ *  Thitiporn Sukpartcharoen ID: 60070503419
+ *
+ *  19 May 2020
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,6 +19,7 @@ public class UI
     private static Facilitator facilitator = Facilitator.getInstance();
     /** used to get input from user */
     private static Scanner inputLine = new Scanner(System.in);
+
     /**
      * Display options and get the selected option
      * from user
@@ -54,6 +67,11 @@ public class UI
         return inputLine.nextLine();
     }
 
+    /**
+     * Call function to display songs and then get user selected
+     * song to print lyrics.
+     * @param songs available songs
+     */
     private static void getSongPrintLyrics(ArrayList<Song> songs)
     {
         Display.printSongs(songs);
@@ -61,9 +79,11 @@ public class UI
         {
             String input = getInputString("Please enter song number");
             int selectedChoice = Utils.parseOption(input);
+            /* check for valid song number */
             if(Utils.isValidChoice(selectedChoice,songs.size()))
             {
                 selectedChoice--;
+                /* call function to print lyrics of valid song choice */
                 Display.printLyrics(songs.get(selectedChoice));
             }
             else
@@ -103,6 +123,11 @@ public class UI
         }
     }
 
+    /**
+     * collect words from user related to new emotion to be added
+     * to the system.
+     * @return list of words related to user entered emotion
+     */
     private static ArrayList<String> getEmotionWords()
     {
         ArrayList<String> words = new ArrayList<>();
@@ -175,7 +200,7 @@ public class UI
 
     /**
      * Get keyword used to find song from user and call
-     * function to find song
+     * function to find and display song(s)
      *
      */
     private static void findSongByTitle()
@@ -185,6 +210,12 @@ public class UI
 
     }
 
+    /**
+     *
+     *
+     *
+     *
+     */
     public static void removeFromCategory()
     {
         Emotion emotion = getEmotionInput();
