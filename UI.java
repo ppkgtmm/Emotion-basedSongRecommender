@@ -214,7 +214,7 @@ public class UI
      * Get emotion and song input from user and remove song from
      * that emotion category
      */
-    public static void removeFromCategory()
+    private static void removeFromCategory()
     {
         Emotion emotion = getEmotionInput();
         /* there are emotions stored and user chose valid one */

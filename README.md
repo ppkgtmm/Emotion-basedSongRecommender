@@ -1,1 +1,3 @@
-# Emotion-basedSongRecommender
+# emotion based song recommender
+
+## How to run
