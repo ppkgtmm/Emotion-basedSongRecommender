@@ -162,17 +162,27 @@ public class Facilitator
 
     }
 
-    /***/
+    /**
+     * Get all songs from song manager and call function to
+     * print the songs.
+     */
     public void printAllSongs(){
         ArrayList<Song> allSongs = songManager.getAllSongs();
         printSongs(allSongs);
     }
+
+    /**
+     * Print songs in the song list provided
+     * @param songs list of songs to print
+     */
     private void printSongs(ArrayList<Song> songs)
     {
+        /* list does not have any songs */
         if(songs == null || songs.size()==0)
         {
             System.out.println("No songs available");
         }
+        /* list contains song(s) */
         else
         {
             System.out.println(">> Songs List <<");
@@ -184,110 +194,83 @@ public class Facilitator
             }
         }
     }
+
+
     public void printSongs(String keyword)
     {
         ArrayList<Song> songsFound = songManager.getSongs(keyword);
         printSongs(songsFound);
     }
 
-    public void seeLyricsFromList()
+    public void seeLyricsFromList(int choice)
     {
-        Song song = getSongFromList();
+        Song song = getSongFromChoice(choice);
         if(song!=null)
         {
             printLyrics(song);
         }
     }
-    private Song getSongFromList()
+    private Song getSongFromChoice(int choice)
     {
         Song result = null;
         ArrayList<Song> songs = songManager.getAllSongs();
-        printSongs(songs);
         if(songs.size()>0)
         {
-            System.out.println("Enter song number ");
-            String inputLine = scanner.nextLine();
-            int id = Utils.parseOption(inputLine);
-            if(id<1 || id>songs.size())
+            if(choice<1 || choice>songs.size())
             {
                 System.out.println("Please enter a valid song number");
             }
             else
             {
-               result = songManager.getASong(id);
+               result = songManager.getASong(choice);
             }
         }
         return result;
     }
-    private Song getSongByKeyword(String keyword)
+
+    public void seeLyricsFromKeyWord(int selectedChoice,String keyword)
     {
         ArrayList<Song> foundSongs = songManager.getSongs(keyword);
         Song song = null;
-        printSongs(foundSongs);
-        if(foundSongs!=null && foundSongs.size()>0)
-        {
-            System.out.println("Enter song number ");
-            String inputLine = scanner.nextLine();
-            int id = Utils.parseOption(inputLine);
-            if(id>0 && id<=foundSongs.size())
+        if(selectedChoice>0 && selectedChoice<=foundSongs.size())
             {
-                id--;
-                song = foundSongs.get(id);
+                selectedChoice--;
+                song = foundSongs.get(selectedChoice);
+                printLyrics(song);
             }
             else
             {
                 System.out.println("Please enter a valid song number");
             }
-        }
-        else
-        {
-            System.out.println("No songs found with title that contains "+keyword);
-        }
-        return song;
+
     }
-    public void seeLyricsFromKeyWord(String keyword)
-    {
-        Song song = getSongByKeyword(keyword);
-        if(song!=null)
-        {
-            printLyrics(song);
-        }
-    }
-    private String getEmotionInput()
+    private String getEmotion(int selectedChoice)
     {
         String emotion = null;
         ArrayList<Emotion> emotions = emotionManager.getEmotions();
         if(emotions!=null && emotions.size()>0)
         {
-            for (int i = 0; i < emotions.size(); i++) {
-                System.out.println((i + 1) +" " + emotions.get(i));
-            }
-            System.out.println("Enter emotion number ");
-            String inputLine = scanner.nextLine();
-            int number = Utils.parseOption(inputLine);
-            if(number>0 && number<=emotions.size())
+            selectedChoice--;
+            if(selectedChoice>=0 && selectedChoice<emotions.size())
             {
-                number--;
-                emotion = emotions.get(number).getEmotion();
+                    emotion = emotions.get(selectedChoice).getEmotion();
             }
             else
             {
-                System.out.println("Please enter a valid emotion number");
+                System.out.println("Emotion number entered is wrong");
             }
-        }
-        else
-        {
-            System.out.println("No emotions stored in the system");
+
         }
         return emotion;
     }
-    public void findSongFromEmotion()
+    public boolean findSongFromEmotion(int selectedChoice)
     {
-        String emotion = getEmotionInput();
+        String emotion = getEmotion(selectedChoice);
         ArrayList<Song> foundSongs = songEmotions.getSongsFromEmotion(emotion);
         if(foundSongs!=null && foundSongs.size()>0)
         {
             printSongs(foundSongs);
+            return true;
         }
         else
             {
@@ -295,13 +278,14 @@ public class Facilitator
                 {
                     System.out.println("No songs found for emotion "+emotion);
                 }
+                return false;
             }
 
     }
-    public boolean removeFromCategory()
+    public boolean removeFromCategory(int selectedChoice)
     {
         boolean bOk = false;
-        String emotion = getEmotionInput();
+        String emotion = getEmotion(selectedChoice);
         if(emotion!=null)
         {
            ArrayList<Song> songs = songEmotions.getSongsFromEmotion(emotion);
@@ -326,11 +310,10 @@ public class Facilitator
         return bOk;
     }
 
-    public boolean addEmotion(String emotion,ArrayList<String> words)
+    public boolean addEmotion(Emotion newEmotion)
     {
-        Emotion newEmotion = new Emotion(emotion.trim().toLowerCase(),words);
        boolean succeed = emotionManager.addEmotion(newEmotion);
-       songEmotions.sync(emotion,words,songManager.getAllSongs());
+       songEmotions.sync(newEmotion.getEmotion(),newEmotion.getWords(),songManager.getAllSongs());
        return  succeed;
     }
 
