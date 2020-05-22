@@ -91,7 +91,19 @@ public class EmotionManager
     public boolean addEmotion(Emotion emotion)
     {
         boolean bOk = false;
-        if(allEmotions.indexOf(emotion)==-1)
+        boolean duplicate = false;
+        for (Emotion anEmotion: allEmotions)
+        {
+            if(anEmotion.getEmotion().compareToIgnoreCase(emotion.getEmotion())==0)
+            {
+                anEmotion.setEmotion(emotion.getEmotion());
+                anEmotion.setWords(emotion.getWords());
+                bOk = true;
+                duplicate = true;
+                break;
+            }
+        }
+        if(!duplicate)
         {
             allEmotions.add(emotion);
             bOk = true;

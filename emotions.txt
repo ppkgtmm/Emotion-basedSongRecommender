@@ -356,6 +356,13 @@ safe
 capable
 ]
 point : [
-ripple
-dip
+good
+bad
+medium
+worst
+best
+how
+point
+could
+be
 ]

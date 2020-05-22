@@ -49,4 +49,22 @@ public class Emotion
     {
         return words;
     }
+
+    /**
+     * Setter for emotion
+     * @param emotion emotion to set
+     */
+    public void setEmotion(String emotion)
+    {
+        this.emotion = emotion;
+    }
+
+    /**
+     * Setter for words related to emotion
+     * @param words words to set
+     */
+    public void setWords(ArrayList<String> words)
+    {
+        this.words = words;
+    }
 }

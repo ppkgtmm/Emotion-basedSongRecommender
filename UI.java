@@ -241,6 +241,10 @@ public class UI
                         System.out.println("Cannot remove song from emotion category");
                     }
                 }
+                else
+                {
+                    System.out.println("Invalid song number entered");
+                }
             }
         }
     }
@@ -382,6 +386,7 @@ public class UI
             System.exit(1);
         }
     }
+
     public static void main(String[] args)
     {
         /* not enough input file name provided */
