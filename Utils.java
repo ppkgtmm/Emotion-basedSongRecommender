@@ -1,10 +1,10 @@
 import java.util.regex.Pattern;
 
 /*
- * This class is helper class for converting option
- * from menu that user has input to integer.
- * get from user.
+ *  Utils.java
  *
+ *  This class is helper class for UI to convert
+ *  user input or check it.
  *  Created by
  *  Pinky Gautam ID: 60070503401,
  *  Thitiporn Sukpartcharoen ID: 60070503419
@@ -15,7 +15,7 @@ public class Utils
 {
     /**
      * convert user input string to integer if possible.
-     * @param option option input as string
+     * @param option string input
      * @return integer or -1 in case failed to convert
      */
     public static int parseOption(String option)
@@ -25,11 +25,11 @@ public class Utils
         /* if option has not only spaces */
         if(option.length()>0)
         {
-            /* getting first portion of input string */
+            /* getting first portion of input string if there were space between */
             option = options[0];
             try
             {
-                /* converting type to integer */
+                /* converting input to integer */
                 parsedOption = Integer.parseInt(option);
             }
             catch (Exception e)
@@ -80,6 +80,12 @@ public class Utils
         return result.trim();
     }
 
+    /**
+     * check if user entered choice is valid
+     * @param choice entered choice
+     * @param limit upper limit of choice
+     * @return true if valid, else false.
+     */
     public static boolean isValidChoice(int choice, int limit)
     {
         return choice > 0 && choice <= limit;
