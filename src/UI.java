@@ -74,13 +74,12 @@ public class UI {
     private static void getSongAndPrintLyrics(ArrayList<Data> songs){
         Display.printData(songs, "song" ,false);
         if (songs != null && songs.size() > 0) {
-                int selectedChoice = getSongToPrintLyrics(songs.size());
-                if(selectedChoice < 0) {
-                    System.out.println("You have entered invalid song number");
-                }
-                if (selectedChoice != 0) {
-                    Display.printLyrics((Song) songs.get(selectedChoice));
-                }
+            int selectedChoice = getSongToPrintLyrics(songs.size());
+            if(selectedChoice < 0) {
+                System.out.println("You have entered invalid song number");
+            }
+            if (selectedChoice != 0) {
+                Display.printLyrics((Song) songs.get(selectedChoice));
             }
         }
     }
@@ -111,12 +110,12 @@ public class UI {
                 break;
             case 1:
                 songs = facilitator.getAllSongs();
-                getSongToPrintLyrics(songs);
+                getSongAndPrintLyrics(songs);
                 break;
             case 2:
                 String keyword = getInputString("Please enter keyword or enter to return");
                 songs = facilitator.getSongs(keyword);
-                getSongToPrintLyrics(songs);
+                getSongAndPrintLyrics(songs);
                 break;
             default:
                 System.out.println("Please enter a valid option");
