@@ -19,20 +19,23 @@ import java.util.ArrayList;
 
 public class Display {
 
+    private static void printListData(ArrayList<Data> data){
+        int i = 0;
+        for (Data item : data) {
+            i++;
+            System.out.println(i + ". " + item.getTitle());
+        }
+    }
 
-    public static void printData(ArrayList<Data> data, String type, boolean verbose){
+    public static void printData(ArrayList<Data> data, String name, boolean verbose){
         if(data == null || data.size()==0){
             if(!verbose){
                 return;
             }
-            System.out.println("No " + type.toUpperCase() + " available");
+            System.out.println("No " + name.toUpperCase() + " available");
         }else {
-            System.out.println(">> "+ type.toUpperCase() + " List <<");
-            int i = 0;
-            for (Data item : data) {
-                i++;
-                System.out.println(i + ". " + item.getTitle());
-            }
+            System.out.println(">> "+ name.toUpperCase() + " List <<");
+            printListData(data);
         }
     }
 
