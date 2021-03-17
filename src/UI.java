@@ -68,7 +68,7 @@ public class UI {
      */
     private static String getInputString(String message) {
         System.out.println(message);
-        return inputLine.nextLine();
+        return inputLine.nextLine().trim();
     }
 
     private static void getSongAndPrintLyrics(ArrayList<Data> songs){
@@ -121,37 +121,29 @@ public class UI {
         }
     }
 
-    /**
-     * collect words from user related to new emotion to be added
-     * to the system.
-     * @return list of words related to user entered emotion
-     */
+    private static String getValidWord(String word){
+        if (word.isEmpty()) {
+            System.out.println("Word should not be empty");
+            return null;
+        }
+         if (Utils.isNumeric(word)) {
+            System.out.println("Word should not be only number");
+            return null;
+        }
+         return Utils.setSpaces(word);
+    }
     private static ArrayList<String> getEmotionWords() {
         ArrayList<String> words = new ArrayList<>();
+        String stopSign = "_done_";
+        String noWordsError = "No words have been added to word collection";
         while (true) {
-            String word = getInputString("Enter words for emotion or _done_ : ").trim();
-            /* user have finished entering word */
-            if (word.compareToIgnoreCase("_done_") == 0 && words.size() > 0) {
+            String word = getInputString("Enter words for emotion or _done_ : ");
+            boolean shouldBreak = Utils.gotEnoughStrings(word,stopSign,1,word.length(),noWordsError);
+            if(shouldBreak){
                 break;
             }
-            /* user want to finish but have not given any words */
-            else if (word.compareToIgnoreCase("_done_") == 0 && words.size() == 0) {
-                System.out.println("No words have been added to word collection");
-            }
-            /* word is a number */
-            else if (Utils.isNumeric(word)) {
-                System.out.println("Word should not be only number");
-            }
-            /* nothing entered */
-            else if (word.isEmpty()) {
-                System.out.println("Word should not be empty");
-            } else {
-                /* make word single spaced */
-                word = Utils.setSpaces(word).trim();
-                /* duplicate word found */
-                if (words.contains(word)) {
-                    continue;
-                }
+            String cleanedWord = getValidWord(word);
+            if(cleanedWord != null && !words.contains(word)){
                 words.add(word);
             }
         }
