@@ -71,27 +71,29 @@ public class UI {
         return inputLine.nextLine();
     }
 
-    /**
-     * Call function to display songs and then get user selected
-     * song to print lyrics.
-     * @param songs available songs
-     */
-    private static void getSongToPrintLyrics(ArrayList<Data> songs) {
+    private static void getSongAndPrintLyrics(ArrayList<Data> songs){
         Display.printData(songs, "song" ,false);
         if (songs != null && songs.size() > 0) {
-            String input = getInputString("Please enter song number or 0 to return");
-            int selectedChoice = Utils.parseOption(input);
-            if (Utils.isValidChoice(selectedChoice, songs.size())) {
-                if(selectedChoice == 0) {
-                    return;
+                int selectedChoice = getSongToPrintLyrics(songs.size());
+                if(selectedChoice < 0) {
+                    System.out.println("You have entered invalid song number");
                 }
-                selectedChoice--;
-                Display.printLyrics((Song) songs.get(selectedChoice));
-            }
-            else {
-                System.out.println("You have entered invalid song number");
+                if (selectedChoice != 0) {
+                    Display.printLyrics((Song) songs.get(selectedChoice));
+                }
             }
         }
+    }
+    private static int getSongToPrintLyrics(int numberOfSongs) {
+        String input = getInputString("Please enter song number or 0 to return");
+        int selectedChoice = Utils.parseOption(input);
+        if (Utils.isValidChoice(selectedChoice, numberOfSongs)) {
+            if (selectedChoice == 0) {
+                return 0;
+            }
+            return selectedChoice--;
+        }
+        return -1;
     }
 
     /**
