@@ -138,7 +138,7 @@ public class UI {
         String noWordsError = "No words have been added to word collection";
         while (true) {
             String word = getInputString("Enter words for emotion or _done_ : ");
-            boolean shouldBreak = Utils.gotEnoughStrings(word,stopSign,1,word.length(),noWordsError);
+            boolean shouldBreak = Utils.gotEnoughStrings(word,stopSign,words,noWordsError);
             if(shouldBreak){
                 break;
             }
@@ -159,7 +159,7 @@ public class UI {
         /* get emotion input */
         String emotion = getInputString("Please enter emotion to add").trim();
         /* validate emotion input. Ask until get valid input (if needed) */
-        while (!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.length() == 0) {
+        while (!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.isEmpty()) {
             System.out.println("emotion.Emotion is not a valid word");
             emotion = getInputString("Please enter emotion to add again").trim();
         }

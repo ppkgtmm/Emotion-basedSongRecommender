@@ -72,12 +72,13 @@ public class Utils
         }
     }
 
-    public static boolean gotEnoughStrings(String input, String stopSignal, int minAmount, int amountGot, String errMessage){
+    public static boolean gotEnoughStrings(String input, String stopSignal, ArrayList<String> stringsGot, String errMessage){
         if(input.compareTo(stopSignal) == 0){
-            if(minAmount > amountGot){
+            if(stringsGot.size()==0){
                 System.out.println(errMessage);
             }
+            return stringsGot.size()==0;
         }
-        return minAmount > amountGot;
+        return false;
     }
 }
