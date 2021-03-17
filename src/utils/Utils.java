@@ -70,6 +70,9 @@ public class Utils
         String[] splitWords = input.split(" ");
         for (String word:splitWords)
         {
+            if(word.trim().length() == 0){
+                continue;
+            }
             /* to make string single spaced */
             result.append(word).append(" ");
         }

@@ -25,5 +25,6 @@ class ReaderDTOTest {
         assertEquals(title, data.getTitle());
         assertEquals(details, data.getDetails());
         assertTrue(data.isIncompleteData());
+        assertTrue(new ReaderDTO(null, null).isIncompleteData());
     }
 }
