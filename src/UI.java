@@ -75,10 +75,7 @@ public class UI {
         Display.printData(songs, "song" ,false);
         if (songs != null && songs.size() > 0) {
             int selectedChoice = getSongToPrintLyrics(songs.size());
-            if(selectedChoice < 0) {
-                System.out.println("You have entered invalid song number");
-            }
-            if (selectedChoice != 0) {
+            if (selectedChoice > 0) {
                 Display.printLyrics((Song) songs.get(selectedChoice));
             }
         }
@@ -92,6 +89,7 @@ public class UI {
             }
             return selectedChoice--;
         }
+        System.out.println("You have entered invalid song number");
         return -1;
     }
 
