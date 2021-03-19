@@ -15,6 +15,7 @@ package song; /**
 import interfaces.Data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Song implements Data
@@ -138,7 +139,6 @@ public class Song implements Data
                 score += lyricsWordCount.get(word);
             }
         }
-        System.out.println(title + " " + emotion + " " + score / lyricsWordCount.get("  total  "));
         emotionScore.put(emotion,score / lyricsWordCount.get("  total  "));
     }
 

@@ -87,7 +87,7 @@ public class UI {
             if (selectedChoice == 0) {
                 return 0;
             }
-            return selectedChoice--;
+            return selectedChoice - 1;
         }
         System.out.println("You have entered invalid song number");
         return -1;

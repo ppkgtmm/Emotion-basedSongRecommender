@@ -44,7 +44,7 @@ public class Utils
         if (numericString == null) {
             return false;
         }
-        return pattern.matcher(numericString).matches();
+        return pattern.matcher(numericString.trim()).matches();
     }
 
     public static String setSpaces(String input)

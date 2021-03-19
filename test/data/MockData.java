@@ -1,43 +1,42 @@
 package data;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MockData {
-
-    private static final String[] songs = {
-            "I don't lie to you",
-            "Got ya crayon",
-            "Why so serious"
-    };
-
-    private static final String[] lyrics = {
-                    "When tell me, when did I lie I don't know why I only spoken the truth \n" +
-                    "but you never believed me though It wasn't a lie and I'll try to \n" +
-                    "give an explanation \n",
-
-                    "Im ma got ya a crayon crayon crayon man, got ya crayon crayon crayon man give ma \n" +
-                    "give ma common man got ya got ya crayon wow!, don't ya dare throw it dude \n" +
-                    "I don't wanna create a dispute crayon crayon crayon man crayon wow ! \n",
-
-                    "Life is not that serious, everything gonna be fine He said so why worry \n"+
-                    "Worry worry worry less Don't ya worry oh oh its joyous super joyous \n" +
-                    "Worry worry worry less Don't ya worry oh oh be happy \n"
-    };
-
     private static final String[] emotions = {
-            "happy",
             "worry",
-            "disappointed",
-            "jealous"
+            "happy"
     };
 
+    // emotion words separated by space
     private static final String[] words = {
-            "fine super joyous happy wow",
-            "worry fine dispute",
-            "explanation lie don't why what? dispute",
-            "no oh jealous envy everything"
+            "worry fine serious truth lie",
+            "fine super joyous happy wow yay"
     };
 
-    public static String[] getLyrics() {
-        return lyrics;
+    // song titles
+    private static final String[] songs = {
+            "Why so serious",
+            "I don't lie to you",
+
+    };
+
+    // emotion scores where score[i][j] = score for song i emotion j
+    private static final double [][] score = {
+            {(double) 3/13, (double) 2/13},
+            {(double) 1/16, (double) 0/16}
+    };
+
+    // song lyrics which will be parsed using new line character
+    private static final String[] lyrics = {
+                    "Life is not that serious, everything\ngonna be fine why worry be happy",
+                    "When tell me, when did I lie I don't know why\nI only spoken the truth"
+
+    };
+
+    public static ArrayList<String> getLyrics() {
+        return new ArrayList<>(Arrays.asList(lyrics));
     }
 
     public static String[] getSongs() {
@@ -48,7 +47,11 @@ public class MockData {
         return emotions;
     }
 
-    public static String[] getWords() {
-        return words;
+    public static ArrayList<String> getWords() {
+        return new ArrayList<>(Arrays.asList(words));
+    }
+
+    public static double[][] getScore() {
+        return score;
     }
 }

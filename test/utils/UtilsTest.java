@@ -10,6 +10,8 @@ class UtilsTest {
     public void testParseOption(){
         assertEquals(123, Utils.parseOption("123 0"));
         assertEquals(-1, Utils.parseOption("abl"));
+        assertEquals(-1, Utils.parseOption("12d4"));
+
     }
 
     @Test
@@ -17,7 +19,7 @@ class UtilsTest {
         assertTrue(Utils.isNumeric("-1.09"));
         assertFalse(Utils.isNumeric("123a"));
         assertFalse(Utils.isNumeric("-a1"));
-        assertFalse(Utils.isNumeric(" 123"));
+        assertTrue(Utils.isNumeric(" 123    "));
 
     }
 
