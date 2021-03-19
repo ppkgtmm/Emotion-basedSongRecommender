@@ -1,14 +1,18 @@
 package song;
 
 import data.MockData;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SongTest {
     private final String[] emotions = MockData.getEmotions();
     private final ArrayList<String> words = MockData.getWords();
@@ -16,8 +20,8 @@ class SongTest {
     private final ArrayList<String> lyrics = MockData.getLyrics();
     private final double[][] scores = MockData.getScore();
 
-    @Order(1)
     @Test
+    @Order(1)
     public void testSetup() {
         assertEquals(emotions.length, words.size());
         assertNotEquals(0, emotions.length);
@@ -26,8 +30,8 @@ class SongTest {
     }
 
 
-    @Order(2)
     @Test
+    @Order(2)
     public void testCreateSongs(){
         int index = 0;
         assertNotNull(titles[index]);
@@ -46,6 +50,7 @@ class SongTest {
     }
 
     @Test
+    @Order(3)
     public void testSongEmotionScore(){
         ArrayList<Song> songsToTest = new ArrayList<>();
         for(int i = 0; i < titles.length; i++){
@@ -69,6 +74,11 @@ class SongTest {
                 scores[1][1]
         );
 
+    }
+
+    @Test
+    @Order(3)
+    public void testSongEmotionBadInput(){
         // no lyrics
         testCountScore(
                 new Song("", new ArrayList<>(Arrays.asList("", ""))),
@@ -92,33 +102,6 @@ class SongTest {
 
         // no score counted for specified emotion
         assertEquals(-1, randomSong.getScore(emotions[1]));
-
-
-//        songsToTest.get(0).countScore(
-//                emotions[0],
-//                new ArrayList<>(Arrays.asList(words.get(0).split(" ")))
-//        );
-//        assertEquals(scores[0][0],songsToTest.get(0).getScore(emotions[0]));
-
-//        songsToTest.get(1).countScore(
-//                emotions[1],
-//                new ArrayList<>(Arrays.asList(words.get(1).split(" ")))
-//        );
-//        assertEquals(scores[1][1],songsToTest.get(1).getScore(emotions[1]));
-
-//        Song emptySong = new Song("", new ArrayList<>(Arrays.asList("", "")));
-//        emptySong.countScore(emotions[0], new ArrayList<>(Arrays.asList("a","b")));
-
-//        assertEquals(0, emptySong.getScore(emotions[0]));
-
-//        Song randomSong = new Song("abcd", new ArrayList<>(Arrays.asList("abcd", "defg")));
-//        randomSong.countScore(
-//                emotions[0],
-//                new ArrayList<>(Arrays.asList(words.get(0).split(" ")))
-//        );
-        // all lyrics word not matching with emotion words
-//        assertEquals(0, randomSong.getScore(emotions[0]));
-
     }
 
 }

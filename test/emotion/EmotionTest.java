@@ -1,6 +1,5 @@
 package emotion;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
