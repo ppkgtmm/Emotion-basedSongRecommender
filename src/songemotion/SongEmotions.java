@@ -91,18 +91,17 @@ public class SongEmotions {
 
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if (songs != null) {
-
-            if (songsRemoved.containsKey(emotion) && isNotDeletedSong(emotion, song)) {
+            if(!isNotDeletedSong(emotion, song)){
+                return false;
+            }
+            if (songsRemoved.containsKey(emotion)) {
                 ArrayList<String> oldSongsList = songsRemoved.get(emotion);
                 oldSongsList.add(song.getTitle());
                 songsRemoved.put(emotion, oldSongsList);
-            } else if (!songsRemoved.containsKey(emotion)){
+            } else {
                 ArrayList<String> newList = new ArrayList<>();
                 newList.add(song.getTitle());
                 songsRemoved.put(emotion, newList);
-            }
-            else{
-                return false;
             }
 
             SongComparator.setEmotion(emotion);

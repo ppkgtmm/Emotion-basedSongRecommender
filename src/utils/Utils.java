@@ -33,8 +33,7 @@ public class Utils
         String[] options = option.split(" ");
         if(option.length()>0)
         {
-            option = options[0];
-            return convertToInt(option);
+            return convertToInt(options[0]);
 
         }
         return -1;
@@ -73,7 +72,7 @@ public class Utils
         }
     }
 
-    public static boolean gotEnoughStrings(
+    public static boolean gotSomeStrings(
             String input,
             String stopSignal,
             ArrayList<String> stringsGot,
@@ -83,7 +82,7 @@ public class Utils
             if(stringsGot.size()==0){
                 System.out.println(errMessage);
             }
-            return stringsGot.size()==0;
+            return stringsGot.size()!=0;
         }
         return false;
     }
