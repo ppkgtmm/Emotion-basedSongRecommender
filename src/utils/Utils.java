@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /*
@@ -72,7 +73,12 @@ public class Utils
         }
     }
 
-    public static boolean gotEnoughStrings(String input, String stopSignal, ArrayList<String> stringsGot, String errMessage){
+    public static boolean gotEnoughStrings(
+            String input,
+            String stopSignal,
+            ArrayList<String> stringsGot,
+            String errMessage
+    ){
         if(input.compareTo(stopSignal) == 0){
             if(stringsGot.size()==0){
                 System.out.println(errMessage);
@@ -80,5 +86,9 @@ public class Utils
             return stringsGot.size()==0;
         }
         return false;
+    }
+    public static String getInputString(String message, Scanner scanner) {
+        System.out.println(message);
+        return scanner.nextLine().trim();
     }
 }

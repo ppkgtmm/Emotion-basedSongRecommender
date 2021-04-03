@@ -1,14 +1,4 @@
-package emotion; /**
- *  emotion.Emotion.java
- *
- *  Represents an emotion which words related
- *
- *  Created by
- *  Pinky Gautam ID: 60070503401,
- *  Thitiporn Sukpartcharoen ID: 60070503419
- *
- *  19 May 2020
- */
+package emotion;
 
 import interfaces.Data;
 
@@ -16,40 +6,31 @@ import java.util.ArrayList;
 
 public class Emotion implements Data
 {
-    /** emotion.Emotion category */
+    private static int counter = 0;
+   private final int id;
     private final String emotion;
-    /** Words associated with emotion category */
-    private final ArrayList<String> words;
+   private final ArrayList<String> words;
 
-    /**
-     * Constructor sets the emotion and words.
-     * We should probably validate to make sure the emotion is legal
-     * but it's akward to deal with errors in constructors.
-     * @param  emotion   emotion category
-     * @param  words     emotion related words
-     */
+
     public Emotion(String emotion,ArrayList<String> words)
     {
+        counter ++;
+        this.id = counter;
         this.emotion = emotion;
         this.words = words;
     }
 
-    /**
-     * Getter for emotion
-     * @return emotion category
-     */
     public String getTitle()
     {
         return emotion;
     }
 
-    /**
-     * Getter for words
-     * @return emotion related words
-     */
     public ArrayList<String> getDetails()
     {
         return words;
     }
 
+    public int getId() {
+        return id;
+    }
 }

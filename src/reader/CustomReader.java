@@ -29,9 +29,9 @@ public class CustomReader extends TextFileReader {
     }
 
     private boolean findAndSetDetail(String line) {
-        int startIndex = line.indexOf(detailPattern);
+        boolean detailStarted = line.contains(detailPattern);
         boolean isEnd = line.compareTo(CustomReader.endPattern) == 0;
-        if (startIndex != -1) {
+        if (detailStarted) {
             currentDetails = new ArrayList<>();
             return false;
         }
@@ -72,8 +72,8 @@ public class CustomReader extends TextFileReader {
         resetVariables();
 
         while (data == null && (line = getNextLine()) != null) {
-            boolean dataFound = parseLine(line);
-            if(dataFound){
+            boolean dataRead = parseLine(line);
+            if(dataRead){
                 data = getPackedData();
             }
 

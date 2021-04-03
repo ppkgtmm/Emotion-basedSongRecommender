@@ -14,10 +14,13 @@
 import emotion.Emotion;
 import interfaces.Data;
 import song.Song;
+import utils.Display;
 import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import static utils.Utils.getInputString;
 
 public class UI {
     /** facilitator instance used to help communication in the system */
@@ -26,7 +29,7 @@ public class UI {
     private static Scanner inputLine = new Scanner(System.in);
 
     /**
-     * Display options and get the selected option
+     * utils.Display options and get the selected option
      * from user
      * @return selected option
      */
@@ -60,16 +63,7 @@ public class UI {
         return Utils.parseOption(input);
     }
 
-    /**
-     * Display message and get input related to message
-     * from user
-     * @param message message to display
-     * @return user input
-     */
-    private static String getInputString(String message) {
-        System.out.println(message);
-        return inputLine.nextLine().trim();
-    }
+
 
     private static void getSongAndPrintLyrics(ArrayList<Data> songs){
         Display.printData(songs, "song" ,false);
@@ -81,7 +75,7 @@ public class UI {
         }
     }
     private static int getSongToPrintLyrics(int numberOfSongs) {
-        String input = getInputString("Please enter song number or 0 to return");
+        String input = getInputString("Please enter song number or 0 to return", inputLine);
         int selectedChoice = Utils.parseOption(input);
         if (Utils.isValidChoice(selectedChoice, numberOfSongs)) {
             if (selectedChoice == 0) {
@@ -111,7 +105,7 @@ public class UI {
                 getSongAndPrintLyrics(songs);
                 break;
             case 2:
-                String keyword = getInputString("Please enter keyword or enter to return");
+                String keyword = getInputString("Please enter keyword or enter to return", inputLine);
                 songs = facilitator.getSongs(keyword);
                 getSongAndPrintLyrics(songs);
                 break;
@@ -137,7 +131,7 @@ public class UI {
         String stopSign = "_done_";
         String noWordsError = "No words have been added to word collection";
         while (true) {
-            String word = getInputString("Enter words for emotion or _done_ : ");
+            String word = getInputString("Enter words for emotion or _done_ : ", inputLine);
             boolean shouldBreak = Utils.gotEnoughStrings(word,stopSign,words,noWordsError);
             if(shouldBreak){
                 break;
@@ -157,11 +151,11 @@ public class UI {
      */
     private static void addEmotion() {
         /* get emotion input */
-        String emotion = getInputString("Please enter emotion to add").trim();
+        String emotion = getInputString("Please enter emotion to add", inputLine).trim();
         /* validate emotion input. Ask until get valid input (if needed) */
         while (!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.isEmpty()) {
             System.out.println("emotion.Emotion is not a valid word");
-            emotion = getInputString("Please enter emotion to add again").trim();
+            emotion = getInputString("Please enter emotion to add again", inputLine).trim();
         }
         /* get words related to emotion */
         ArrayList<String> words = getEmotionWords();
@@ -180,7 +174,7 @@ public class UI {
      *
      */
     private static void findSongByTitle() {
-        String keyword = getInputString("Enter keyword in song title: ");
+        String keyword = getInputString("Enter keyword in song title: ", inputLine);
         Display.printData(facilitator.getSongs(keyword), "song",true);
 
     }
@@ -189,7 +183,7 @@ public class UI {
         ArrayList<Data> songs = facilitator.getSongsFromEmotion(emotion);
         Display.printData(songs, "song",true);
         if (songs != null && songs.size() > 0) {
-            String input = getInputString("Enter song number");
+            String input = getInputString("Enter song number", inputLine);
             int option = Utils.parseOption(input);
             /* valid song number */
             if (Utils.isValidChoice(option, songs.size())) {
@@ -247,7 +241,7 @@ public class UI {
         ArrayList<Data> allEmotion = facilitator.getAllEmotions();
         Display.printData(allEmotion, "emotion", true);
         if (allEmotion != null && allEmotion.size() > 0) {
-            String input = getInputString("Please enter emotion number");
+            String input = getInputString("Please enter emotion number", inputLine);
             int selectedChoice = Utils.parseOption(input);
             if (Utils.isValidChoice(selectedChoice, allEmotion.size())) {
                 selectedChoice--;
