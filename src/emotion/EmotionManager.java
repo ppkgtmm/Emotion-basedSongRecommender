@@ -3,6 +3,7 @@ package emotion;
 import interfaces.Data;
 import reader.CustomReader;
 import reader.dto.ReaderDTO;
+import utils.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,13 +39,11 @@ public class EmotionManager {
             System.out.println("Error opening emotion file " + fileName);
             return false;
         }
-        ReaderDTO data;
-        while ((data = reader.readData(EmotionManager.emotionPattern, EmotionManager.wordsPattern)) != null) {
-            if (data.isIncompleteData()) {
-                System.out.println("Skipping invalid emotion");
-                continue;
+        ReaderDTO emotionData;
+        while ((emotionData = reader.readData(EmotionManager.emotionPattern, EmotionManager.wordsPattern)) != null) {
+            if (Utils.isValidData(emotionData,"Skipping invalid emotion")) {
+                addEmotion(new Emotion(emotionData.getTitle(), emotionData.getDetails()));
             }
-            addEmotion(new Emotion(data.getTitle(), data.getDetails()));
         }
         reader.close();
         return emotionMap.size() > 0;

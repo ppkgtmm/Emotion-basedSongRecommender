@@ -1,6 +1,7 @@
 package utils;
 
 import interfaces.Data;
+import reader.dto.ReaderDTO;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -113,5 +114,13 @@ public class Utils {
             return null;
         }
         return setSpaces(word);
+    }
+
+    public static boolean isValidData(ReaderDTO data, String errorMessage){
+        if (data.isIncompleteData()) {
+            System.out.println(errorMessage);
+            return false;
+        }
+        return true;
     }
 }

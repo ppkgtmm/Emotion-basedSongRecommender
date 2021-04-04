@@ -3,6 +3,7 @@ package song;
 import interfaces.Data;
 import reader.CustomReader;
 import reader.dto.ReaderDTO;
+import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,14 +64,12 @@ public class SongManager {
             System.out.println("Error opening song file " + fileName);
             return false;
         }
-        ReaderDTO data;
+        ReaderDTO songData;
 
-        while ((data = reader.readData(SongManager.titlePattern, SongManager.lyricsPattern)) != null) {
-            if (data.isIncompleteData()) {
-                System.out.println("Skipping invalid song");
-                continue;
+        while ((songData = reader.readData(SongManager.titlePattern, SongManager.lyricsPattern)) != null) {
+            if (Utils.isValidData(songData, "Skipping invalid song")) {
+                addSong(new Song(songData.getTitle(), songData.getDetails()));
             }
-            addSong(new Song(data.getTitle(), data.getDetails()));
         }
         return songs.size() > 0;
     }
