@@ -30,9 +30,9 @@ class UtilsTest {
 
     @Test
     public void testIsValidChoice(){
-        assertFalse(Utils.isValidChoice(-1,9));
-        assertTrue(Utils.isValidChoice(0,9));
-        assertTrue(Utils.isValidChoice(6,9));
-        assertFalse(Utils.isValidChoice(10,9));
+        assertFalse(Utils.isValidChoice(-1,0,9));
+        assertTrue(Utils.isValidChoice(0,0,9));
+        assertTrue(Utils.isValidChoice(6,5,9));
+        assertFalse(Utils.isValidChoice(10,1,9));
     }
 }

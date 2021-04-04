@@ -28,13 +28,10 @@ public class Display {
 
     public static void printData(
             ArrayList<Data> data,
-            String name,
-            boolean verbose
+            String name
     ) {
-        if (data == null || data.size() == 0) {
-            if (!verbose) {
-                return;
-            }
+        if (data == null) return;
+        if (data.size() == 0) {
             System.out.println("No " + name.toUpperCase() + " available");
         } else {
             System.out.println(">> " + name.toUpperCase() + " List <<");
@@ -46,13 +43,13 @@ public class Display {
         if (currentSong != null) {
             ArrayList<String> currentLyrics = currentSong.getDetails();
             if (currentLyrics != null && currentLyrics.size() > 0) {
-                System.out.println(
-                        ">> Lyrics of " + currentSong.getTitle() + " <<"
-                );
+                System.out.println(">> Lyrics of " + currentSong.getTitle() + " <<");
                 Utils.printStringList(currentLyrics);
                 return;
             }
+            System.out.println("Unable to print lyrics");
+            return;
         }
-        System.out.println("Unable to print song lyrics");
+        System.out.println("Invalid song selected");
     }
 }

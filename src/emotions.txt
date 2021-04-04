@@ -1,7 +1,12 @@
 Emotion : love
 Words :
 like
-mma
+love
+world
+you
+me
+meant
+sweet
 ==END==
 Emotion : relaxed
 Words :

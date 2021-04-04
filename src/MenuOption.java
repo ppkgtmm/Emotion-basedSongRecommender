@@ -9,7 +9,11 @@ public enum MenuOption {
     FIND_SONG_BY_EMOTION(5),
     ADD_EMOTION(6),
     REMOVE_FROM_EMOTION(7),
-    EXIT(8);
+    EXIT(8),
+
+    // for song selection to display lyrics
+    SONG_BY_KW(1),
+    ALL_SONGS(2); // make all songs option last for ease of validation
 
     public final int value;
 
@@ -37,6 +41,6 @@ public enum MenuOption {
     }
 
     static  boolean isValidMenuOption(int option){
-        return isValidChoice(option, MenuOption.EXIT.value);
+        return isValidChoice(option, RETURN.value, EXIT.value);
     }
 }

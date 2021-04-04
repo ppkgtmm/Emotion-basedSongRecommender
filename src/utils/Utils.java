@@ -1,5 +1,7 @@
 package utils;
 
+import interfaces.Data;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,23 +18,19 @@ import java.util.regex.Pattern;
  *
  *  19 May 2020
  */
-public class Utils
-{
-    private static int convertToInt(String number){
+public class Utils {
+    private static int convertToInt(String number) {
         try {
             return Integer.parseInt(number);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Please enter integer for option");
             return -1;
         }
     }
 
-    public static int parseOption(String option)
-    {
+    public static int parseOption(String option) {
         String[] options = option.split(" ");
-        if(option.length()>0)
-        {
+        if (option.length() > 0) {
             return convertToInt(options[0]);
 
         }
@@ -47,13 +45,11 @@ public class Utils
         return pattern.matcher(numericString.trim()).matches();
     }
 
-    public static String setSpaces(String input)
-    {
+    public static String setSpaces(String input) {
         StringBuilder result = new StringBuilder();
         String[] splitWords = input.split(" ");
-        for (String word:splitWords)
-        {
-            if(word.trim().length() == 0){
+        for (String word : splitWords) {
+            if (word.trim().length() == 0) {
                 continue;
             }
             result.append(word).append(" ");
@@ -61,33 +57,61 @@ public class Utils
         return result.toString().trim();
     }
 
-    public static boolean isValidChoice(int choice, int limit)
-    {
-        return choice >= 0 && choice <= limit;
+    public static boolean isValidChoice(int choice, int start, int end) {
+        return choice >= start && choice <= end;
     }
 
-    public static void printStringList(ArrayList<String> strings){
-        for (String currentString: strings) {
+    public static void printStringList(ArrayList<String> strings) {
+        for (String currentString : strings) {
             System.out.println(currentString);
         }
     }
+
+    public static Data getChosenItem(int option, ArrayList<Data> data){
+        if(!isValidChoice(option,1, data.size())){
+            System.out.println("Invalid choice selected");
+            return null;
+        }
+        return data.get(option - 1);
+    }
+    public static Data getChosenItem(String option, ArrayList<Data> data){
+        int choice = parseOption(option);
+        if(choice == -1){
+            return null;
+        }
+        return getChosenItem(choice,data);
+    }
+
 
     public static boolean gotSomeStrings(
             String input,
             String stopSignal,
             ArrayList<String> stringsGot,
             String errMessage
-    ){
-        if(input.compareTo(stopSignal) == 0){
-            if(stringsGot.size()==0){
+    ) {
+        if (input.compareTo(stopSignal) == 0) {
+            if (stringsGot.size() == 0) {
                 System.out.println(errMessage);
             }
-            return stringsGot.size()!=0;
+            return stringsGot.size() != 0;
         }
         return false;
     }
+
     public static String getInputString(String message, Scanner scanner) {
         System.out.println(message);
         return scanner.nextLine().trim();
+    }
+
+    public static String getValidWord(String word) {
+        if (word.isEmpty()) {
+            System.out.println("Word should not be empty");
+            return null;
+        }
+        if (Utils.isNumeric(word)) {
+            System.out.println("Word should not be only number");
+            return null;
+        }
+        return setSpaces(word);
     }
 }
