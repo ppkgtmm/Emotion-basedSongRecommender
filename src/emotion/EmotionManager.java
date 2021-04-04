@@ -40,13 +40,11 @@ public class EmotionManager {
         }
         ReaderDTO data;
         while ((data = reader.readData(EmotionManager.emotionPattern, EmotionManager.wordsPattern)) != null) {
-            String emotion = data.getTitle();
-            ArrayList<String> words = data.getDetails();
             if (data.isIncompleteData()) {
                 System.out.println("Skipping invalid emotion");
                 continue;
             }
-            addEmotion(new Emotion(emotion, words));
+            addEmotion(new Emotion(data.getTitle(), data.getDetails()));
         }
         reader.close();
         return emotionMap.size() > 0;

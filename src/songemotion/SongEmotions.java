@@ -79,36 +79,37 @@ public class SongEmotions {
         return new ArrayList<>();
     }
 
-    private boolean isNotDeletedSong(String emotion, Song song){
+    private boolean isDeletedSong(String emotion, Song song){
         if(songsRemoved.containsKey(emotion) && songsRemoved.get(emotion).contains(song.getTitle())){
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public boolean removeFromCategory(Song song, String emotion) {
-        boolean succeed = false;
+    private void addToRemovedSongMap(Song song, String emotion){
+        if (songsRemoved.containsKey(emotion)) {
+            ArrayList<String> oldSongsList = songsRemoved.get(emotion);
+            oldSongsList.add(song.getTitle());
+            songsRemoved.put(emotion, oldSongsList);
+        } else {
+            ArrayList<String> newList = new ArrayList<>();
+            newList.add(song.getTitle());
+            songsRemoved.put(emotion, newList);
+        }
+    }
 
+    public int removeFromCategory(Song song, String emotion) {
+        boolean succeed = false;
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if (songs != null) {
-            if(!isNotDeletedSong(emotion, song)){
-                return false;
+            if(isDeletedSong(emotion, song)){
+                return -1;
             }
-            if (songsRemoved.containsKey(emotion)) {
-                ArrayList<String> oldSongsList = songsRemoved.get(emotion);
-                oldSongsList.add(song.getTitle());
-                songsRemoved.put(emotion, oldSongsList);
-            } else {
-                ArrayList<String> newList = new ArrayList<>();
-                newList.add(song.getTitle());
-                songsRemoved.put(emotion, newList);
-            }
-
+            addToRemovedSongMap(song, emotion);
             SongComparator.setEmotion(emotion);
-
             succeed = songsWithEmotions.get(emotion).remove(song);
         }
-        return succeed;
+        return succeed ? 1 : -1;
     }
 
 
@@ -136,7 +137,7 @@ public class SongEmotions {
         SongComparator.setEmotion(emotion);
         for (Data song : songs) {
             Song castedSong = (Song) song;
-            if (isNotDeletedSong(emotion, castedSong)) {
+            if (!isDeletedSong(emotion, castedSong)) {
                 castedSong.countScore(emotion, words);
                 addSong(castedSong, emotion);
             }

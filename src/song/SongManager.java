@@ -66,13 +66,11 @@ public class SongManager {
         ReaderDTO data;
 
         while ((data = reader.readData(SongManager.titlePattern, SongManager.lyricsPattern)) != null) {
-            String title = data.getTitle();
-            ArrayList<String> lyrics = data.getDetails();
             if (data.isIncompleteData()) {
                 System.out.println("Skipping invalid song");
                 continue;
             }
-            addSong(new Song(title, lyrics));
+            addSong(new Song(data.getTitle(), data.getDetails()));
         }
         return songs.size() > 0;
     }

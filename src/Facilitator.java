@@ -90,7 +90,10 @@ public class Facilitator {
     }
 
 
-    public boolean removeSongFromCategory(Emotion emotion, Song song) {
+    public int removeSongFromCategory(Emotion emotion, Song song) {
+        if (song == null || emotion == null) {
+            return 0;
+        }
         return songEmotions.removeFromCategory(song, emotion.getTitle());
     }
 

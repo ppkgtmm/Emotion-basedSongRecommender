@@ -125,7 +125,7 @@ public class UI {
         Display.printData(songs, "song");
         if (songs != null && songs.size() > 0) {
             String input = Utils.getInputString("Enter song number", inputLine);
-            return Utils.getChosenItem(input,songs);
+            return Utils.getChosenItem(input, songs);
         }
         return null;
     }
@@ -136,10 +136,10 @@ public class UI {
         if (emotion != null) {
             Song targetSong = (Song) getSongToRemoveFromEmotion(emotion);
             if (targetSong == null) return;
-            boolean succeed = facilitator.removeSongFromCategory(emotion, targetSong);
-            if (succeed) {
-                System.out.println("song.Song removed from emotion category successfully");
-            } else {
+            int result = facilitator.removeSongFromCategory(emotion, targetSong);
+            if (result > 0) {
+                System.out.println("Song removed from emotion category successfully");
+            } else if (result < 0) {
                 System.out.println("Cannot remove song from emotion category");
             }
         }
