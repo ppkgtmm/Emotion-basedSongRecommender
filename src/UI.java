@@ -90,7 +90,7 @@ public class UI {
     }
 
     private static String getEmotionToAdd() {
-        String emotion = Utils.getInputString("Please enter emotion to add", inputLine).trim();
+        String emotion = Utils.getInputString("Please enter emotion to add or enter to return", inputLine).trim();
         if (emotion.isEmpty()) return null;
         while (!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.isEmpty()) {
             System.out.println("emotion entered is not a valid word");
@@ -107,7 +107,7 @@ public class UI {
         ArrayList<String> words = getEmotionWords();
         boolean bOk = facilitator.addEmotion(emotion, words);
         if (bOk) {
-            System.out.println("emotion.Emotion added successfully");
+            System.out.println("Emotion added successfully");
         } else {
             System.out.println("Cannot to add emotion");
         }

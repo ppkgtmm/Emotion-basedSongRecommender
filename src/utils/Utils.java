@@ -68,19 +68,21 @@ public class Utils {
         }
     }
 
-    public static Data getChosenItem(int option, ArrayList<Data> data){
-        if(!isValidChoice(option,1, data.size())){
+    public static Data getChosenItem(int option, ArrayList<Data> data) {
+        if (option == 0) return null;
+        if (!isValidChoice(option, 1, data.size())) {
             System.out.println("Invalid choice selected");
             return null;
         }
         return data.get(option - 1);
     }
-    public static Data getChosenItem(String option, ArrayList<Data> data){
+
+    public static Data getChosenItem(String option, ArrayList<Data> data) {
         int choice = parseOption(option);
-        if(choice == -1){
+        if (choice == -1) {
             return null;
         }
-        return getChosenItem(choice,data);
+        return getChosenItem(choice, data);
     }
 
 
@@ -116,7 +118,7 @@ public class Utils {
         return setSpaces(word);
     }
 
-    public static boolean isValidData(ReaderDTO data, String errorMessage){
+    public static boolean isValidData(ReaderDTO data, String errorMessage) {
         if (data.isIncompleteData()) {
             System.out.println(errorMessage);
             return false;

@@ -48,8 +48,6 @@ public class Display {
                 return;
             }
             System.out.println("Unable to print lyrics");
-            return;
         }
-        System.out.println("Invalid song selected");
     }
 }
