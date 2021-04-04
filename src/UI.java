@@ -20,8 +20,8 @@ public class UI {
         System.out.println("Options:");
         System.out.println("0. Go to main menu");
         System.out.println("1. See all songs");
-        System.out.println("2. See lyrics");
-        System.out.println("3. See all emotions");
+        System.out.println("2. See all emotions");
+        System.out.println("3. See lyrics");
         System.out.println("4. Find song by title");
         System.out.println("5. Find song based on emotion");
         System.out.println("6. Add emotion");
@@ -218,33 +218,55 @@ public class UI {
         }
         return null;
     }
+    private static boolean handleDelete(int option){
+        if(!MenuOption.isDeleteRequest(option)) return false;
+        if(option == MenuOption.REMOVE_FROM_EMOTION.value) removeFromCategory();
+        return true;
+    }
+    private static boolean handleCreate(int option){
+        if(!MenuOption.isCreateRequest(option)) return false;
+        if(option == MenuOption.ADD_EMOTION.value) addEmotion();
+        return true;
+    }
 
+    private static boolean handleInteractiveGet(int option){
+        if(!MenuOption.isInteractiveGet(option)) return false;
+        if (option == MenuOption.GET_LYRICS.value)
+            seeLyrics();
+        else if(option == MenuOption.FIND_SONG_BY_TITLE.value)
+            findSongByTitle();
+        else if(option == MenuOption.FIND_SONG_BY_EMOTION.value)
+            Display.printData(findSongFromEmotion(), "song", true);
+        return true;
+
+    }
+
+    private static boolean handleGet(int option) {
+        if(!MenuOption.isGetRequest(option)) return false;
+        if (option == MenuOption.GET_ALL_SONGS.value){
+            Display.printData(facilitator.getAllSongs(), "song", true);
+            return true;
+        }
+        else if (option == MenuOption.GET_ALL_EMOTIONS.value){
+            Display.printData(facilitator.getAllEmotions(), "emotion", true);
+            return true;
+        }
+        return handleInteractiveGet(option);
+    }
 
     private static void proceedOption(int option) {
-        if (option == 0) return;
-        if (option < 1 || option > 8)
+        if (!MenuOption.isValidMenuOption(option))
             System.out.println("Please enter a valid option");
-        else if (option == 1)
-            Display.printData(facilitator.getAllSongs(), "song", true);
-        else if (option == 2)
-            seeLyrics();
-        else if (option == 3)
-            Display.printData(facilitator.getAllEmotions(), "emotion", true);
-        else if (option == 4)
-            findSongByTitle();
-        else if (option == 5)
-            Display.printData(findSongFromEmotion(), "song", true);
-        else if (option == 6)
-            addEmotion();
-        else if (option == 7)
-            removeFromCategory();
-        else endProgram();
+        if (MenuOption.shouldExit(option))
+            endProgram();
+        if (!handleGet(option) && !handleCreate(option)) {
+            handleDelete(option);
+        }
     }
 
 
     public static void run(String songsFileName, String emotionsFileName, String removedFileName) {
         if (facilitator.doSetting(songsFileName, emotionsFileName, removedFileName)) {
-
             while (true) {
                 int option = getOption();
                 proceedOption(option);
