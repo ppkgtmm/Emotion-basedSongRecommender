@@ -118,11 +118,15 @@ public class Utils {
         return setSpaces(word);
     }
 
-    public static boolean isValidData(ReaderDTO data, String errorMessage) {
-        if (data.isIncompleteData()) {
+    public static boolean isValidData(Data data, String errorMessage) {
+        if (!isValidData(data)) {
             System.out.println(errorMessage);
             return false;
         }
         return true;
+    }
+
+    public static boolean isValidData(Data data) {
+        return data.getTitle() != null && data.getDetails() != null && !data.getDetails().isEmpty();
     }
 }

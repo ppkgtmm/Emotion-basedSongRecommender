@@ -42,6 +42,7 @@ public class SongManager {
 
     public ArrayList<Data> getSongs(String keyword) {
         ArrayList<Data> result = new ArrayList<>();
+        if(keyword == null || keyword.trim().isEmpty()) return result;
         for(Song song : songs.values()){
             if(song.getTitle().contains(keyword)){
                 result.add(song);
@@ -51,6 +52,7 @@ public class SongManager {
     }
 
     private void addSong(Song song){
+        if(song == null || !Utils.isValidData(song)) return;
         if(!songs.containsKey(song.getId())){
             songs.put(song.getId(),song);
         }

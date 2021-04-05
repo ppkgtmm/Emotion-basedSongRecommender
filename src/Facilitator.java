@@ -102,9 +102,9 @@ public class Facilitator {
         HashSet<String> uniqueWords = new HashSet<>(words);
         Emotion emotion = new Emotion(stringEmotion, new ArrayList<>(uniqueWords));
         boolean bOk = emotionManager.addEmotion(emotion);
-
+        if(!bOk) return false;
         songEmotions.sync(emotion.getTitle(), emotion.getDetails(), songManager.getAllSongs());
-        return bOk;
+        return true;
 
     }
 
@@ -112,7 +112,6 @@ public class Facilitator {
     public boolean terminate() {
 
         boolean emotionsWritten = emotionManager.writeEmotions();
-
         boolean songsRemovedOk = songEmotions.writeRemovedSongs();
         return emotionsWritten && songsRemovedOk;
     }

@@ -1,6 +1,8 @@
 package reader.dto;
 
 import org.junit.jupiter.api.Test;
+import utils.Utils;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -15,17 +17,5 @@ class ReaderDTOTest {
         assertEquals(title, data.getTitle());
         assertEquals(details, data.getDetails());
         assertEquals(details.size(), data.getDetails().size());
-        assertFalse(data.isIncompleteData());
-    }
-
-    @Test
-    public void testInvalidData(){
-        String title = null;
-        ArrayList<String> details = new ArrayList<>();
-        ReaderDTO data = new ReaderDTO(title, details);
-        assertEquals(title, data.getTitle());
-        assertEquals(details, data.getDetails());
-        assertTrue(data.isIncompleteData());
-        assertTrue(new ReaderDTO(null, null).isIncompleteData());
     }
 }

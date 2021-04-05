@@ -34,12 +34,12 @@ public class Song implements Data {
         lyricsWordCount = new HashMap<>();
     }
 
-
+    @Override
     public String getTitle() {
         return title;
     }
 
-
+    @Override
     public ArrayList<String> getDetails() {
         return lyrics;
     }

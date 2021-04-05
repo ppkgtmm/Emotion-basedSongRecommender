@@ -153,9 +153,8 @@ public class UI {
         System.out.println("--------------------------------------------------------\n");
         if (succeed) {
             System.exit(0);
-        } else {
-            System.exit(1);
         }
+        System.exit(1);
     }
 
 

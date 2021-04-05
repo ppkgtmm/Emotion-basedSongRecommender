@@ -1,8 +1,10 @@
 package reader.dto;
 
+import interfaces.Data;
+
 import java.util.ArrayList;
 
-public class ReaderDTO {
+public class ReaderDTO implements Data {
     private String title = null;
     private ArrayList<String> details = null;
 
@@ -17,9 +19,5 @@ public class ReaderDTO {
 
     public ArrayList<String> getDetails() {
         return details;
-    }
-
-    public boolean isIncompleteData(){
-        return title == null || details == null || details.size() == 0;
     }
 }

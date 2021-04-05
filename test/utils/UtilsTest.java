@@ -1,7 +1,13 @@
 package utils;
 
 
+import emotion.Emotion;
 import org.junit.jupiter.api.Test;
+import reader.dto.ReaderDTO;
+import song.Song;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,5 +40,14 @@ class UtilsTest {
         assertTrue(Utils.isValidChoice(0,0,9));
         assertTrue(Utils.isValidChoice(6,5,9));
         assertFalse(Utils.isValidChoice(10,1,9));
+    }
+
+    @Test
+    public void testIsValidData(){
+        assertFalse(Utils.isValidData(new ReaderDTO(null, null)));
+        assertFalse(Utils.isValidData(new Emotion("", null)));
+        assertFalse(Utils.isValidData(new Song("abc", null)));
+        assertFalse(Utils.isValidData(new ReaderDTO("abc", new ArrayList<>())));
+        assertTrue(Utils.isValidData(new Song("abc", new ArrayList<>(Arrays.asList("123","456")))));
     }
 }

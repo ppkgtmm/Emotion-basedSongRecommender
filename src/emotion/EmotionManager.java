@@ -16,7 +16,7 @@ public class EmotionManager {
 
     private final CustomReader reader = new CustomReader();
 
-    private HashMap<Integer, Emotion> emotionMap;
+    private HashMap<String, Emotion> emotionMap;
     private static final String emotionPattern = "Emotion :";
     private static final String wordsPattern = "Words :";
 
@@ -41,7 +41,7 @@ public class EmotionManager {
         }
         ReaderDTO emotionData;
         while ((emotionData = reader.readData(EmotionManager.emotionPattern, EmotionManager.wordsPattern)) != null) {
-            if (Utils.isValidData(emotionData,"Skipping invalid emotion")) {
+            if (Utils.isValidData(emotionData, "Skipping invalid emotion")) {
                 addEmotion(new Emotion(emotionData.getTitle(), emotionData.getDetails()));
             }
         }
@@ -56,10 +56,14 @@ public class EmotionManager {
 
 
     public boolean addEmotion(Emotion emotion) {
-        if (!emotionMap.containsKey(emotion.getId())) {
-            emotionMap.put(emotion.getId(), emotion);
+        if (emotion==null || !Utils.isValidData(emotion)) {
+            return false;
         }
-        return true;
+        if (!emotion.getTitle().isEmpty() && !emotionMap.containsKey(emotion.getTitle())) {
+            emotionMap.put(emotion.getTitle(), emotion);
+            return true;
+        }
+        return false;
     }
 
 

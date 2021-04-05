@@ -6,6 +6,7 @@ import reader.CustomReader;
 import reader.dto.ReaderDTO;
 import song.Song;
 import song.SongComparator;
+import utils.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class SongEmotions {
             String emotion = data.getTitle();
             ArrayList<String> songs = data.getDetails();
 
-            if (data.isIncompleteData()) {
+            if (!Utils.isValidData(data)) {
                 System.out.println("Skipping invalid data");
                 continue;
             }
@@ -72,11 +73,10 @@ public class SongEmotions {
 
 
     public ArrayList<Data> getSongsFromEmotion(String emotion) {
+        if(emotion == null || emotion.trim().isEmpty()) return new ArrayList<>();
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
-        if (songs != null) {
-            return new ArrayList<>(songs);
-        }
-        return new ArrayList<>();
+        if (songs == null) return new ArrayList<>();
+        return new ArrayList<>(songs);
     }
 
     private boolean isDeletedSong(String emotion, Song song){
@@ -98,14 +98,15 @@ public class SongEmotions {
         }
     }
 
-    public int removeFromCategory(Song song, String emotion) {
+    public int removeFromCategory(Data song, String emotion) {
         boolean succeed = false;
+        Song castedSong = (Song) song;
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if (songs != null) {
-            if(isDeletedSong(emotion, song)){
+            if(isDeletedSong(emotion, castedSong)){
                 return -1;
             }
-            addToRemovedSongMap(song, emotion);
+            addToRemovedSongMap(castedSong, emotion);
             SongComparator.setEmotion(emotion);
             succeed = songsWithEmotions.get(emotion).remove(song);
         }

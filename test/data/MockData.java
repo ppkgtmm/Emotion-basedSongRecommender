@@ -25,7 +25,7 @@ public class MockData {
     // emotion scores where score[i][j] = score for song i emotion j
     private static final double [][] score = {
             {(double) 3/13, (double) 2/13},
-            {(double) 1/16, (double) 0/16}
+            {(double) 2/16, (double) 0/16}
     };
 
     // song lyrics which will be parsed using new line character
