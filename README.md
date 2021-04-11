@@ -6,10 +6,10 @@ This program counts the scores of each song for each emotion category using occu
 
 This project is made for a pair work in Object Oriented Analysis and Design class. Main branch is improvement from the old code in master branch e.g. refactoring, more validation, unit testing.
 
-**Java programming language** is used for development with **JUnit5** as a tool for unit testing.
+**Java programming language** is used for development with **JUnit5** as a tool for unit testing. It is recommended to use IntelliJ IDEA to open the project.
 
 ## How to run
-
+* open in terminal, go to **src** folder
 ```sh
 # compile
 $ javac UI.java
