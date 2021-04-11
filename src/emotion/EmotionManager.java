@@ -12,13 +12,11 @@ import java.util.HashMap;
 
 public class EmotionManager {
 
-    private static EmotionManager emotionManager = null;
-
-    private final CustomReader reader = new CustomReader();
-
-    private HashMap<String, Emotion> emotionMap;
     private static final String emotionPattern = "Emotion :";
     private static final String wordsPattern = "Words :";
+    private static EmotionManager emotionManager = null;
+    private final CustomReader reader = new CustomReader();
+    private HashMap<String, Emotion> emotionMap;
 
 
     private EmotionManager() {
@@ -41,9 +39,7 @@ public class EmotionManager {
         }
         ReaderDTO emotionData;
         while ((emotionData = reader.readData(EmotionManager.emotionPattern, EmotionManager.wordsPattern)) != null) {
-            if (Utils.isValidData(emotionData, "Skipping invalid emotion")) {
-                addEmotion(new Emotion(emotionData.getTitle(), emotionData.getDetails()));
-            }
+            addEmotion(new Emotion(emotionData.getTitle(), emotionData.getDetails()));
         }
         reader.close();
         return emotionMap.size() > 0;
@@ -55,11 +51,14 @@ public class EmotionManager {
     }
 
 
+    private boolean isNewEmotion(Emotion emotion) {
+        if (!emotionMap.containsKey(emotion.getTitle())) return true;
+        System.out.println("Duplicate emotion encountered");
+        return false;
+    }
+
     public boolean addEmotion(Emotion emotion) {
-        if (emotion==null || !Utils.isValidData(emotion)) {
-            return false;
-        }
-        if (!emotion.getTitle().isEmpty() && !emotionMap.containsKey(emotion.getTitle())) {
+        if (Utils.isValidData(emotion, "Skipping invalid emotion") && isNewEmotion(emotion)) {
             emotionMap.put(emotion.getTitle(), emotion);
             return true;
         }
@@ -83,7 +82,7 @@ public class EmotionManager {
             writer.close();
             succeed = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Unable to write emotions to text file");
         }
         return succeed;
     }

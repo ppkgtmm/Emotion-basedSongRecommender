@@ -10,16 +10,11 @@ import java.util.HashMap;
 
 public class SongManager {
 
-    private HashMap<Integer,Song> songs;
-
-
-    private static SongManager songManager = null;
-
-
-    private CustomReader reader;
-
     private static final String titlePattern = "Song :";
     private static final String lyricsPattern = "Lyrics :";
+    private static SongManager songManager = null;
+    private HashMap<Integer, Song> songs;
+    private CustomReader reader;
 
 
     private SongManager() {
@@ -42,20 +37,26 @@ public class SongManager {
 
     public ArrayList<Data> getSongs(String keyword) {
         ArrayList<Data> result = new ArrayList<>();
-        if(keyword == null || keyword.trim().isEmpty()) return result;
-        for(Song song : songs.values()){
-            if(song.getTitle().contains(keyword)){
+        if(Utils.isInvalidString(keyword)) return result;
+        for (Song song : songs.values()) {
+            if (song.getTitle().contains(keyword)) {
                 result.add(song);
             }
         }
         return result;
     }
 
-    private void addSong(Song song){
-        if(song == null || !Utils.isValidData(song)) return;
-        if(!songs.containsKey(song.getId())){
-            songs.put(song.getId(),song);
+    private boolean isNewSong(Song song) {
+        if (songs.containsKey(song.getId())) {
+            System.out.println("Found duplicate song");
+            return false;
         }
+        return true;
+    }
+
+    public void addSong(Song song) {
+        if (Utils.isValidData(song, "Skipping invalid song") && isNewSong(song))
+            songs.put(song.getId(), song);
     }
 
 
@@ -69,10 +70,9 @@ public class SongManager {
         ReaderDTO songData;
 
         while ((songData = reader.readData(SongManager.titlePattern, SongManager.lyricsPattern)) != null) {
-            if (Utils.isValidData(songData, "Skipping invalid song")) {
-                addSong(new Song(songData.getTitle(), songData.getDetails()));
-            }
+            addSong(new Song(songData.getTitle(), songData.getDetails()));
         }
+        reader.close();
         return songs.size() > 0;
     }
 

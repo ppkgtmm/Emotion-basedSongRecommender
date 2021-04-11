@@ -18,6 +18,12 @@ import java.util.ArrayList;
 
 public class Display {
 
+    public static void printStringList(ArrayList<String> strings) {
+        for (String currentString : strings) {
+            System.out.println(currentString);
+        }
+    }
+
     private static void printListData(ArrayList<Data> data) {
         int i = 0;
         for (Data item : data) {
@@ -44,10 +50,11 @@ public class Display {
             ArrayList<String> currentLyrics = currentSong.getDetails();
             if (currentLyrics != null && currentLyrics.size() > 0) {
                 System.out.println(">> Lyrics of " + currentSong.getTitle() + " <<");
-                Utils.printStringList(currentLyrics);
+                printStringList(currentLyrics);
                 return;
             }
             System.out.println("Unable to print lyrics");
         }
     }
+
 }

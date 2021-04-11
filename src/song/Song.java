@@ -51,7 +51,6 @@ public class Song implements Data {
 
 
     public Double getScore(String emotion) {
-
         if (emotionScore.containsKey(emotion)) {
             return emotionScore.get(emotion);
         }
@@ -84,6 +83,7 @@ public class Song implements Data {
 
 
     public void countScore(String emotion, ArrayList<String> words) {
+        if (emotionScore.containsKey(emotion)) return;
         Double score = 0.0;
         setUpLyricsMap();
         if (lyricsWordCount.get("  total  ") == 0) {

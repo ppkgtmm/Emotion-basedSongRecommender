@@ -17,19 +17,12 @@ import java.util.TreeSet;
 public class SongEmotions {
 
 
-    private HashMap<String, TreeSet<Song>> songsWithEmotions;
-
-
-    private static SongEmotions songEmotions = null;
-
-
-    private HashMap<String, ArrayList<String>> songsRemoved;
-
-
-    private CustomReader reader;
-
     private static final String emotionPattern = "Emotion :";
     private static final String songPattern = "Songs :";
+    private static SongEmotions songEmotions = null;
+    private HashMap<String, TreeSet<Song>> songsWithEmotions;
+    private HashMap<String, ArrayList<String>> songsRemoved;
+    private CustomReader reader;
 
 
     private SongEmotions() {
@@ -58,35 +51,39 @@ public class SongEmotions {
                 SongEmotions.emotionPattern,
                 SongEmotions.songPattern
         )) != null) {
-            String emotion = data.getTitle();
-            ArrayList<String> songs = data.getDetails();
-
-            if (!Utils.isValidData(data)) {
-                System.out.println("Skipping invalid data");
+            if (!Utils.isValidData(data,"Skipping invalid data")) {
                 continue;
             }
+            String emotion = data.getTitle();
+            ArrayList<String> songs = data.getDetails();
             songsRemoved.put(emotion, songs);
-
         }
-        return true;
+        reader.close();
+        return songsRemoved.size() > 0;
     }
 
 
     public ArrayList<Data> getSongsFromEmotion(String emotion) {
-        if(emotion == null || emotion.trim().isEmpty()) return new ArrayList<>();
+        if (Utils.isInvalidString(emotion)) {
+            System.out.println("Invalid emotion to get songs from");
+            return new ArrayList<>();
+        }
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
-        if (songs == null) return new ArrayList<>();
-        return new ArrayList<>(songs);
+        if(songs == null){
+            System.out.println("Unknown emotion provided");
+        }
+        return songs != null ? new ArrayList<>(songs) : new ArrayList<>();
     }
 
-    private boolean isDeletedSong(String emotion, Song song){
-        if(songsRemoved.containsKey(emotion) && songsRemoved.get(emotion).contains(song.getTitle())){
+    private boolean isDeletedSong(String emotion, Song song) {
+        if (songsRemoved.containsKey(emotion) && songsRemoved.get(emotion).contains(song.getTitle())) {
+            System.out.println("Song is already removed from emotion");
             return true;
         }
         return false;
     }
 
-    private void addToRemovedSongMap(Song song, String emotion){
+    private void addToRemovedSongMap(Song song, String emotion) {
         if (songsRemoved.containsKey(emotion)) {
             ArrayList<String> oldSongsList = songsRemoved.get(emotion);
             oldSongsList.add(song.getTitle());
@@ -98,19 +95,23 @@ public class SongEmotions {
         }
     }
 
-    public int removeFromCategory(Data song, String emotion) {
+    public boolean removeFromCategory(Data song, String emotion) {
+        if (!Utils.isValidData(song) || Utils.isInvalidString(emotion)){
+            System.out.println("Invalid argument(s) to remove song from emotion");
+            return false;
+        }
         boolean succeed = false;
         Song castedSong = (Song) song;
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if (songs != null) {
-            if(isDeletedSong(emotion, castedSong)){
-                return -1;
+            if (isDeletedSong(emotion, castedSong)) {
+                return false;
             }
             addToRemovedSongMap(castedSong, emotion);
             SongComparator.setEmotion(emotion);
             succeed = songsWithEmotions.get(emotion).remove(song);
         }
-        return succeed ? 1 : -1;
+        return succeed;
     }
 
 
@@ -129,12 +130,16 @@ public class SongEmotions {
     }
 
 
-    public void sync(
+    public boolean sync(
             String emotion,
             ArrayList<String> words,
             ArrayList<Data> songs
     ) {
 
+        if (Utils.isInvalidString(emotion) || Utils.isInvalidList(words) || Utils.isInvalidList(songs)) {
+            System.out.println("Invalid argument(s) provided to count songs emotion score");
+            return false;
+        }
         SongComparator.setEmotion(emotion);
         for (Data song : songs) {
             Song castedSong = (Song) song;
@@ -143,6 +148,7 @@ public class SongEmotions {
                 addSong(castedSong, emotion);
             }
         }
+        return true;
     }
 
 
@@ -167,7 +173,7 @@ public class SongEmotions {
             writer.close();
             succeed = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Unable to write songs removed from emotion to text file");
         }
         return succeed;
 

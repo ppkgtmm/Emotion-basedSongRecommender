@@ -28,7 +28,4 @@ public class Emotion implements Data {
         return words;
     }
 
-    public int getId() {
-        return id;
-    }
 }

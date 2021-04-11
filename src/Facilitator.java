@@ -4,17 +4,18 @@ import interfaces.Data;
 import song.Song;
 import song.SongManager;
 import songemotion.SongEmotions;
+import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Facilitator {
 
-    private SongManager songManager = null;
+    private SongManager songManager;
 
-    private SongEmotions songEmotions = null;
+    private SongEmotions songEmotions;
 
-    private EmotionManager emotionManager = null;
+    private EmotionManager emotionManager;
 
     private static Facilitator facilitator = null;
 
@@ -33,7 +34,7 @@ public class Facilitator {
     }
 
     private boolean setUpRemovedSongs(String removedSongFile) {
-        if (!removedSongFile.isEmpty()) {
+        if (!Utils.isInvalidString(removedSongFile)) {
             return songEmotions.initialize(removedSongFile);
         }
         return true;
@@ -49,20 +50,20 @@ public class Facilitator {
 
         boolean ok = false;
         if (songOK && emotionOK && removedSongsOK) {
-            doSync();
-            ok = true;
+            ok = doSync();
         }
         return ok;
     }
 
 
-    private void doSync() {
+    private boolean doSync() {
         ArrayList<Data> allEmotions = emotionManager.getEmotions();
         ArrayList<Data> allSongs = songManager.getAllSongs();
-
+        boolean result = true;
         for (Data emotion : allEmotions) {
-            songEmotions.sync(emotion.getTitle(), emotion.getDetails(), allSongs);
+            result = result && songEmotions.sync(emotion.getTitle(), emotion.getDetails(), allSongs);
         }
+        return result;
     }
 
 
@@ -72,9 +73,6 @@ public class Facilitator {
 
 
     public ArrayList<Data> getSongs(String keyword) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return null;
-        }
         return songManager.getSongs(keyword);
     }
 
@@ -85,32 +83,31 @@ public class Facilitator {
 
 
     public ArrayList<Data> getSongsFromEmotion(Emotion emotion) {
-        if (emotion == null) return new ArrayList<>();
+        if (!Utils.isValidData(emotion)) return new ArrayList<>();
         return songEmotions.getSongsFromEmotion(emotion.getTitle());
     }
 
 
     public int removeSongFromCategory(Emotion emotion, Song song) {
-        if (song == null || emotion == null) {
+        if (!Utils.isValidData(song) || !Utils.isValidData(emotion)) {
             return 0;
         }
-        return songEmotions.removeFromCategory(song, emotion.getTitle());
+        return songEmotions.removeFromCategory(song, emotion.getTitle()) ? 1 : -1;
     }
 
 
     public boolean addEmotion(String stringEmotion, ArrayList<String> words) {
-        HashSet<String> uniqueWords = new HashSet<>(words);
+        HashSet<String> uniqueWords = words == null ? new HashSet<>() : new HashSet<>(words);
         Emotion emotion = new Emotion(stringEmotion, new ArrayList<>(uniqueWords));
+        if (!Utils.isValidData(emotion)) return false;
         boolean bOk = emotionManager.addEmotion(emotion);
         if(!bOk) return false;
-        songEmotions.sync(emotion.getTitle(), emotion.getDetails(), songManager.getAllSongs());
-        return true;
+        return songEmotions.sync(emotion.getTitle(), emotion.getDetails(), songManager.getAllSongs());
 
     }
 
 
     public boolean terminate() {
-
         boolean emotionsWritten = emotionManager.writeEmotions();
         boolean songsRemovedOk = songEmotions.writeRemovedSongs();
         return emotionsWritten && songsRemovedOk;

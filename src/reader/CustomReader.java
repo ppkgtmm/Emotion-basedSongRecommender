@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class CustomReader extends TextFileReader {
 
+    private static final String endPattern = "==END==";
     private String currentTitle = null;
     private ArrayList<String> currentDetails = null;
     private String titlePattern = null;
     private String detailPattern = null;
-    private static final String endPattern = "==END==";
 
     public void setSearchPatterns(String titlePattern, String detailPattern) {
         this.titlePattern = titlePattern.trim();
@@ -22,9 +22,7 @@ public class CustomReader extends TextFileReader {
         int startIndex = line.indexOf(titlePattern);
         if (startIndex != -1) {
             String title = line.substring(startIndex + titlePattern.length()).trim();
-            if (!title.isEmpty()) {
-                currentTitle = title.toLowerCase();
-            }
+            currentTitle = title.toLowerCase();
         }
     }
 
@@ -41,24 +39,25 @@ public class CustomReader extends TextFileReader {
         return isEnd;
 
     }
-    private void resetVariables(){
+
+    private void resetVariables() {
         currentTitle = null;
         currentDetails = null;
     }
 
-    private ReaderDTO getPackedData(){
+    private ReaderDTO getPackedData() {
         if (currentTitle != null) {
             return new ReaderDTO(currentTitle, currentDetails);
         }
         return null;
     }
 
-    private boolean parseLine(String line){
+    private boolean parseLine(String line) {
         String trimmedLine = line.trim();
-        if(line.isEmpty()) return false;
+        if (line.isEmpty()) return false;
         if (currentTitle == null) {
             findAndSetTitle(trimmedLine);
-            return  false;
+            return false;
         } else {
             return findAndSetDetail(trimmedLine);
         }
@@ -73,7 +72,7 @@ public class CustomReader extends TextFileReader {
 
         while (data == null && (line = getNextLine()) != null) {
             boolean dataRead = parseLine(line);
-            if(dataRead){
+            if (dataRead) {
                 data = getPackedData();
             }
 

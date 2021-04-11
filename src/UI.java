@@ -77,7 +77,7 @@ public class UI {
         boolean shouldBreak = false;
         while (!shouldBreak) {
             String word = Utils.getInputString("Enter words for emotion or _done_ : ", inputLine);
-            shouldBreak = Utils.gotSomeStrings(word, getEmotionStopSign, words, noWordsErrorMessage);
+            shouldBreak = Utils.shouldStopGetStrings(word, getEmotionStopSign, words, noWordsErrorMessage);
             if (!shouldBreak) {
                 String cleanedWord = Utils.getValidWord(word);
                 if (cleanedWord != null) {

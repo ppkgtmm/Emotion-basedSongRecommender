@@ -1,24 +1,14 @@
 package utils;
 
 import interfaces.Data;
-import reader.dto.ReaderDTO;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-/*
- *  utils.Utils.java
- *
- *  This class is helper class for UI to convert
- *  user input or check it.
- *
- *  Created by
- *  Pinky Gautam ID: 60070503401,
- *  Thitiporn Sukpartcharoen ID: 60070503419
- *
- *  19 May 2020
- */
+
 public class Utils {
     private static int convertToInt(String number) {
         try {
@@ -30,10 +20,10 @@ public class Utils {
     }
 
     public static int parseOption(String option) {
+        if (isInvalidString(option)) return -1;
         String[] options = option.split(" ");
         if (option.length() > 0) {
             return convertToInt(options[0]);
-
         }
         return -1;
     }
@@ -47,6 +37,7 @@ public class Utils {
     }
 
     public static String setSpaces(String input) {
+        if (input == null) throw new InvalidParameterException("Invalid input to reformat");
         StringBuilder result = new StringBuilder();
         String[] splitWords = input.split(" ");
         for (String word : splitWords) {
@@ -62,14 +53,9 @@ public class Utils {
         return choice >= start && choice <= end;
     }
 
-    public static void printStringList(ArrayList<String> strings) {
-        for (String currentString : strings) {
-            System.out.println(currentString);
-        }
-    }
 
     public static Data getChosenItem(int option, ArrayList<Data> data) {
-        if (option == 0) return null;
+        if (data == null || option == 0) return null;
         if (!isValidChoice(option, 1, data.size())) {
             System.out.println("Invalid choice selected");
             return null;
@@ -85,15 +71,32 @@ public class Utils {
         return getChosenItem(choice, data);
     }
 
+    public static boolean isValidData(Data data, String errorMessage) {
+        if (!isValidData(data)) {
+            if (errorMessage != null) {
+                System.out.println(errorMessage);
+            }
+            return false;
+        }
+        return true;
+    }
 
-    public static boolean gotSomeStrings(
+    public static boolean isValidData(Data data) {
+        return data != null && data.getTitle() != null && data.getDetails() != null && !data.getTitle().trim().isEmpty() && !data.getDetails().isEmpty();
+    }
+
+
+    public static boolean shouldStopGetStrings(
             String input,
             String stopSignal,
             ArrayList<String> stringsGot,
             String errMessage
     ) {
+        if (input == null || stopSignal == null || stringsGot == null) {
+            throw new InvalidParameterException("Invalid argument(s) provided");
+        }
         if (input.compareTo(stopSignal) == 0) {
-            if (stringsGot.size() == 0) {
+            if (stringsGot.size() == 0 && errMessage != null) {
                 System.out.println(errMessage);
             }
             return stringsGot.size() != 0;
@@ -107,26 +110,22 @@ public class Utils {
     }
 
     public static String getValidWord(String word) {
-        if (word.isEmpty()) {
+        if (word == null || word.trim().isEmpty()) {
             System.out.println("Word should not be empty");
             return null;
         }
-        if (Utils.isNumeric(word)) {
+        if (isNumeric(word)) {
             System.out.println("Word should not be only number");
             return null;
         }
         return setSpaces(word);
     }
 
-    public static boolean isValidData(Data data, String errorMessage) {
-        if (!isValidData(data)) {
-            System.out.println(errorMessage);
-            return false;
-        }
-        return true;
+    public static boolean isInvalidString(String string) {
+        return string == null || string.trim().isEmpty();
     }
 
-    public static boolean isValidData(Data data) {
-        return data.getTitle() != null && data.getDetails() != null && !data.getDetails().isEmpty();
+    public static boolean isInvalidList(List list) {
+        return list == null || list.isEmpty();
     }
 }
