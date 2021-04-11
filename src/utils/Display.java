@@ -1,15 +1,4 @@
-package utils; /**
- * utils.Display.java
- * <p>
- * Help to display data like songs, emotions or
- * even lyrics.
- * <p>
- * Created by
- * Pinky Gautam ID: 60070503401,
- * Thitiporn Sukpartcharoen ID: 60070503419
- * <p>
- * 19 May 2020
- */
+package utils;
 
 import interfaces.Data;
 import song.Song;
