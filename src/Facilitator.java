@@ -33,24 +33,23 @@ public class Facilitator {
         return facilitator;
     }
 
-    private boolean setUpRemovedSongs(String removedSongFile) {
+    private boolean setUpRemovedSongs(String removedSongFile, ArrayList<Data> emotions) {
         if (!Utils.isInvalidString(removedSongFile)) {
-            return songEmotions.initialize(removedSongFile);
+            return songEmotions.initialize(removedSongFile, emotions);
         }
         return true;
     }
 
 
     public boolean doSetting(String songFileName, String emotionFileName, String removedSongsFile) {
-        boolean removedSongsOK = setUpRemovedSongs(removedSongsFile);
-
         boolean emotionOK = emotionManager.readEmotions(emotionFileName);
 
         boolean songOK = songManager.readSongs(songFileName);
 
         boolean ok = false;
-        if (songOK && emotionOK && removedSongsOK) {
-            ok = doSync();
+        if (songOK && emotionOK) {
+            boolean removedSongsOK = setUpRemovedSongs(removedSongsFile, emotionManager.getEmotions());
+            return removedSongsOK && doSync();
         }
         return ok;
     }
@@ -73,6 +72,7 @@ public class Facilitator {
 
 
     public ArrayList<Data> getSongs(String keyword) {
+        if(Utils.isInvalidString(keyword)) return null;
         return songManager.getSongs(keyword);
     }
 

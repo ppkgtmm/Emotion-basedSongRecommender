@@ -124,7 +124,7 @@ public class UI {
         ArrayList<Data> songs = facilitator.getSongsFromEmotion(emotion);
         Display.printData(songs, "song");
         if (songs != null && songs.size() > 0) {
-            String input = Utils.getInputString("Enter song number", inputLine);
+            String input = Utils.getInputString("Enter song number or 0 to return", inputLine);
             return Utils.getChosenItem(input, songs);
         }
         return null;

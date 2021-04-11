@@ -38,14 +38,26 @@ public class SongEmotions {
         return songEmotions;
     }
 
+    private boolean initRemovedSongMap(ArrayList<Data> emotions){
+        if(Utils.isInvalidList(emotions)) return false;
+        if(songsRemoved.size() == 0){
+            for (Data emotion: emotions){
+                if(Utils.isValidData(emotion)){
+                    songsRemoved.put(emotion.getTitle(), new ArrayList<>());
+                }
+            }
+        }
+        return true;
+    }
 
-    public boolean initialize(String fileName) {
+    public boolean initialize(String fileName, ArrayList<Data> emotions) {
         reader = new CustomReader();
 
         if (!reader.open(fileName)) {
             System.out.println("Error opening removed songs file " + fileName);
             return false;
         }
+        if(!initRemovedSongMap(emotions)) return false;
         ReaderDTO data;
         while ((data = reader.readData(
                 SongEmotions.emotionPattern,
@@ -56,7 +68,9 @@ public class SongEmotions {
             }
             String emotion = data.getTitle();
             ArrayList<String> songs = data.getDetails();
-            songsRemoved.put(emotion, songs);
+            if(songsRemoved.containsKey(emotion) && Utils.isInvalidList(songsRemoved.get(emotion))){
+                songsRemoved.put(emotion, songs);
+            }
         }
         reader.close();
         return songsRemoved.size() > 0;
@@ -75,9 +89,9 @@ public class SongEmotions {
         return songs != null ? new ArrayList<>(songs) : new ArrayList<>();
     }
 
-    private boolean isDeletedSong(String emotion, Song song) {
+    private boolean isDeletedSong(String emotion, Song song, boolean verbose) {
         if (songsRemoved.containsKey(emotion) && songsRemoved.get(emotion).contains(song.getTitle())) {
-            System.out.println("Song is already removed from emotion");
+            if(verbose) System.out.println("Song is already removed from emotion");
             return true;
         }
         return false;
@@ -104,7 +118,7 @@ public class SongEmotions {
         Song castedSong = (Song) song;
         TreeSet<Song> songs = songsWithEmotions.get(emotion);
         if (songs != null) {
-            if (isDeletedSong(emotion, castedSong)) {
+            if (isDeletedSong(emotion, castedSong, true)) {
                 return false;
             }
             addToRemovedSongMap(castedSong, emotion);
@@ -143,7 +157,7 @@ public class SongEmotions {
         SongComparator.setEmotion(emotion);
         for (Data song : songs) {
             Song castedSong = (Song) song;
-            if (!isDeletedSong(emotion, castedSong)) {
+            if (!isDeletedSong(emotion, castedSong, false)) {
                 castedSong.countScore(emotion, words);
                 addSong(castedSong, emotion);
             }
@@ -161,6 +175,8 @@ public class SongEmotions {
             for (String emotion : emotions) {
 
                 ArrayList<String> songs = songsRemoved.get(emotion);
+                if(Utils.isInvalidList(songs))
+                    continue;
 
                 writer.write("Emotion : " + emotion.toLowerCase() + "\n");
                 writer.write("Songs :" + "\n");
