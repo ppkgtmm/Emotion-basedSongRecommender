@@ -95,13 +95,11 @@ public class Utils {
         if (input == null || stopSignal == null || stringsGot == null) {
             throw new InvalidParameterException("Invalid argument(s) provided");
         }
-        if (input.compareTo(stopSignal) == 0) {
-            if (stringsGot.size() == 0 && errMessage != null) {
-                System.out.println(errMessage);
-            }
-            return stringsGot.size() != 0;
+        if (input.compareTo(stopSignal) != 0) return false;
+        if (stringsGot.size() == 0 && errMessage != null) {
+            System.out.println(errMessage);
         }
-        return false;
+        return stringsGot.size() != 0;
     }
 
     public static String getInputString(String message, Scanner scanner) {
