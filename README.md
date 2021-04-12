@@ -62,8 +62,11 @@ song2Title
 ==END==
 ```
 ## Demo
-<img src="https://user-images.githubusercontent.com/57994731/114344463-1381d500-9b8a-11eb-8c95-740740ce4ccc.png" width="700" />
+### See all songs
+<img src="https://user-images.githubusercontent.com/57994731/114345312-abcc8980-9b8b-11eb-801f-9db9847cb6fb.png" width="700" />
 
-<img src="https://user-images.githubusercontent.com/57994731/114344892-dff37a80-9b8a-11eb-9c98-67f74fbc9a70.png" width="700" />
+### See all emotions
+<img src="https://user-images.githubusercontent.com/57994731/114345596-36ad8400-9b8c-11eb-8526-5c67034bef85.png" width="700" />
 
-<img src="https://user-images.githubusercontent.com/57994731/114344918-f0a3f080-9b8a-11eb-8475-d6285e4286e0.png" width="700" />
+### See lyrics
+<img src="https://user-images.githubusercontent.com/57994731/114345839-a3288300-9b8c-11eb-9d00-f98b5056b03d.png" width="700" />
