@@ -10,11 +10,10 @@ import java.util.Scanner;
 
 public class UI {
 
-    private static Facilitator facilitator = Facilitator.getInstance();
-
-    private static Scanner inputLine = new Scanner(System.in);
     private static final String getEmotionStopSign = "_done_";
     private static final String noWordsErrorMessage = "No words have been added to word collection";
+    private static Facilitator facilitator = Facilitator.getInstance();
+    private static Scanner inputLine = new Scanner(System.in);
 
     private static int getOption() {
         System.out.println("Options:");
@@ -133,15 +132,14 @@ public class UI {
 
     private static void removeFromCategory() {
         Emotion emotion = (Emotion) getEmotionInput();
-        if (emotion != null) {
-            Song targetSong = (Song) getSongToRemoveFromEmotion(emotion);
-            if (targetSong == null) return;
-            int result = facilitator.removeSongFromCategory(emotion, targetSong);
-            if (result > 0) {
-                System.out.println("Song removed from emotion category successfully");
-            } else if (result < 0) {
-                System.out.println("Cannot remove song from emotion category");
-            }
+        if(emotion == null) return;
+        Song targetSong = (Song) getSongToRemoveFromEmotion(emotion);
+        if (targetSong == null) return;
+        int result = facilitator.removeSongFromCategory(emotion, targetSong);
+        if (result > 0) {
+            System.out.println("Song removed from emotion category successfully");
+        } else if (result < 0) {
+            System.out.println("Cannot remove song from emotion category");
         }
     }
 
