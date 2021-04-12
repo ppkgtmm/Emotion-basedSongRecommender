@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/e2937979eb8e08b8fb6b/maintainability)](https://codeclimate.com/github/ppkgtmm/emotion-based-song-recommender/maintainability)
+
 # emotion based song recommender
 
 A simple program to help recommend songs from selected emotion. In this program users can view all songs or emotions in the system, see selected song lyrics, find song from title, add an emotion category, remove song from emotion category and get songs that are related to selected emotion. Also, data used by the program will be written to text files as user exits.
