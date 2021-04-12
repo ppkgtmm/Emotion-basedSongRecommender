@@ -167,8 +167,15 @@ public class SongEmotions {
         }
         return true;
     }
+    private void writeData(FileWriter writer, String emotion, ArrayList<String> songs) throws IOException{
+        writer.write("Emotion : " + emotion.toLowerCase() + "\n");
+        writer.write("Songs :" + "\n");
 
-
+        for (String song : songs) {
+            writer.write(song.toLowerCase() + "\n");
+        }
+        writer.write("==END==\n");
+    }
     public boolean writeRemovedSongs() {
         boolean succeed = false;
         try {
@@ -181,13 +188,7 @@ public class SongEmotions {
                 if (Utils.isInvalidList(songs))
                     continue;
 
-                writer.write("Emotion : " + emotion.toLowerCase() + "\n");
-                writer.write("Songs :" + "\n");
-
-                for (String song : songs) {
-                    writer.write(song.toLowerCase() + "\n");
-                }
-                writer.write("==END==\n");
+                writeData(writer, emotion, songs);
             }
             writer.close();
             succeed = true;
