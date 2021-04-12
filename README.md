@@ -70,3 +70,17 @@ song2Title
 
 ### See lyrics
 <img src="https://user-images.githubusercontent.com/57994731/114345839-a3288300-9b8c-11eb-9d00-f98b5056b03d.png" width="700" />
+
+### Find song from title
+<img src="https://user-images.githubusercontent.com/57994731/114346020-f26eb380-9b8c-11eb-99fe-1606a0095524.png" width="700" />
+
+### Find song from emotion
+<img src="https://user-images.githubusercontent.com/57994731/114347041-90af4900-9b8e-11eb-93c8-ef3545872253.png" width="700" />
+
+### Add emotion
+<img src="https://user-images.githubusercontent.com/57994731/114347081-a0c72880-9b8e-11eb-963c-4a9787b5e65d.png" width="700" />
+
+### Remove song from emotion category
+<img src="https://user-images.githubusercontent.com/57994731/114346447-b25c0080-9b8d-11eb-872d-c3c2373659ff.png" width="700" />
+
+<img src="https://user-images.githubusercontent.com/57994731/114346600-f3541500-9b8d-11eb-984c-ebf63fd3a69b.png" width="700" />
