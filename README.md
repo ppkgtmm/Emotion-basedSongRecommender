@@ -62,5 +62,5 @@ song2Title
 ==END==
 ```
 ## Demo
-<img src="https://user-images.githubusercontent.com/57994731/114341258-89367280-9b83-11eb-993d-7ed1372a7ec5.png" width="650">
+<img src="https://user-images.githubusercontent.com/57994731/114342408-02cf6000-9b86-11eb-9b3e-387c6e899c62.png" height="500">
 
