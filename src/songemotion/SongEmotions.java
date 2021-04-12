@@ -49,6 +49,14 @@ public class SongEmotions {
         return true;
     }
 
+    private void addToRemovedSongMap(ReaderDTO data) {
+        String emotion = data.getTitle();
+        ArrayList<String> songs = data.getDetails();
+        if (songsRemoved.containsKey(emotion) && Utils.isInvalidList(songsRemoved.get(emotion))) {
+            songsRemoved.put(emotion, songs);
+        }
+    }
+
     public boolean initialize(String fileName, ArrayList<Data> emotions) {
         reader = new CustomReader();
 
@@ -65,11 +73,7 @@ public class SongEmotions {
             if (!Utils.isValidData(data, "Skipping invalid data")) {
                 continue;
             }
-            String emotion = data.getTitle();
-            ArrayList<String> songs = data.getDetails();
-            if (songsRemoved.containsKey(emotion) && Utils.isInvalidList(songsRemoved.get(emotion))) {
-                songsRemoved.put(emotion, songs);
-            }
+            addToRemovedSongMap(data);
         }
         reader.close();
         return songsRemoved.size() > 0;
