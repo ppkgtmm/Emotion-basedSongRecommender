@@ -10,8 +10,11 @@ import java.util.Scanner;
 
 public class UI {
 
-    private static final String getEmotionStopSign = "_done_";
-    private static final String noWordsErrorMessage = "No words have been added to word collection";
+    private static final String optionPrompt = "Please select an option: ";
+    private static final String songPrompt = "Enter song number or 0 to return: ";
+    private static final String emotionPrompt = "Please enter emotion number or 0 to return: ";
+    private static final String keywordPrompt = "Please enter keyword in song title or enter to return: ";
+    private static final String invalidOptionMessage = "Please enter a valid option";
     private static Facilitator facilitator = Facilitator.getInstance();
     private static Scanner inputLine = new Scanner(System.in);
 
@@ -26,7 +29,7 @@ public class UI {
         System.out.println("6. Add emotion");
         System.out.println("7. Remove song from emotion category");
         System.out.println("8. Exit");
-        System.out.println("Please select an option: ");
+        System.out.println(optionPrompt);
         String input = inputLine.nextLine();
         return Utils.parseOption(input);
     }
@@ -37,7 +40,7 @@ public class UI {
         System.out.println("0. Return to main menu");
         System.out.println("1. Find from keyword in title");
         System.out.println("2. Find from all songs list");
-        System.out.println("Please enter an option");
+        System.out.println(optionPrompt);
         String input = inputLine.nextLine();
         return Utils.parseOption(input);
     }
@@ -45,12 +48,15 @@ public class UI {
 
     private static void getSongAndPrintLyrics(ArrayList<Data> songs) {
         Display.printData(songs, "song");
-        if (songs != null && songs.size() > 0) {
-            String input = Utils.getInputString("Please enter song number or 0 to return", inputLine);
-            if (Utils.parseOption(input) == 0) return;
-            Song selectedSong = (Song) Utils.getChosenItem(input, songs);
-            Display.printLyrics(selectedSong);
+        if (Utils.isInvalidList(songs)) return;
+        String input = Utils.getInputString(songPrompt, inputLine);
+        if (Utils.isInvalidString(input)) {
+            System.out.println(invalidOptionMessage);
+            return;
         }
+        if (Utils.parseOption(input) == 0) return;
+        Song selectedSong = (Song) Utils.getChosenItem(input, songs);
+        Display.printLyrics(selectedSong);
     }
 
 
@@ -58,13 +64,13 @@ public class UI {
         int selectedChoice = getHowFindSong();
         ArrayList<Data> songs;
         if (!Utils.isValidChoice(selectedChoice, 0, MenuOption.ALL_SONGS.value))
-            System.out.println("Please enter a valid option");
+            System.out.println(invalidOptionMessage);
         else {
             if (selectedChoice == MenuOption.ALL_SONGS.value) {
                 songs = facilitator.getAllSongs();
                 getSongAndPrintLyrics(songs);
             } else if (selectedChoice == MenuOption.SONG_BY_KW.value) {
-                String keyword = Utils.getInputString("Please enter keyword or enter to return", inputLine);
+                String keyword = Utils.getInputString(keywordPrompt, inputLine);
                 songs = facilitator.getSongs(keyword);
                 getSongAndPrintLyrics(songs);
             }
@@ -72,16 +78,17 @@ public class UI {
     }
 
     private static ArrayList<String> getEmotionWords() {
+        final String getEmotionStopSign = "_done_";
+        final String noWordsErrorMessage = "No words have been added to word collection";
         ArrayList<String> words = new ArrayList<>();
         boolean shouldBreak = false;
-        while (!shouldBreak) {
+        while (true) {
             String word = Utils.getInputString("Enter words for emotion or _done_ : ", inputLine);
             shouldBreak = Utils.shouldStopGetStrings(word, getEmotionStopSign, words, noWordsErrorMessage);
-            if (!shouldBreak) {
-                String cleanedWord = Utils.getValidWord(word);
-                if (cleanedWord != null) {
-                    words.add(word);
-                }
+            if (shouldBreak) break;
+            String cleanedWord = Utils.getValidWord(word);
+            if (cleanedWord != null) {
+                words.add(word);
             }
 
         }
@@ -89,7 +96,7 @@ public class UI {
     }
 
     private static String getEmotionToAdd() {
-        String emotion = Utils.getInputString("Please enter emotion to add or enter to return", inputLine).trim();
+        String emotion = Utils.getInputString("Please enter emotion to add or enter to return: ", inputLine).trim();
         if (emotion.isEmpty()) return null;
         while (!emotion.matches("[a-zA-Z.!\\- ']+") || emotion.isEmpty()) {
             System.out.println("emotion entered is not a valid word");
@@ -114,7 +121,7 @@ public class UI {
 
 
     private static void findSongByTitle() {
-        String keyword = Utils.getInputString("Enter keyword in song title or enter to return: ", inputLine);
+        String keyword = Utils.getInputString(keywordPrompt, inputLine);
         Display.printData(facilitator.getSongs(keyword), "song");
 
     }
@@ -122,17 +129,17 @@ public class UI {
     private static Data getSongToRemoveFromEmotion(Emotion emotion) {
         ArrayList<Data> songs = facilitator.getSongsFromEmotion(emotion);
         Display.printData(songs, "song");
-        if (songs != null && songs.size() > 0) {
-            String input = Utils.getInputString("Enter song number or 0 to return", inputLine);
-            return Utils.getChosenItem(input, songs);
-        }
-        return null;
+        if (Utils.isInvalidList(songs)) return null;
+        String input = Utils.getInputString(songPrompt, inputLine);
+        Data song = Utils.getChosenItem(input, songs);
+        if (song == null) System.out.println(invalidOptionMessage);
+        return song;
     }
 
 
     private static void removeFromCategory() {
         Emotion emotion = (Emotion) getEmotionInput();
-        if(emotion == null) return;
+        if (emotion == null) return;
         Song targetSong = (Song) getSongToRemoveFromEmotion(emotion);
         if (targetSong == null) return;
         int result = facilitator.removeSongFromCategory(emotion, targetSong);
@@ -159,7 +166,7 @@ public class UI {
     private static Data getEmotionInput() {
         ArrayList<Data> allEmotion = facilitator.getAllEmotions();
         Display.printData(allEmotion, "emotion");
-        String input = Utils.getInputString("Please enter emotion number or 0 to return", inputLine);
+        String input = Utils.getInputString(emotionPrompt, inputLine);
         int selectedChoice = Utils.parseOption(input);
         return Utils.getChosenItem(selectedChoice, allEmotion);
     }
@@ -209,7 +216,7 @@ public class UI {
 
     private static void proceedOption(int option) {
         if (!MenuOption.isValidMenuOption(option))
-            System.out.println("Please enter a valid option");
+            System.out.println(invalidOptionMessage);
         if (MenuOption.shouldExit(option))
             endProgram();
         if (!handleGet(option) && !handleCreate(option)) {
